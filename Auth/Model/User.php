@@ -51,7 +51,7 @@ class User extends Model{
 	 *
 	 * @param Repository $repository
 	 */
-	public static function setSeed(){
+	public static function boot(){
 		if(User::count() == 0){
 			User::create([
 				'username' => 'admin',

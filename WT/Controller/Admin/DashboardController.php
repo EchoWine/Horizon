@@ -10,7 +10,6 @@ use CoreWine\Http\Controller as Controller;
 
 class DashboardController extends Controller{
 
-
 	/**
 	 * Middleware
 	 *
@@ -24,6 +23,7 @@ class DashboardController extends Controller{
 	 * @param Router $router
 	 */
 	public function __routes($router){
+
 		$router -> any('admin','dashboard') -> as('admin/dashboard');
 	}
 	
@@ -33,6 +33,7 @@ class DashboardController extends Controller{
 	 * @return Response
 	 */
 	public function dashboard(){
+
 		return $this -> view('WT/admin/dashboard');
 	}
 }
