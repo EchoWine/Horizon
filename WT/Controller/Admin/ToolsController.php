@@ -7,20 +7,30 @@ use CoreWine\Http\Controller as BasicController;
 
 class ToolsController extends BasicController{
 
+	/**
+	 * Middleware
+	 *
+	 * @var Array
+	 */
+	public $middleware = ['Admin\Middleware\Authenticate'];
 
 	/**
-	 * Set all Routers
+	 * Define your routes
+	 *
+	 * @param Router $router
 	 */
-	public function __routes(){
+	public function __routes($router){
 
-		$this -> route('index') -> url("/admin/tools") -> as("admin/tools") -> middleware('Admin\Middleware\Authenticate');
-
+		$router -> any('admin/tools','tools');
 	}
 
 	/**
-	 * @Route
+	 * @ANY
+	 *
+	 * @return Response
 	 */
-	public function index(){
+	public function tools(){
+
 		return $this -> view('WT/admin/tools',[]);
 	}
 }

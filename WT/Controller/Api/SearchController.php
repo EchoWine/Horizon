@@ -13,15 +13,18 @@ class SearchController extends BasicController{
 
 
 	/**
-	 * Defining routes
+	 * Define your routes
+	 *
+	 * @param Router $router
 	 */
-	public function __routes(){
-		$this -> route('discovery') -> url("/api/v1/{resource}/discovery/{key}") -> get();
-		$this -> route('add') -> url("/api/v1/{resource}/add") -> post();
-		$this -> route('remove') -> url("/api/v1/{resource}/remove") -> post();
-		$this -> route('get') -> url("/api/v1/{resource}/{source}/{id}") -> get();
-		$this -> route('sync') -> url("/api/v1/{resource}/{id}") -> post();
-		$this -> route('all') -> url("/api/v1/all") -> get();
+	public function __routes($router){
+		
+		$router -> get("/api/v1/{resource}/discovery/{key}","discovery");
+		$router -> post("/api/v1/{resource}/add","add");
+		$router -> post("/api/v1/{resource}/remove","remove");
+		$router -> get("/api/v1/{resource}/{source}/{id}","get");
+		$router -> post("/api/v1/{resource}/{id}","sync");
+		$router -> get("/api/v1/all",'all');
 
 		//$router -> get("/api/v1/{resource}/discovery/{key}","index")
 

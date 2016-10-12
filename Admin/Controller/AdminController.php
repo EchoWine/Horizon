@@ -11,26 +11,11 @@ use Api\Controller;
 abstract class AdminController extends Controller{
 
 	/**
-	 * Prefix url
-	 *
-	 * @var string
-	 */
-	const PREFIX_URL = 'admin/';
-
-	/**
 	 * Prefix route
 	 *
 	 * @var string
 	 */
 	const PREFIX_ROUTE = 'admin/';
-
-
-	/**
-	 * Admin\Repository
-	 *
-	 * @var string
-	 */
-	public $__repository = 'Admin\Repository';
 
 	/**
 	 * View of item
@@ -40,18 +25,22 @@ abstract class AdminController extends Controller{
 	public $view = 'Admin/admin/item';
 
 	/**
-	 * Set all Routers
+	 * Middleware
+	 *
+	 * @var Array
 	 */
-	public function __routes(){
+	public $middleware = ['Admin\Middleware\Authenticate'];
 
-		parent::__routes();
+	/**
+	 * Define your routes
+	 *
+	 * @param Router $router
+	 */
+	public function __routes($router){
 
-		$page = $this -> url;
-		$this -> route('index')
-		-> url("/".AdminController::PREFIX_URL.$page)
-		-> as(AdminController::PREFIX_ROUTE.$page)
-		-> middleware('Admin\Middleware\Authenticate');
+		parent::__routes($router);
 
+		$router -> any(AdminController::PREFIX_ROUTE.$this -> url,'index');
 	}
 
 	/**

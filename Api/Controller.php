@@ -28,17 +28,16 @@ abstract class Controller extends SourceController{
 	/**
 	 * Defining routes
 	 */
-	public function __routes(){
-
+	public function __routes($router){
 
 		$url = $this -> url;
 
-		$this -> route('all') -> url("/api/v1/crud/{$url}") -> get();
-		$this -> route('add') -> url("/api/v1/crud/{$url}") -> post();
-		$this -> route('copy') -> url("/api/v1/crud/{$url}/{id}") -> post();
-		$this -> route('get') -> url("/api/v1/crud/{$url}/{id}") -> get();
-		$this -> route('edit') -> url("/api/v1/crud/{$url}/{id}") -> put();
-		$this -> route('delete') -> url("/api/v1/crud/{$url}/{id}") -> delete();
+		$router -> get("/api/v1/crud/{$url}",'all');
+		$router -> post("/api/v1/crud/{$url}",'add');
+		$router -> post("/api/v1/crud/{$url}/{id}",'copy');
+		$router -> get("/api/v1/crud/{$url}/{id}",'get');
+		$router -> put("/api/v1/crud/{$url}/{id}",'edit');
+		$router -> delete("/api/v1/crud/{$url}/{id}",'delete');
 
 	}
 
@@ -65,7 +64,7 @@ abstract class Controller extends SourceController{
 	/**
 	 * Check
 	 */
-	public function __check(){
+	public function __boot(){
 
 		if($this -> getUrl() == null)
 			throw new Exceptions\UrlNullException(static::class);

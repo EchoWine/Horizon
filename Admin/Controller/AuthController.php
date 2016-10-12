@@ -23,36 +23,29 @@ class AuthController extends Controller{
 	/**
 	 * Routers
 	 */
-	public function __routes(){
-		$this -> route('loginView')
-		-> url('/admin/login')
-		-> as('admin/login')
-		-> get();
+	public function __routes($router){
 
-		$this -> route('checkAttemptLogin')
-		-> url('/admin/login')
-		-> as('admin/login/action')
-		-> post();
-
-		$this -> route('checkAttemptLogout')
-		-> url('/admin/logout')
-		-> as('admin/logout')
-		-> get();
-
+		$router -> get('admin/login','showLogin');
+		$router -> post('admin/login','attemptLogin') -> as('admin/login/action');
+		$router -> get('admin/logout','attemptLogout');
 	}
 	
 	/**
-	 * Router to login
+	 * @GET
+	 *
+	 * @return Response
 	 */
-	public function loginView(){
+	public function showLogin(){
 		Auth::load();
 		return $this -> view('Admin/auth/login');
 	}
 
 	/**
-	 * Check attempt login
+	 * @POST
+	 *
+	 * @return Response
 	 */
-	public function checkAttemptLogin(){
+	public function attemptLogin(){
 
 		Auth::load();
 
@@ -68,9 +61,11 @@ class AuthController extends Controller{
 	}
 
 	/**
-	 * Check attempt logout
+	 * @GET
+	 *
+	 * @return Response
 	 */
-	public function checkAttemptLogout(){
+	public function attemptLogout(){
 
 		Auth::load();
 

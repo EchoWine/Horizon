@@ -7,20 +7,30 @@ use CoreWine\Http\Controller as BasicController;
 
 class SearchController extends BasicController{
 
+	/**
+	 * Middleware
+	 *
+	 * @var Array
+	 */
+	public $middleware = ['Admin\Middleware\Authenticate'];
 
 	/**
-	 * Set all Routers
+	 * Define your routes
+	 *
+	 * @param Router $router
 	 */
-	public function __routes(){
+	public function __routes($router){
 
-		$this -> route('search') -> url("/admin/search") -> as("admin/search") -> middleware('Admin\Middleware\Authenticate');
-
+		$router -> any('admin/search','search');
 	}
 
 	/**
-	 * Route search
+	 * @ANY
+	 *
+	 * @return Response
 	 */
 	public function search(){
+
 		return $this -> view('WT/admin/search',[]);
 	}
 }

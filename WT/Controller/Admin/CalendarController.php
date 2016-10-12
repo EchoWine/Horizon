@@ -14,7 +14,6 @@ use CoreWine\Component\Datetime;
 
 class CalendarController extends Controller{
 
-
 	/**
 	 * Middleware
 	 *
@@ -23,16 +22,19 @@ class CalendarController extends Controller{
 	public $middleware = ['Admin\Middleware\Authenticate'];
 
 	/**
-	 * Routers
+	 * Define your routes
+	 *
+	 * @param Router $router
 	 */
-	public function __routes(){
-		$this -> route('monthly')
-		-> url('/admin/calendar/monthly')
-		-> as('admin/calendar/monthly');
+	public function __routes($router){
+
+		$router -> any('admin/calendar/monthly','monthly');
 	}
 	
 	/**
-	 * Router to login
+	 * @ANY
+	 *
+	 * @return Response
 	 */
 	public function monthly(Request $request){
 		$datetime = new \DateTime();

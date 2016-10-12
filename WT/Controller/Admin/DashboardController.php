@@ -19,18 +19,20 @@ class DashboardController extends Controller{
 	public $middleware = ['Admin\Middleware\Authenticate'];
 
 	/**
-	 * Routers
+	 * Define your routes
+	 *
+	 * @param Router $router
 	 */
-	public function __routes(){
-		$this -> route('indexRouter')
-		-> url('/admin')
-		-> as('admin/dashboard');
+	public function __routes($router){
+		$router -> any('admin','dashboard') -> as('admin/dashboard');
 	}
 	
 	/**
-	 * Router to login
+	 * @ANY
+	 *
+	 * @return Response
 	 */
-	public function indexRouter(){
+	public function dashboard(){
 		return $this -> view('WT/admin/dashboard');
 	}
 }
