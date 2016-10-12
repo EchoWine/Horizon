@@ -45,7 +45,7 @@ class SearchController extends BasicController{
 	}
 
 	/**
-	 * @Route Index
+	 * @GET
 	 *
 	 * @return Response
 	 */
@@ -58,7 +58,7 @@ class SearchController extends BasicController{
 	}
 
 	/**
-	 * @Route Add
+	 * @POST
 	 *
 	 * @return Response
 	 */

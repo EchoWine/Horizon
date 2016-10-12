@@ -1,50 +1,131 @@
+/**
+ * Main
+ *
+ * @var
+ */
 var WT = {};
 
-WT.urls = {};
-
+/**
+ * Pointer to setTimeout of next message
+ *
+ * @var
+ */
 WT.interval = false;
 
+/**
+ * List of messages that will be randomly displayed during searching
+ *
+ * @var
+ */
 WT.waiting = [
 	"This is taking too long",
 	"I'm searching the answer to the ultimate question of life, the universe, and everything",
     "The latest episode of Game of Thrones has just been released. A moment please",
     "I'm playing chess right now, wanna join me? <a href='https/it.lichess.org/'></a>",
     "OH YEAH! I WON 1,000,000$ !!! NOW I CAN WASTE ALL MY MONEY ON STEAM !!! Oh... I see.. it's just a scam...",
-    "Oh, a free Ipad, guess I just need to download this exe file. OH GOD WHAT IS HAPPENING? A VIRUS? WHERE IS MY MLG ANTIVIRUS?"
+    "Oh, a free Ipad, guess I just need to download this exe file. OH GOD WHAT IS HAPPENING? A VIRUS? WHERE IS MY MLG ANTIVIRUS?",
+    "FORNO, ACCENDERE"
 ];
 
-WT.get = function(source_type,source_name,source_id,callback){
+/**
+ * Need to sto sync all operation?
+ *
+ * @var
+ */
+WT.stop_sync = true;
 
-	http.get(WT.url+source_type+"/"+source_name+"/"+source_id,{token:WT.token},callback);
+/**
+ * Call API: discovery
+ *
+ * @param {mixed} val
+ * @param {closure} callback
+ */
+WT.discovery = function(val,callback){
+
+	// @ temp
+	type = 'all';
+
+	http.get(WT.url+type+"/discovery/"+encodeURIComponent(val),{token:WT.token},callback);
 };
 
+/**
+ * Call API: get
+ *
+ * @param {string} type
+ * @param {int} id
+ * @param {closure} callback
+ */
+WT.get = function(type,id,callback){
 
+	http.get(WT.url+type+"/"+id,{token:WT.token},callback);
+};
+
+/**
+ * Call API: all
+ *
+ * @param {closure} callback
+ */
 WT.all = function(callback){
+
 	http.get(WT.url+"all",{token:WT.token},callback);
 };
 
+/**
+ * Call API: sync
+ *
+ * @param {string} type
+ * @param {int} id
+ * @param {closure} callback
+ */
+WT.sync = function(type,id,callback){
 
-WT.sync = function(source_type,source_id,callback){
+	http.post(WT.url+type+"/"+id,{token:WT.token},callback);
+};
 
-	http.post(WT.url+source_type+"/"+source_id,{token:WT.token},callback);
+/**
+ * Call API: remove
+ *
+ * @param {string} name
+ * @param {int} id
+ * @param {closure} callback
+ */
+WT.remove = function(name,id,callback){
+	type = 'series';
+	http.post(WT.url+type+"/remove",{token:WT.token,name:name,id:id},callback);
 };
 
 
+/**
+ * Get a random number between min and max
+ *
+ * @param {int} min
+ * @param {int} max
+ * 
+ * @return {int}
+ */
 WT.random = function(min,max){
+
     return Math.floor(Math.random()*(max-min+1)+min);
 };
 
-WT.search = function(){
 
-};
+/**
+ * @Application
+ *
+ * @var
+ */
+WT.app = {}
 
-WT.stopSync = true;
-
-WT.syncAll = function(){
+/**
+ * @Application
+ *
+ * Sync all the resources
+ */
+WT.app.syncAll = function(){
 
 	modal.open('modal-wt-sync-all',{},{"close":function(){
 		console.log("Stopping...");
-		WT.stopSync = true;
+		WT.stop_sync = true;
 	}});
 	
 	var status = $('.wt-sync-current-status');
@@ -53,7 +134,7 @@ WT.syncAll = function(){
 
 	var manager = function(results,i,attempt,length){
 
-		if(WT.stopSync)
+		if(WT.stop_sync)
 			return;
 
 		if(i >= length){
@@ -89,13 +170,20 @@ WT.syncAll = function(){
 			length++;
 		}
 
-		WT.stopSync = false;
+		WT.stop_sync = false;
 
 		manager(response,0,1,length);
 	});
 };
 
-WT.searching = function(state){
+/**
+ * @Application
+ * 
+ * Change message during searching
+ *
+ * @param {bool} state
+ */
+WT.app.searching = function(state){
 
 	clearTimeout(WT.interval);
 
@@ -108,7 +196,7 @@ WT.searching = function(state){
 		$('.wt-search-waiting').html(html);
 
 		WT.interval = setTimeout(function(){
-			WT.searching(true);
+			WT.app.searching(true);
 
 		},5000);
 
@@ -117,25 +205,33 @@ WT.searching = function(state){
 	}
 };
 
-WT.discovery = function(value){
+
+/**
+ * @Application
+ * 
+ * Discovery new resources
+ *
+ * @param {string} value
+ */
+WT.app.discovery = function(value){
 	
 	if(!value)
 		return;
 
 	// Set the searching mode to true
-	WT.searching(true);
+	WT.app.searching(true);
 
 	// Set spinner
 	$('.wt-search-spinner-container').html(template.get('wt-search-spinner'));
 
 	// Send the request to "discovery"
 
-	http.get(WT.url+"all/discovery/"+encodeURIComponent(val),{token:WT.token},function(response){
+	WT.discovery(val,function(response){
 
 		html = {'library':'','thetvdb':'','baka-updates':''};
 
 		// The response has sent, so set the "searching mode" to false
-		WT.searching(false);
+		WT.app.searching(false);
 
 		console.log(response);
 		$.map(response,function(service,key){
@@ -157,14 +253,23 @@ WT.discovery = function(value){
 		});
 
 		console.log(html);
-		WT.addResultSearch('.wt-search-library',html['library']);
+		WT.app.addResultSearch('.wt-search-library',html['library']);
 
-		WT.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
-		WT.addResultSearch('.wt-search-baka-updates',html['baka-updates']);
+		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
+		WT.app.addResultSearch('.wt-search-baka-updates',html['baka-updates']);
 	});
 };
 
-WT.addResultSearch = function(classname,html){
+
+/**
+ * @Application
+ * 
+ * Add the result retrieved during discovery
+ *
+ * @param {string} selector
+ * @param {string} html
+ */
+WT.app.addResultSearch = function(selector,html){
 
 	html = $(html);
 	
@@ -172,26 +277,35 @@ WT.addResultSearch = function(classname,html){
 		$(this).hide();
 	});
 
-	$(classname).html(html);
+	$(selector).html(html);
 };
 
+/**
+ * @Event
+ * 
+ * Discovery new resources on submit
+ */
 $('.wt-search-form').on('submit',function(e){
 	e.preventDefault();
 
 	// Retrieve key searched
 	val = $(this).find('.wt-search-key').val();
 
-	WT.discovery(val);
+	WT.app.discovery(val);
 });
 
-
+/**
+ * @Event
+ * 
+ * Add a resource on click
+ */
 $('body').on('click','[wt-add]',function(e){
-	WT.searching(true);
+	WT.app.searching(true);
 	var element = $(this);
 	info = $(this).attr('wt-add').split(",");
 
 	http.post(WT.url+"series/add",{token:WT.token,source:info[0],id:info[1]},function(response){
-		WT.searching(false);
+		WT.app.searching(false);
 		item.addAlert('alert-'+response.status,'.alert-global',response);
 		res = element.closest('.wt-search-result');
 		res.attr('wt-status-user',1);
@@ -201,13 +315,18 @@ $('body').on('click','[wt-add]',function(e){
 
 });
 
+/**
+ * @Event
+ * 
+ * Remove a resource on click
+ */
 $('body').on('click','[wt-remove]',function(e){
-	WT.searching(true);
+	WT.app.searching(true);
 	var element = $(this);
 	info = $(this).attr('wt-remove').split(",");
 
-	http.post(WT.url+"series/remove",{token:WT.token,source:info[0],id:info[1]},function(response){
-		WT.searching(false);
+	WT.remove(info[0],info[1],function(response){
+		WT.app.searching(false);
 		item.addAlert('alert-'+response.status,'.alert-global',response);
 		res = element.closest('.wt-search-result');
 		res.attr('wt-status-user',0);
@@ -217,6 +336,11 @@ $('body').on('click','[wt-remove]',function(e){
 
 });
 
+/**
+ * @Event
+ * 
+ * Sync on click
+ */
 $('body').on('click','[wt-sync]',function(e){
 	
 	info = $(this).attr('wt-sync').split(",");
@@ -229,7 +353,11 @@ $('body').on('click','[wt-sync]',function(e){
 });
 
 
-
+/**
+ * @Event 
+ * 
+ * Display a modal that contains info about a resource on click
+ */
 $('body').on('click','[wt-info]',function(e){
 
 	info = $(this).attr('wt-info').split(",");
@@ -304,8 +432,11 @@ $('body').on('click','[wt-info]',function(e){
 
 });
 
-$(document).ready(function(){});
-
+/**
+ * @Event 
+ * 
+ * Sync all on click
+ */
 $('body').on('click','[wt-sync-all]',function(e){
 	
 	WT.syncAll();
@@ -319,6 +450,12 @@ $('body').on('click','[wt-sync-all]',function(e){
 //
 // ----------------------------------------------------------------
 
+
+/**
+ * @Event 
+ * 
+ * Show a season on click
+ */
 $('body').on('click','.wt-get-season',function(){
 	var status = $(this).closest('.wt-get-season-container').attr('data-active') == "1";
 	$(this).closest('.wt-get-season-container').attr('data-active',status == "1" ? "0" : "1");
