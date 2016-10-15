@@ -24,7 +24,7 @@ class UserController extends AdminController{
 	 * @param  $views
 	 */
 	public function views($views){
-
+		
 		$views -> all(function($view){
 			$view -> id();
 			$view -> username();

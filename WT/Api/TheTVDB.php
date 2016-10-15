@@ -168,6 +168,11 @@ class TheTVDB extends Basic{
 
 		if($o -> poster)
 			$o -> poster = $this -> url_public."banners/".$o -> poster;
+
+
+		# Detect automatically if is an anime or a series, for now all are series
+		$o -> type = 'series';
+
 		return $o;
 	}
 

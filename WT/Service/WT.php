@@ -12,36 +12,70 @@ use CoreWine\DataBase\DB;
 
 class WT{
 
-	public static $sources = [
+	/**
+	 * List of all classes
+	 *
+	 * @var Array
+	 */
+	public static $classes = [
+		'series' => Serie::class,
+		'manga' => Serie::class
+	];
+
+	/**
+	 * List of all managers
+	 *
+	 * @var Array
+	 */
+	public static $managers = [
 		Api\BakaUpdates::class,
 		Api\TheTVDB::class,
 	];
 
+	/**
+	 * Get basic path api 
+	 *
+	 * @return string
+	 */
+	public static function url(){
 
+		return Request::getDirUrl()."api/v1/";
+	}
+
+	/**
+	 * Get model given resource name
+	 *
+	 * @param string $resource_type
+	 *
+	 * @return string
+	 */
+	public static function getClassByType($resource_type){
+
+		return isset(self::$classes[$resource_type]) ? self::$classes[$resource_type] : null;
+	}
 
 	/**
 	 * Discovery new resources
 	 *
 	 * @param string $user
-	 * @param string $resource
+	 * @param string $database
 	 * @param string $key
 	 *
 	 * @return array
 	 */
-	public static function discovery($user,$resource_type,$key){
+	public static function discovery($user,$database,$key){
 
 		$response = [];
 			
-		foreach(self::$sources as $source){
+		foreach(self::$managers as $manager){
 
-			$source = new $source();
+			$manager = new $manager();
 
+			if($manager -> isResource($database)){
+				$response[$manager -> getName()] = $manager -> discovery($key);
 
-			if($source -> isResource($resource_type)){
-				$response[$source -> getName()] = $source -> discovery($key);
-
-				foreach($response[$source -> getName()] as $n => $k){
-					$resource = Resource::where(['source_name' => $source -> getName(),'source_id' => $k['id']]) -> first();
+				foreach($response[$manager -> getName()] as $n => $k){
+					$resource = Resource::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
 					
 					if($resource){
 						$u = $resource -> users -> has($user);
@@ -51,8 +85,8 @@ class WT{
 						$u = 0;
 					}
 					
-					$response[$source -> getName()][$n]['library'] = $r;
-					$response[$source -> getName()][$n]['user'] = $u;
+					$response[$manager -> getName()][$n]['library'] = $r;
+					$response[$manager -> getName()][$n]['user'] = $u;
 
 				}
 			}
@@ -66,23 +100,18 @@ class WT{
 	 * Add a new resource
 	 *
 	 * @param string $user
-	 * @param string $resource
-	 * @param string $source_name
+	 * @param string $database
 	 * @param mixed $id
 	 *
 	 * @return array
 	 */
-	public static function add($user,$source_type,$source_name,$source_id){
+	public static function add($user,$database,$id){
 
 		try{
 			$response = [];
 
-			$model = self::getModelByResource($source_type);
 
-			if(!$model)
-				throw new \Exception("Resource type name invalid");
-
-			$resource = Resource::where(['source_name' => $source_name,'source_id' => $source_id]) -> first();
+			$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
 
 			if($resource){
 
@@ -99,62 +128,28 @@ class WT{
 
 			}else{
 
-				foreach(self::$sources as $source){
+				$manager = self::getManagerByDatabase($database);
 
-					$source = new $source();
+				$response = $manager -> add($id);
 
-					if($source -> getName() == $source_name){
-						$response = $source -> add($source_id);
-						break;
-					}
+				# Detect type
+				$resource_type = $response -> type;
 
-				}
+				$model = self::getClassByType($resource_type);
 
 				$resource = Resource::create([
 					'name' => $response -> name,
-					'source_type' => $source_type,
-					'source_name' => $source_name,
-					'source_id' => $source_id,
+					'type' => $resource_type,
+					'database_name' => $database,
+					'database_id' => $id,
 					'updated_at' => (new \DateTime()) -> format('Y-m-d H:i:s')
 				]);
 
 				$detail = new $model();
-
-				$detail -> name = $response -> name;
-				$detail -> overview = $response -> overview;
-				$detail -> status = $response -> status;
-				$detail -> resource = $resource;
-				$detail -> poster() -> setByUrl($response -> poster);
-				$detail -> banner() -> setByUrl($response -> banner);
-				$detail -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-				$detail -> save();
-
-				if($source_type == 'series' && $source -> isResource('series')){
-
-					foreach($response -> episodes as $r_episode){
-
-						$season = Season::firstOrCreate([
-							'number' => $r_episode -> season,
-							'serie_id' => $detail -> id
-						]);
-
-						$episode = new Episode();
-						$episode -> name = $r_episode -> name;
-						$episode -> number = $r_episode -> number;
-						$episode -> overview = $r_episode -> overview;
-						$episode -> aired_at = $r_episode -> aired_at;
-						$episode -> update_at = $r_episode -> updated_at;
-						$episode -> season = $season;
-						$episode -> season_n = $r_episode -> season;
-						$episode -> serie_id = $detail -> id;
-						$episode -> save();
-
-					}
-				}
-
+				$detail -> fillFromDatabaseApi($response,$resource);
 
 				# TEMP-FIX
-				$resource = Resource::where(['source_name' => $source_name,'source_id' => $source_id]) -> first();
+				$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
 
 				$resource -> users -> add($user);
 				$resource -> users -> save();
@@ -170,63 +165,19 @@ class WT{
 	}
 
 	/**
-	 * Delete a resource
-	 *
-	 * @param string $user
-	 * @param string $resource
-	 * @param string $source_name
-	 * @param mixed $id
-	 *
-	 * @return array
-	 */
-	public static function delete($user,$source_type,$source_name,$source_id){
-
-		try{
-
-			$response = [];
-
-			$model = self::getModelByResource($source_type);
-
-			if(!$model)
-				throw new \Exception("Resource type name invalid");
-			
-			$resource = Resource::where(['source_name' => $source_name,'source_id' => $source_id]) -> first();
-
-			if(!$resource)
-				throw new \Exception("The resource doesn't exists");
-
-			if(!$resource -> users -> has($user))
-				throw new \Exception("The resource insn't in library");
-
-
-			$resource -> users -> remove($user);
-			$resource -> users -> save();
-
-
-		}catch(\Exception $e){
-
-			return ['status' => 'error','message' => $e -> getMessage()];
-		}
-			
-		
-		return ['status' => 'success','message' => 'Deleted'];
-	}
-
-	/**
 	 * Get a resource
 	 *
 	 * @param string $user
-	 * @param string $resource
-	 * @param string $source_name
+	 * @param string $resource_type
 	 * @param mixed $id
 	 *
 	 * @return array
 	 */
-	public static function get($user,$source_type,$source_name,$source_id){
+	public static function get($user,$resource_type,$id){
 
-		$model = self::getModelByResource($source_type);
+		$model = self::getClassByType($manager_type);
 
-		$model = $model::where('id',$source_id) -> first();
+		$model = $model::where('id',$id) -> first();
 		
 
 		return $model -> toArrayComplete();
@@ -237,8 +188,7 @@ class WT{
 	 * Add a new resource
 	 *
 	 * @param string $user
-	 * @param string $resource
-	 * @param string $source_name
+	 * @param string $resource_type
 	 * @param mixed $id
 	 *
 	 * @return array
@@ -248,7 +198,7 @@ class WT{
 		try{
 			$response = [];
 
-			$model = self::getModelByResource($resource_type);
+			$model = self::getClassByType($retype);
 
 			if(!$model)
 				throw new \Exception("Resource type name invalid");
@@ -263,15 +213,15 @@ class WT{
 
 			}else{
 
-				$source_name = $resource -> resource -> source_name;
-				$source_id = $resource -> resource -> source_id;
+				$database = $resource -> resource -> source_name;
+				$id = $resource -> resource -> source_id;
 
-				foreach(self::$sources as $source){
+				foreach(self::$managers as $manager){
 
-					$source = new $source();
+					$manager = new $manager();
 
-					if($source -> getName() == $source_name){
-						$response = $source -> get($source_id);
+					if($manager -> getName() == $database){
+						$response = $manager -> get($id);
 						break;
 					}
 
@@ -296,7 +246,7 @@ class WT{
 				$resource -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
 				$resource -> save();
 
-				if($resource_type == 'series' && $source -> isResource('series')){
+				if($retype == 'series' && $manager -> isResource('series')){
 
 					foreach($response -> episodes as $r_episode){
 
@@ -332,33 +282,50 @@ class WT{
 		
 	}
 
+
 	/**
-	 * Get model given resource name
+	 * Delete a resource
 	 *
+	 * @param string $user
 	 * @param string $resource
+	 * @param string $database
+	 * @param mixed $id
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function getModelByResource($resource){
-		switch($resource){
-			case 'series':
-				return Serie::class;
-			break;
-			default:
-				return null;
-			break;
+	public static function delete($user,$manager_type,$database,$id){
+
+		try{
+
+			$response = [];
+
+			$model = self::getClassByType($manager_type);
+
+			if(!$model)
+				throw new \Exception("Resource type name invalid");
+			
+			$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
+
+			if(!$resource)
+				throw new \Exception("The resource doesn't exists");
+
+			if(!$resource -> users -> has($user))
+				throw new \Exception("The resource insn't in library");
+
+
+			$resource -> users -> remove($user);
+			$resource -> users -> save();
+
+
+		}catch(\Exception $e){
+
+			return ['status' => 'error','message' => $e -> getMessage()];
 		}
+			
+		
+		return ['status' => 'success','message' => 'Deleted'];
 	}
 
-	/**
-	 * Get basic path api 
-	 *
-	 * @return string
-	 */
-	public static function url(){
-
-		return Request::getDirUrl()."api/v1/";
-	}
 
 	public static function all($user){
 		$collection = new Collection();
@@ -376,12 +343,12 @@ class WT{
 	public static function update(){
 		$collection = new Collection();
 
-		foreach(self::$sources as $source){
+		foreach(self::$managers as $manager){
 
-			$source = new $source();
+			$manager = new $manager();
 
-			if($source -> isResource('series')){
-				$res = $source -> update();
+			if($manager -> isResource('series')){
+				$res = $manager -> update();
 
 
 				$r = Serie::leftJoin('resources','resources.id','series.resource_id') 
@@ -406,6 +373,22 @@ class WT{
 
 		return $collection;
 
+	}
+
+
+	public static function getManagerByDatabase($database){
+
+		foreach(self::$managers as $manager){
+
+			$manager = new $manager();
+
+			if($manager -> getName() == $database)
+				return $manager;
+			
+
+		}
+
+		return null;
 	}
 }
 

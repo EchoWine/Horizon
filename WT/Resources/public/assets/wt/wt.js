@@ -37,61 +37,73 @@ WT.stop_sync = true;
 /**
  * Call API: discovery
  *
- * @param {mixed} val
+ * @param {string} database
+ * @param {string} key
  * @param {closure} callback
  */
-WT.discovery = function(val,callback){
+WT.discovery = function(database,key,callback){
 
-	// @ temp
-	type = 'all';
+	http.get(WT.url+"discovery/"+database+"/"+encodeURIComponent(key),{token:WT.token},callback);
+};
 
-	http.get(WT.url+type+"/discovery/"+encodeURIComponent(val),{token:WT.token},callback);
+/**
+ * Call API: add
+ *
+ * @param {string} database
+ * @param {int} id
+ * @param {closure} callback
+ */
+WT.add = function(database,id,callback){
+
+	http.post(WT.url+"discovery/"+database+"/"+id,{token:WT.token},callback);
+};
+
+
+/**
+ * Call API: all
+ *
+ * @param {string} resource
+ * @param {closure} callback
+ */
+WT.all = function(resource,callback){
+
+	http.get(WT.url+resource,{token:WT.token},callback);
 };
 
 /**
  * Call API: get
  *
- * @param {string} type
+ * @param {string} resource
  * @param {int} id
  * @param {closure} callback
  */
-WT.get = function(type,id,callback){
+WT.get = function(resource,id,callback){
 
-	http.get(WT.url+type+"/"+id,{token:WT.token},callback);
-};
-
-/**
- * Call API: all
- *
- * @param {closure} callback
- */
-WT.all = function(callback){
-
-	http.get(WT.url+"all",{token:WT.token},callback);
+	http.get(WT.url+resource+"/"+id,{token:WT.token},callback);
 };
 
 /**
  * Call API: sync
  *
- * @param {string} type
+ * @param {string} resource
  * @param {int} id
  * @param {closure} callback
  */
-WT.sync = function(type,id,callback){
+WT.sync = function(resource,id,callback){
 
-	http.post(WT.url+type+"/"+id,{token:WT.token},callback);
+	http.put(WT.url+resource+"/"+id,{token:WT.token},callback);
 };
 
 /**
  * Call API: remove
  *
- * @param {string} name
+ * @param {string} resource
  * @param {int} id
  * @param {closure} callback
  */
-WT.remove = function(name,id,callback){
-	type = 'series';
-	http.post(WT.url+type+"/remove",{token:WT.token,name:name,id:id},callback);
+WT.remove = function(resource,id,callback){
+
+	http.delete(WT.url+resource+"/"+id,{token:WT.token},callback);
 };
 
 
@@ -115,6 +127,216 @@ WT.random = function(min,max){
  * @var
  */
 WT.app = {}
+
+
+/**
+ * @Application
+ * 
+ * Discovery new resources
+ *
+ * @param {string} value
+ */
+WT.app.discovery = function(value){
+	
+	if(!value)
+		return;
+
+	// Set the searching mode to true
+	WT.app.searching(true);
+
+	// Set spinner
+	$('.wt-search-spinner-container').html(template.get('wt-search-spinner'));
+
+	// Send the request to "discovery"
+
+	WT.discovery('all',val,function(response){
+
+		html = {'library':'','thetvdb':'','baka-updates':''};
+
+		// The response has sent, so set the "searching mode" to false
+		WT.app.searching(false);
+
+		console.log(response);
+		$.map(response,function(service,key){
+			console.log(key);
+			$.map(service,function(resource){
+
+				var part = (resource.user == 1) ? 'library' : key;
+
+				html[part] += template.get('wt-search-result',{
+					source:resource.source,
+					id:resource.id,
+					title:resource.name,
+					banner:resource.banner,
+					user:resource.user ? 1 : 0,
+					library:resource.library ? 1 : 0
+				});
+
+			});
+		});
+
+		console.log(html);
+		WT.app.addResultSearch('.wt-search-library',html['library']);
+
+		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
+		WT.app.addResultSearch('.wt-search-baka-updates',html['baka-updates']);
+	});
+};
+
+/**
+ * @Application
+ * 
+ * Change message during searching
+ *
+ * @param {bool} state
+ */
+WT.app.searching = function(state){
+
+	clearTimeout(WT.interval);
+
+	if(state){
+
+		$('.wt-section-container').attr('data-status',0);
+
+		var waiting = WT.waiting[WT.random(0,WT.waiting.length - 1)];
+		var html = template.get("wt-search-waiting",{waiting:waiting});
+		$('.wt-search-waiting').html(html);
+
+		WT.interval = setTimeout(function(){
+			WT.app.searching(true);
+
+		},5000);
+
+	}else{
+		$('.wt-section-container').attr('data-status',1);
+	}
+};
+
+/**
+ * @Application
+ * 
+ * Add the result retrieved during discovery
+ *
+ * @param {string} selector
+ * @param {string} html
+ */
+WT.app.addResultSearch = function(selector,html){
+
+	html = $(html);
+	
+	html.find('img').on('error',function(){
+		$(this).hide();
+	});
+
+	$(selector).html(html);
+};
+
+WT.app.add = function(database,id){
+
+	var element = $("[wt-add='"+database+","+id+"']").first();
+
+	WT.app.searching(true);
+
+	WT.add(database,id,function(response){
+		WT.app.searching(false);
+		
+		item.addAlert('alert-'+response.status,'.alert-global',response);
+
+		if(element){
+			
+			res = element.closest('.wt-search-result');
+			res.attr('wt-status-user',1);
+			res.appendTo($('.wt-search-library'));
+
+		}
+	});
+
+};
+
+/**
+ * @Application
+ * 
+ * Open a modal that contain all basic info
+ *
+ * @param {string} type
+ * @param {int} id
+ */
+WT.app.info = function(type,id){
+
+	WT.get(type,id,function(response){
+
+		/*
+		// Group episode in season
+		var seasons = [];
+		for(var i in response.episodes){
+			episode = response.episodes[i];
+
+			if(typeof seasons[episode.season_n] == 'undefined')
+				seasons[episode.season_n] = [];
+
+			seasons[episode.season_n].push(episode);
+		}
+
+
+		// Templating seasons
+		html_seasons = '';
+		for(var i in seasons){
+			var season = seasons[i];
+			html_episodes = '';
+			
+			// Templating episodes
+			for(e = 0; e < season.length; e++){
+				episode = season[e];
+				html_episodes += template.get('wt-get-episode',{
+					number: episode.number,
+					name: episode.name,
+					season: episode.season_n,
+					aired_at : episode.aired_at
+				});
+
+			}
+
+			html_seasons += template.get('wt-get-season',{
+				'number': i,
+				'episodes': html_episodes,
+			});
+
+		}*/
+
+		switch(response.status){
+			case 'continuing':
+				status_type = 'primary';
+			break;
+			case 'ended':
+				status_type = 'danger';
+			break;
+			default:
+				status_type = 'default';
+			break;
+		}
+
+		content = template.get('wt-get-serie',{
+			id:response.id,
+			name:response.name,
+			banner:response.banner,
+			overview:response.overview,
+			updated_at:response.updated_at,
+			status:response.status,
+			status_type:status_type,
+			resource_id: response.resource.source_id,
+			resource_name: response.resource.source_name
+		});
+
+
+		modal.open('modal-wt-get',{"modal-wt-get-body":content});
+	});
+	
+
+}
+
+
+
+
 
 /**
  * @Application
@@ -177,110 +399,6 @@ WT.app.syncAll = function(){
 };
 
 /**
- * @Application
- * 
- * Change message during searching
- *
- * @param {bool} state
- */
-WT.app.searching = function(state){
-
-	clearTimeout(WT.interval);
-
-	if(state){
-
-		$('.wt-section-container').attr('data-status',0);
-
-		var waiting = WT.waiting[WT.random(0,WT.waiting.length - 1)];
-		var html = template.get("wt-search-waiting",{waiting:waiting});
-		$('.wt-search-waiting').html(html);
-
-		WT.interval = setTimeout(function(){
-			WT.app.searching(true);
-
-		},5000);
-
-	}else{
-		$('.wt-section-container').attr('data-status',1);
-	}
-};
-
-
-/**
- * @Application
- * 
- * Discovery new resources
- *
- * @param {string} value
- */
-WT.app.discovery = function(value){
-	
-	if(!value)
-		return;
-
-	// Set the searching mode to true
-	WT.app.searching(true);
-
-	// Set spinner
-	$('.wt-search-spinner-container').html(template.get('wt-search-spinner'));
-
-	// Send the request to "discovery"
-
-	WT.discovery(val,function(response){
-
-		html = {'library':'','thetvdb':'','baka-updates':''};
-
-		// The response has sent, so set the "searching mode" to false
-		WT.app.searching(false);
-
-		console.log(response);
-		$.map(response,function(service,key){
-			console.log(key);
-			$.map(service,function(resource){
-
-				var part = (resource.user == 1) ? 'library' : key;
-
-				html[part] += template.get('wt-search-result',{
-					source:resource.source,
-					id:resource.id,
-					title:resource.name,
-					banner:resource.banner,
-					user:resource.user ? 1 : 0,
-					library:resource.library ? 1 : 0
-				});
-
-			});
-		});
-
-		console.log(html);
-		WT.app.addResultSearch('.wt-search-library',html['library']);
-
-		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
-		WT.app.addResultSearch('.wt-search-baka-updates',html['baka-updates']);
-	});
-};
-
-
-/**
- * @Application
- * 
- * Add the result retrieved during discovery
- *
- * @param {string} selector
- * @param {string} html
- */
-WT.app.addResultSearch = function(selector,html){
-
-	html = $(html);
-	
-	html.find('img').on('error',function(){
-		$(this).hide();
-	});
-
-	$(selector).html(html);
-};
-
-/**
  * @Event
  * 
  * Discovery new resources on submit
@@ -300,19 +418,12 @@ $('.wt-search-form').on('submit',function(e){
  * Add a resource on click
  */
 $('body').on('click','[wt-add]',function(e){
-	WT.app.searching(true);
-	var element = $(this);
-	info = $(this).attr('wt-add').split(",");
 
-	http.post(WT.url+"series/add",{token:WT.token,source:info[0],id:info[1]},function(response){
-		WT.app.searching(false);
-		item.addAlert('alert-'+response.status,'.alert-global',response);
-		res = element.closest('.wt-search-result');
-		res.attr('wt-status-user',1);
-		res.appendTo($('.wt-search-library'));
+	var info = $(this).attr('wt-add').split(",");
+	var database = info[0];
+	var id = info[1];
 
-	});
-
+	WT.app.add(database,id);
 });
 
 /**
@@ -359,77 +470,9 @@ $('body').on('click','[wt-sync]',function(e){
  * Display a modal that contains info about a resource on click
  */
 $('body').on('click','[wt-info]',function(e){
-
 	info = $(this).attr('wt-info').split(",");
 
-	WT.get(info[0],info[1],info[2],function(response){
-
-		// Group episode in season
-		var seasons = [];
-		for(var i in response.episodes){
-			episode = response.episodes[i];
-
-			if(typeof seasons[episode.season_n] == 'undefined')
-				seasons[episode.season_n] = [];
-
-			seasons[episode.season_n].push(episode);
-		}
-
-
-		// Templating seasons
-		html_seasons = '';
-		for(var i in seasons){
-			var season = seasons[i];
-			html_episodes = '';
-			
-			// Templating episodes
-			for(e = 0; e < season.length; e++){
-				episode = season[e];
-				html_episodes += template.get('wt-get-episode',{
-					number: episode.number,
-					name: episode.name,
-					season: episode.season_n,
-					aired_at : episode.aired_at
-				});
-
-			}
-
-			html_seasons += template.get('wt-get-season',{
-				'number': i,
-				'episodes': html_episodes,
-			});
-
-		}
-
-		switch(response.status){
-			case 'continuing':
-				status_type = 'primary';
-			break;
-			case 'ended':
-				status_type = 'danger';
-			break;
-			default:
-				status_type = 'default';
-			break;
-		}
-
-		content = template.get('wt-get-serie',{
-			id:response.id,
-			name:response.name,
-			banner:response.banner,
-			overview:response.overview,
-			updated_at:response.updated_at,
-			status:response.status,
-			status_type:status_type,
-			seasons: html_seasons,
-			resource_id: response.resource.source_id,
-			resource_name: response.resource.source_name
-		});
-
-
-		modal.open('modal-wt-get',{"modal-wt-get-body":content});
-	});
-
+	WT.app.info(info[0],info[1],info[2]);
 });
 
 /**
@@ -439,7 +482,7 @@ $('body').on('click','[wt-info]',function(e){
  */
 $('body').on('click','[wt-sync-all]',function(e){
 	
-	WT.syncAll();
+	WT.app.syncAll();
 
 });
 

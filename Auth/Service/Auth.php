@@ -219,7 +219,21 @@ class Auth implements Service{
 
 		return $q;
 
+	}
 
+	/**
+	 * Retrieve user given a token
+	 *
+	 * @param string $token
+	 *
+	 * @return User
+	 */
+	public static function getUserByToken($token){
+
+		if(!$token)
+			return null;
+		
+		return User::where('token',$token) -> first();
 	}
 
 }

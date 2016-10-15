@@ -24,11 +24,11 @@ class Resource extends Model{
 	
 		$schema -> string('name');
 
-		$schema -> string('source_type');
+		$schema -> string('type');
 	
-		$schema -> string('source_name');
+		$schema -> string('database_name');
 	
-		$schema -> string('source_id');
+		$schema -> string('database_id');
 
 		$schema -> datetime('updated_at');
 

@@ -2,14 +2,11 @@
 
 namespace WT\Controller\Api;
 
-use CoreWine\Http\Controller as BasicController;
-use Api\Response;
-use Api\Exceptions;
+use CoreWine\Http\Controller as Controller;
 use WT\Service\WT;
-use Request;
-use Auth\Model\User;
+use Auth;
 
-class SearchController extends BasicController{
+class SearchController extends Controller{
 
 
 	/**
@@ -19,109 +16,118 @@ class SearchController extends BasicController{
 	 */
 	public function __routes($router){
 		
-		$router -> get("/api/v1/{resource}/discovery/{key}","discovery");
-		$router -> post("/api/v1/{resource}/add","add");
-		$router -> post("/api/v1/{resource}/remove","remove");
-		$router -> get("/api/v1/{resource}/{source}/{id}","get");
-		$router -> post("/api/v1/{resource}/{id}","sync");
-		$router -> get("/api/v1/all",'all');
+		# Discovery and add new resource
+		$router -> get('/api/v1/discovery/{database}/{key}','discovery','wt.discovery.get');
+		$router -> post('/api/v1/discovery/{database}/{id}','add','wt.discovery.add');
+
+		# Manipulate/Retrieve resoure
+		$router -> get('/api/v1/{resource}','all','wt.resource.all');
+		$router -> get('/api/v1/{resource}/{id}','get','wt.resource.get');
+		$router -> put('/api/v1/{resource}/{id}','sync','wt.resource.update');
+		$router -> delete('/api/v1/{resource}/{id}','remove','wt.resource.delete');
+
 
 		//$router -> get("/api/v1/{resource}/discovery/{key}","index")
 
 	}
 
 	/**
-	 * Retrieve user given a token
-	 *
-	 * @param string $token
-	 *
-	 * @return User
-	 */
-	public function getUserByToken($token){
-		if(!$token)
-			return null;
-		
-		return User::where('token',$token) -> first();
-	}
-
-	/**
 	 * @GET
 	 *
+	 * @param Request $request
+	 * @param string $database
+	 * @param string $key
+	 * 	 
 	 * @return Response
 	 */
-	public function discovery(Request $request,$resource,$key){
-		if(!($user = $this -> getUserByToken($request -> query -> get('token')))){
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
+	public function discovery($request,$database,$key){
 
-		return $this -> json(WT::discovery($user,$resource,$key));
+		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
+			return $this -> json(['status' => 'error','message' => 'Token invalid']);
+		
+
+		return $this -> json(WT::discovery($user,$database,$key));
 	}
 
 	/**
 	 * @POST
 	 *
+	 * @param Request $request
+	 * @param string $database
+	 * @param int $id
+	 *
 	 * @return Response
 	 */
-	public function add(Request $request,$resource){
-		if(!($user = $this -> getUserByToken($request -> request -> get('token')))){
+	public function add($request,$database,$id){
+
+		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
+		
 		
 		return $this -> json(WT::add(
 			$user,
-			$resource,
-			$request -> request -> get('source'),
-			$request -> request -> get('id'))
-		);
+			$database,
+			$id
+		));
 	}
-
+	
 	/**
-	 * @Route delete
+	 * @GET
+	 *
+	 * @param Request $request
+	 * @param string $database
 	 *
 	 * @return Response
 	 */
-	public function remove(Request $request,$resource){
-		if(!($user = $this -> getUserByToken($request -> request -> get('token')))){
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
+	public function all($request,$database){
 		
-		return $this -> json(WT::delete(
+		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
+			return $this -> json(['status' => 'error','message' => 'Token invalid']);
+		
+		
+		return $this -> json(WT::all(
 			$user,
-			$resource,
-			$request -> request -> get('source'),
-			$request -> request -> get('id'))
-		);
+			$database
+		));
+
 	}
 
 	/**
-	 * @Route get
+	 * @GET
+	 *
+	 * @param Request $request
+	 * @param string $database
+	 * @param integer $id
 	 *
 	 * @return Response
 	 */
-	public function get(Request $request,$resource,$source,$id){
+	public function get($request,$resource,$id){
 		
-		if(!($user = $this -> getUserByToken($request -> query -> get('token')))){
+		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
+		
 		
 		return $this -> json(WT::get(
 			$user,
 			$resource,
-			$source,
 			$id
 		));
 	}
 
 	/**
-	 * @Route sync
+	 * @POST
+	 *
+	 * @param Request $request
+	 * @param string $database
+	 * @param integer $id
 	 *
 	 * @return Response
 	 */
-	public function sync(Request $request,$resource,$id){
+	public function sync($request,$resource,$id){
 		
-		if(!($user = $this -> getUserByToken($request -> request -> get('token')))){
+		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
+		
 		
 		return $this -> json(WT::sync(
 			$user,
@@ -132,19 +138,26 @@ class SearchController extends BasicController{
 	}
 
 	/**
-	 * @Route
+	 * @DELETE
+	 *
+	 * @param Request $request
+	 * @param string $database
+	 * @param integer $id
 	 *
 	 * @return Response
 	 */
-	public function all(Request $request){
-		
-		if(!($user = $this -> getUserByToken($request -> query -> get('token')))){
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		}
-		
-		return $this -> json(WT::all(
-			$user
-		));
+	public function remove($request,$resource,$id){
 
+		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
+			return $this -> json(['status' => 'error','message' => 'Token invalid']);
+		
+		
+		return $this -> json(WT::delete(
+			$user,
+			$resource,
+			$id
+		));
 	}
+
+
 }
