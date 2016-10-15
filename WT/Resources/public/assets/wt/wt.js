@@ -91,7 +91,7 @@ WT.get = function(resource,id,callback){
  */
 WT.sync = function(resource,id,callback){
 
-	http.put(WT.url+resource+"/"+id,{token:WT.token},callback);
+	http.post(WT.url+resource+"/update/"+id,{token:WT.token},callback);
 };
 
 /**
@@ -253,6 +253,23 @@ WT.app.add = function(database,id){
 
 };
 
+WT.app.sync = function(resource_type,resource_id){
+
+	WT.sync(resource_type,resource_id,function(response){
+
+		switch(response.status){
+			case 'error':
+				item.addAlert('alert-error','.alert-global',response);
+			break;
+			default:
+
+				item.addAlert('alert-'+response.status,'.alert-global',response);
+			break;
+		}
+	});
+
+};
+
 /**
  * @Application
  * 
@@ -349,6 +366,8 @@ WT.app.syncAll = function(){
 		console.log("Stopping...");
 		WT.stop_sync = true;
 	}});
+
+
 	
 	var status = $('.wt-sync-current-status');
 	var progress = $('.wt-sync-current-progress');
@@ -386,7 +405,7 @@ WT.app.syncAll = function(){
 	};
 
 	// Retrieve all resources
-	WT.all(function(response){
+	WT.all('all',function(response){
 		length = 0;
 		for(i in response){
 			length++;
@@ -454,13 +473,11 @@ $('body').on('click','[wt-remove]',function(e){
  */
 $('body').on('click','[wt-sync]',function(e){
 	
-	info = $(this).attr('wt-sync').split(",");
+	var info = $(this).attr('wt-sync').split(",");
+	var resource_type = info[0];
+	var resource_id = info[1];
 
-	WT.sync(info[0],info[1],function(response){
-		console.log(response);
-		item.addAlert('alert-'+response.status,'.alert-global',response);
-	});
-
+	WT.app.sync(resource_type,resource_id);
 });
 
 

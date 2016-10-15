@@ -219,9 +219,9 @@ class WT{
 
 			}else{
 
-				$manager = self::getManagerByDatabase($resource -> container -> source_name);
+				$manager = self::getManagerByDatabase($resource -> container -> database_name);
 
-				$response = $manager -> get($resource -> container -> source_id);
+				$response = $manager -> get($resource -> container -> database_id);
 				
 				$container = $resource -> container;
 

@@ -23,7 +23,7 @@ class SearchController extends Controller{
 		# Manipulate/Retrieve resoure
 		$router -> get('/api/v1/{resource}','all','wt.resource.all');
 		$router -> get('/api/v1/{resource}/{id}','get','wt.resource.get');
-		$router -> put('/api/v1/{resource}/{id}','sync','wt.resource.update');
+		$router -> post('/api/v1/{resource}/update/{id}','sync','wt.resource.update');
 		$router -> delete('/api/v1/{resource}/{id}','remove','wt.resource.delete');
 
 
