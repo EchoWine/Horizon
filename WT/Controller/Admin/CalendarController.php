@@ -41,8 +41,9 @@ class CalendarController extends Controller{
 		$month = $request -> query -> get('month',$datetime -> format('m'));
 		$year = $request -> query -> get('year',$datetime -> format('Y'));
 
+
 		# Retrieve episodes
-		$episodes = Episode::where("DATE_FORMAT(aired_at,'%c-%Y')","$month-$year") -> get();
+		$episodes = Episode::where("DATE_FORMAT(aired_at,'%m-%Y')","$month-$year") -> get();
 
 		# Create a collection of current period divining by weeks
 		$datetime = DateTime::createByMonthAndYear($month,$year);
