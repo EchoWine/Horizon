@@ -164,7 +164,7 @@ WT.app.discovery = function(value){
 				var part = (resource.user == 1) ? 'library' : key;
 
 				html[part] += template.get('wt-search-result',{
-					source:resource.source,
+					database:resource.database,
 					id:resource.id,
 					title:resource.name,
 					banner:resource.banner,

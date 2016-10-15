@@ -8,6 +8,7 @@ use CoreWine\Component\File;
 use CoreWine\Component\DomDocument;
 use CoreWine\Http\Request;
 use Cache;
+use WT\Api\BakaUpdates\MangaObject;
 
 class BakaUpdates extends Basic{
 
@@ -125,7 +126,14 @@ class BakaUpdates extends Basic{
 				if(isset($return[$id])){
 					$return[$id]['alias'][] = $name;
 				}else{
-					$return[$id] = ['id' => $id,'name' => $name,'overview' => $overview,'banner' => $banner,'alias' => [$name]];
+					$return[$id] = [
+						'database' => $this -> getName(),
+						'id' => $id,
+						'name' => $name,
+						'overview' => $overview,
+						'banner' => $banner,
+						'alias' => [$name],
+					];
 				}			
 
 			}
@@ -138,22 +146,43 @@ class BakaUpdates extends Basic{
 		return $return;
 	}
 
+	/**
+	 * Get a resource
+	 * 
+	 * @param int $id
+	 *
+	 * @return response
+	 */
 	public function get($id){
+		$client = new Client();
+		$url = $this -> url."series.html?id=".$id;
+		
+		# 
+		$response = $client -> request($url);
+
+		#
+		$manga = MangaObject::create($response);
+
+		# Retrieve banner
+		$basename = basename($banner);
+		$destination = 'uploads/baka-updates/'.$basename;
+
+		if(!file_exists(dirname($destination))){
+			mkdir(dirname($destination),0777,true);
+		}
+		
+		if(!file_exists($destination)){	
+			$client -> download($banner,$destination);
+		}
+
+
+		# Now, in order to retrieve all episodes, we need to request first page, check the number of pages and make all calls
 
 		
+		print_r($manga);
+		die();
+		
 	}
-	
-	/**
-	 * Add a resource
-	 *
-	 * @param string $id
-	 */
-	public function add($id){
-
-
-		return $this -> get($id);
-	}
-
 
 	public function update(){
 		

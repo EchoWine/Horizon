@@ -137,7 +137,7 @@ class TheTVDB extends Basic{
 
 			$resource = Object\SerieObject::short($resource);
 			$return[$resource -> id] = [
-				'source' => $this -> getName(),
+				'database' => $this -> getName(),
 				'type' => 'series',
 				'id' => $resource -> id,
 				'language' => $resource -> language,

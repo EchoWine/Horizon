@@ -28,7 +28,7 @@ class WT{
 	 */
 	public static $classes = [
 		'series' => Serie::class,
-		'manga' => Serie::class
+		'manga' => Manga::class
 	];
 
 	/**
