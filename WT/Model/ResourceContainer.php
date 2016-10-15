@@ -30,7 +30,7 @@ class ResourceContainer extends Model{
 	
 		$schema -> string('database_id');
 
-		$schema -> datetime('updated_at');
+		$schema -> updated_at();
 
         $schema -> toMany(ResourceContainerUser::class,'container_users','container_id')
                 -> to('users','user');

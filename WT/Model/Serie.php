@@ -39,8 +39,8 @@ class Serie extends Model implements Resource{
 		$schema -> toMany(Season::class,'seasons','serie_id');
 
 		$schema -> toMany(Episode::class,'episodes','serie_id');
-
-		$schema -> datetime('updated_at');
+		
+		$schema -> updated_at();
 
 	}
 

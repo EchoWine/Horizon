@@ -33,8 +33,6 @@ class Episode extends Model{
 
 		$schema -> datetime('aired_at');
 
-		$schema -> datetime('updated_at');
-
 		$schema -> text('overview');
 
 		$schema -> toOne(Season::class,'season');
@@ -42,6 +40,8 @@ class Episode extends Model{
 		$schema -> toOne(ResourceContainer::class,'resource');
 
 		$schema -> toOne(Episode::class,'episodes','serie_id');
+
+		$schema -> updated_at();
 	}
 
 }
