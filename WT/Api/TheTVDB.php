@@ -6,6 +6,7 @@ use WT\Api\TheTVDB as Object;
 use CoreWine\Component\Str;
 use CoreWine\Http\Client;
 use CoreWine\Component\File;
+use Cache;
 
 class TheTVDB extends Basic{
 
@@ -58,7 +59,14 @@ class TheTVDB extends Basic{
 
 		$client = new Client();
 
+		$name_request = $this -> getName()."_search_".$params['seriesname'];
+
+		if($cache = Cache::get($name_request))
+			return $cache;
+
+		
 		try{
+
 
 			# Search for series
 			$response = $client -> request($this -> url_api."GetSeries.php",'GET',$params);
@@ -141,6 +149,7 @@ class TheTVDB extends Basic{
 			];
 		}
 
+		Cache::set($name_request,$return,3600);
 
 		return $return;
 	}
@@ -186,17 +195,6 @@ class TheTVDB extends Basic{
 	public function discovery($key){
 
 		return $this -> all(['seriesname' => str_replace("%20","_",$key)]);
-	}
-
-	/**
-	 * Add a resource
-	 *
-	 * @param string $id
-	 */
-	public function add($id){
-
-
-		return $this -> get($id);
 	}
 
 

@@ -10,6 +10,15 @@ use Request;
 use CoreWine\Component\Collection;
 use CoreWine\DataBase\DB;
 
+/**
+ * 
+ * manager: A class that manage all calls to api and return "generic response"
+ * response: a generic array that contains information about calls retrieved by manager
+ * database: database used for api call (e.g. TheTVDB,Baka-Updates...)
+ * model: Models
+ * resource: All things related to model
+ * container: A resource container
+ */
 class WT{
 
 	/**
@@ -63,23 +72,25 @@ class WT{
 	 *
 	 * @return array
 	 */
-	public static function discovery($user,$database,$key){
-
+	public static function discovery($user,$database_name,$key){
+		
 		$response = [];
 			
 		foreach(self::$managers as $manager){
 
 			$manager = new $manager();
 
-			if($manager -> isResource($database)){
+			if($database_name == 'all' || $manager -> getName() == $database_name){
 				$response[$manager -> getName()] = $manager -> discovery($key);
 
 				foreach($response[$manager -> getName()] as $n => $k){
-					$resource = Resource::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
+					$container = Resource::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
 					
-					if($resource){
-						$u = $resource -> users -> has($user);
+					if($container){
+						$u = $container -> users -> has($user);
 						$r = 1;
+
+						$response[$manager -> getName()][$n]['container'] = $container -> toArray();
 					}else{
 						$r = 0;
 						$u = 0;
@@ -100,59 +111,57 @@ class WT{
 	 * Add a new resource
 	 *
 	 * @param string $user
-	 * @param string $database
-	 * @param mixed $id
+	 * @param string $database_name
+	 * @param mixed $database_id
 	 *
 	 * @return array
 	 */
-	public static function add($user,$database,$id){
+	public static function add($user,$database_name,$database_id){
 
 		try{
 			$response = [];
 
+			$container = Resource::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
-			$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
+			if($container){
 
-			if($resource){
+				if($container -> users -> has($user)){
 
-				if($resource -> users -> has($user)){
-
-					# Some message ??
 					return ['message' => 'Already added','status' => 'info'];
 
 				}else{
 
-					$resource -> users -> add($user);
-					$resource -> users -> save();
+					$container -> users -> add($user);
+					$container -> users -> save();
 				}
 
 			}else{
 
 				$manager = self::getManagerByDatabase($database);
 
-				$response = $manager -> add($id);
+				$response = $manager -> get($id);
 
 				# Detect type
 				$resource_type = $response -> type;
 
 				$model = self::getClassByType($resource_type);
 
-				$resource = Resource::create([
+				$container = Resource::create([
 					'name' => $response -> name,
 					'type' => $resource_type,
-					'database_name' => $database,
-					'database_id' => $id,
+					'database_name' => $database_name,
+					'database_id' => $datbase_id,
 					'updated_at' => (new \DateTime()) -> format('Y-m-d H:i:s')
 				]);
 
-				$detail = new $model();
-				$detail -> fillFromDatabaseApi($response,$resource);
+				$resource = new $model();
+				$resource -> fillFromDatabaseApi($response,$container);
 
 				# TEMP-FIX
-				$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
+				$resource = Resource::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
-				$resource -> users -> add($user);
-				$resource -> users -> save();
+				$container -> users -> add($user);
+				$container -> users -> save();
 			}
 
 		}catch(\Exception $e){
@@ -169,18 +178,17 @@ class WT{
 	 *
 	 * @param string $user
 	 * @param string $resource_type
-	 * @param mixed $id
+	 * @param mixed $resource_id
 	 *
 	 * @return array
 	 */
-	public static function get($user,$resource_type,$id){
+	public static function get($user,$resource_type,$resource_id){
 
-		$model = self::getClassByType($manager_type);
+		$resource_class = self::getClassByType($resource_type);
 
-		$model = $model::where('id',$id) -> first();
+		$resource = $resource_class::where('id',$resource_id) -> first();
 		
-
-		return $model -> toArrayComplete();
+		return $resource -> toArrayComplete();
 	}
 
 
@@ -189,87 +197,38 @@ class WT{
 	 *
 	 * @param string $user
 	 * @param string $resource_type
-	 * @param mixed $id
+	 * @param mixed $resource_id
 	 *
 	 * @return array
 	 */
-	public static function sync($user,$resource_type,$id){
+	public static function sync($user,$resource_type,$resource_id){
 
 		try{
+
 			$response = [];
 
-			$model = self::getClassByType($retype);
+			$resource_class = self::getClassByType($resource_type);
 
-			if(!$model)
+			if(!$resource_class)
 				throw new \Exception("Resource type name invalid");
 
-			$resource = $model::where(['id' => $id]) -> first();
+			$resource = $resource_class::where(['id' => $resource_id]) -> first();
 
 			if(!$resource){
-
 				throw new \Exception("Resource not found");
-
-				
 
 			}else{
 
-				$database = $resource -> resource -> source_name;
-				$id = $resource -> resource -> source_id;
+				$manager = self::getManagerByDatabase($resource -> container -> source_name);
 
-				foreach(self::$managers as $manager){
-
-					$manager = new $manager();
-
-					if($manager -> getName() == $database){
-						$response = $manager -> get($id);
-						break;
-					}
-
-				}
-
-				$resource_node = $resource -> resource;
-
-				$resource_node -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-				$resource_node -> save();
-
-				$resource -> name = $response -> name;
-				$resource -> overview = $response -> overview;
-				$resource -> status = $response -> status;
-				$resource -> resource = $resource;
+				$response = $manager -> get($resource -> container -> source_id);
 				
-				if($response -> poster)
-					$resource -> poster() -> setByUrl($response -> poster);
+				$container = $resource -> container;
 
-				if($response -> banner)
-					$resource -> banner() -> setByUrl($response -> banner);
+				$container -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
+				$container -> save();
 
-				$resource -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-				$resource -> save();
-
-				if($retype == 'series' && $manager -> isResource('series')){
-
-					foreach($response -> episodes as $r_episode){
-
-						$season = Season::firstOrCreate([
-							'number' => $r_episode -> season,
-							'serie_id' => $resource -> id
-						]);
-
-						$episode = Episode::firstOrCreate([
-							'number' => $r_episode -> number,
-							'season_n' => $r_episode -> season,
-							'season_id' => $season -> id,
-							'serie_id' => $resource -> id
-						]);
-
-						$episode -> name = $r_episode -> name;
-						$episode -> overview = $r_episode -> overview;
-						$episode -> aired_at = $r_episode -> aired_at;
-						$episode -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
-						$episode -> save();
-
-					}
-				}
+				$resource -> fillFromDatabaseApi($response,$container);			
 
 			}
 

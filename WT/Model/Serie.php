@@ -34,7 +34,7 @@ class Serie extends Model{
 
 		$schema -> file('banner');
 
-		$schema -> toOne(Resource::class,'resource');
+		$schema -> toOne(Resource::class,'container');
 
 		$schema -> toMany(Season::class,'seasons','serie_id');
 
@@ -44,6 +44,11 @@ class Serie extends Model{
 
 	}
 
+	/**
+	 * Return a complete array of this model (usefull in api)
+	 *
+	 * @return array
+	 */
 	public function toArrayComplete(){
 
 		$res = parent::toArray();
@@ -56,19 +61,31 @@ class Serie extends Model{
 		}
 		
 
-		return array_merge($res,['episodes' => $episodes,'resource' => $this -> resource -> toArray()]);
+		return array_merge($res,['episodes' => $episodes,'container' => $this -> container -> toArray()]);
 	}
 
-	public function fillFromDatabaseApi($response,$resource){
-
+	/**
+	 * Fill this entity using a generic response from database api
+	 *
+	 * @param object $response
+	 * @param Container $container
+	 */
+	public function fillFromDatabaseApi($response,$container){
+		
+		$this -> container = $container;
 
 		$this -> name = $response -> name;
 		$this -> overview = $response -> overview;
 		$this -> status = $response -> status;
-		$this -> resource = $resource;
-		$this -> poster() -> setByUrl($response -> poster);
-		$this -> banner() -> setByUrl($response -> banner);
+
+		if($response -> poster)
+			$resource -> poster() -> setByUrl($response -> poster);
+
+		if($response -> banner)
+			$resource -> banner() -> setByUrl($response -> banner);
+
 		$this -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
+
 		$this -> save();
 
 
@@ -79,19 +96,21 @@ class Serie extends Model{
 				'serie_id' => $this -> id
 			]);
 
-			$episode = new Episode();
+
+			$episode = Episode::firstOrCreate([
+				'number' => $r_episode -> number,
+				'season_n' => $r_episode -> season,
+				'season_id' => $season -> id,
+				'serie_id' => $resource -> id
+			]);
+
 			$episode -> name = $r_episode -> name;
-			$episode -> number = $r_episode -> number;
 			$episode -> overview = $r_episode -> overview;
 			$episode -> aired_at = $r_episode -> aired_at;
-			$episode -> update_at = $r_episode -> updated_at;
-			$episode -> season = $season;
-			$episode -> season_n = $r_episode -> season;
-			$episode -> serie_id = $this -> id;
+			$episode -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
 			$episode -> save();
 
 		}
-
 	}
 }
 

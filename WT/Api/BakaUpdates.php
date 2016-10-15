@@ -7,6 +7,7 @@ use CoreWine\Http\Client;
 use CoreWine\Component\File;
 use CoreWine\Component\DomDocument;
 use CoreWine\Http\Request;
+use Cache;
 
 class BakaUpdates extends Basic{
 
@@ -49,6 +50,14 @@ class BakaUpdates extends Basic{
 	 * @return array
 	 */
 	public function all($key){
+
+
+		$name_request = $this -> getName()."_search_".$key;
+
+		if($cache = Cache::get($name_request))
+			return $cache;
+
+
 		$key = str_replace("%20","+",$key);
 
 		$client = new Client();
@@ -124,6 +133,8 @@ class BakaUpdates extends Basic{
 			$i++;
 		}
 		
+		Cache::set($name_request,$return,3600);
+
 		return $return;
 	}
 
