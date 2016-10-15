@@ -29,7 +29,6 @@ modal.open = function(id,data,events){
 	modal.closeActual();
 	$('html,body').scrollTop(0);
 
-	modal.opening = true;
 	var el = $('#'+id);
 	modal.html[id] = el.html();
 	el.addClass('modal-active');
