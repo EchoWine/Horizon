@@ -14,6 +14,8 @@ modal.events = {};
  */
 modal.open = function(id,data,events){
 
+	modal.opening = true;
+
 	if(!events){
 		events = {};
 	}
@@ -110,6 +112,8 @@ modal.close = function(id){
 	$('#'+id).parent().removeClass('modal-container');
 
 	modal.events[id].close();
+
+	modal.opening = false;
 };
 
 /**
@@ -125,6 +129,7 @@ modal.closeActual = function(){
  * Open the modal when a specific element is clicked
  */
 $('body').on('click','[data-modal]',function(){
+
 	modal.open(
 		$(this).data('modal'),
 		modal.getDataModal($(this))
@@ -142,15 +147,12 @@ $('body').on('click','.modal-close',function(){
 /**
  * Close the modal when outside is clicked
  */
-$(document).click(function(event){
+$(document).on('mousedown',function(event){
 
-	if(!modal.opening){
-		if(!$(event.target).closest('.modal-active').length || $(event.target).is('.modal')){
-			modal.closeActual();
-		}
+	if(!$(event.target).closest('.modal-active').length || $(event.target).is('.modal')){
+		modal.closeActual();
 	}
-
-	modal.opening = false;
+	
 	
 });
 
