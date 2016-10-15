@@ -243,7 +243,7 @@ WT.app.add = function(database,id){
 		item.addAlert('alert-'+response.status,'.alert-global',response);
 
 		if(element){
-			
+
 			res = element.closest('.wt-search-result');
 			res.attr('wt-status-user',1);
 			res.appendTo($('.wt-search-library'));
@@ -323,8 +323,8 @@ WT.app.info = function(type,id){
 			updated_at:response.updated_at,
 			status:response.status,
 			status_type:status_type,
-			resource_id: response.resource.source_id,
-			resource_name: response.resource.source_name
+			database_id:response.container.database_id,
+			database_name:response.container.database_name
 		});
 
 

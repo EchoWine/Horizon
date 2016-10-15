@@ -6,7 +6,7 @@ use CoreWine\DataBase\ORM\Model;
 use CoreWine\DataBase\ORM\Field\Schema as Field;
 use Auth\Field\Schema as AuthField;
 
-use WT\Model\ResourceUser;
+use WT\Model\ResourceContainerUser;
 use WT\Model\Serie;
 
 class User extends Model{
@@ -40,8 +40,8 @@ class User extends Model{
 
 		$schema -> toMany(Session::class,'sessions','user_id');
 
-        $schema -> toMany(ResourceUser::class,'user_resources','user_id')
-                -> to('resources','resource');
+        $schema -> toMany(ResourceContainerUser::class,'user_containers','user_id')
+                -> to('containers','container');
 
 
 	}
@@ -65,14 +65,14 @@ class User extends Model{
 	public function getSeries(){
 		$return = [];
 
-		foreach($this -> resources -> all() as $resource){
-			if($resource -> source_type == 'series'){
+		foreach($this -> containers -> all() as $resource){
+			if($resource -> type == 'series'){
 				$return[] = $resource -> id;
 			}
 		}
 
 
-		return empty($return) ? [] : Serie::whereIn('resource_id',$return) -> get();
+		return empty($return) ? [] : Serie::whereIn('container_id',$return) -> get();
 	}
 }
 

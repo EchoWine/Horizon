@@ -4,7 +4,7 @@ namespace WT\Model;
 
 use CoreWine\DataBase\ORM\Model;
 
-class Serie extends Model{
+class Serie extends Model implements Resource{
 
 	/**
 	 * Table name
@@ -34,7 +34,7 @@ class Serie extends Model{
 
 		$schema -> file('banner');
 
-		$schema -> toOne(Resource::class,'container');
+		$schema -> toOne(ResourceContainer::class,'container');
 
 		$schema -> toMany(Season::class,'seasons','serie_id');
 
@@ -79,10 +79,10 @@ class Serie extends Model{
 		$this -> status = $response -> status;
 
 		if($response -> poster)
-			$resource -> poster() -> setByUrl($response -> poster);
+			$this -> poster() -> setByUrl($response -> poster);
 
 		if($response -> banner)
-			$resource -> banner() -> setByUrl($response -> banner);
+			$this -> banner() -> setByUrl($response -> banner);
 
 		$this -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
 
@@ -101,7 +101,7 @@ class Serie extends Model{
 				'number' => $r_episode -> number,
 				'season_n' => $r_episode -> season,
 				'season_id' => $season -> id,
-				'serie_id' => $resource -> id
+				'serie_id' => $this -> id
 			]);
 
 			$episode -> name = $r_episode -> name;

@@ -39,7 +39,7 @@ class Episode extends Model{
 
 		$schema -> toOne(Season::class,'season');
 
-		$schema -> toOne(Resource::class,'resource');
+		$schema -> toOne(ResourceContainer::class,'resource');
 
 		$schema -> toOne(Episode::class,'episodes','serie_id');
 	}

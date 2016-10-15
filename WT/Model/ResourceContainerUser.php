@@ -5,14 +5,14 @@ namespace WT\Model;
 use CoreWine\DataBase\ORM\Model;
 use Auth\Model\User;
 
-class ResourceUser extends Model{
+class ResourceContainerUser extends Model{
 
     /**
      * Table name
      *
      * @var
      */
-    public static $table = 'resources_users';
+    public static $table = 'resource_containers_users';
 
     /**
      * Set schema fields
@@ -25,7 +25,7 @@ class ResourceUser extends Model{
         
         $schema -> toOne(User::class,'user') -> required();
 
-        $schema -> toOne(Resource::class,'resource') -> required();
+        $schema -> toOne(ResourceContainer::class,'container') -> required();
 
         
     }

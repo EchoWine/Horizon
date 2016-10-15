@@ -5,7 +5,7 @@ use WT\Api as Api;
 use WT\Model\Serie;
 use WT\Model\Season;
 use WT\Model\Episode;
-use WT\Model\Resource;
+use WT\Model\ResourceContainer;
 use Request;
 use CoreWine\Component\Collection;
 use CoreWine\DataBase\DB;
@@ -73,7 +73,7 @@ class WT{
 	 * @return array
 	 */
 	public static function discovery($user,$database_name,$key){
-		
+
 		$response = [];
 			
 		foreach(self::$managers as $manager){
@@ -84,7 +84,7 @@ class WT{
 				$response[$manager -> getName()] = $manager -> discovery($key);
 
 				foreach($response[$manager -> getName()] as $n => $k){
-					$container = Resource::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
+					$container = ResourceContainer::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
 					
 					if($container){
 						$u = $container -> users -> has($user);
@@ -121,7 +121,7 @@ class WT{
 		try{
 			$response = [];
 
-			$container = Resource::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
+			$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
 			if($container){
 
@@ -137,20 +137,20 @@ class WT{
 
 			}else{
 
-				$manager = self::getManagerByDatabase($database);
+				$manager = self::getManagerByDatabase($database_name);
 
-				$response = $manager -> get($id);
+				$response = $manager -> get($database_id);
 
 				# Detect type
 				$resource_type = $response -> type;
 
 				$model = self::getClassByType($resource_type);
 
-				$container = Resource::create([
+				$container = ResourceContainer::create([
 					'name' => $response -> name,
 					'type' => $resource_type,
 					'database_name' => $database_name,
-					'database_id' => $datbase_id,
+					'database_id' => $database_id,
 					'updated_at' => (new \DateTime()) -> format('Y-m-d H:i:s')
 				]);
 
@@ -158,7 +158,7 @@ class WT{
 				$resource -> fillFromDatabaseApi($response,$container);
 
 				# TEMP-FIX
-				$resource = Resource::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
+				$resource = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
 				$container -> users -> add($user);
 				$container -> users -> save();
@@ -263,7 +263,7 @@ class WT{
 			if(!$model)
 				throw new \Exception("Resource type name invalid");
 			
-			$resource = Resource::where(['database_name' => $database,'database_id' => $id]) -> first();
+			$resource = ResourceContainer::where(['database_name' => $database,'database_id' => $id]) -> first();
 
 			if(!$resource)
 				throw new \Exception("The resource doesn't exists");
