@@ -27,7 +27,7 @@ class Season extends Model{
 
 		$schema -> toOne(Serie::class,'serie');
 
-		$schema -> toMany(Episode::class,'episodes','serie_id');
+		$schema -> toMany(Episode::class,'episodes','season_id');
 
 	}
 }

@@ -225,7 +225,6 @@ class TheTVDB extends Basic{
 		}
 
 		return $r;
-
 	}
 
 }

@@ -27,7 +27,7 @@ class Chapter extends Model{
 	
 		$schema -> string('name');
 	
-		$schema -> string('number');
+		$schema -> integer('number');
 
 		$schema -> string('volume_n');
 

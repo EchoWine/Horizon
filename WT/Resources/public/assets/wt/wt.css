@@ -143,3 +143,8 @@
     background:#039BE5;
     cursor:pointer;
 }
+
+.wt-poster{   
+    width: 180px;
+    height: 100%;
+}

@@ -30,7 +30,7 @@ class ChapterObject extends Object{
 		$c -> name = $name -> nodeValue;
 
 		# Number chapter
-		$number = intval(preg_replace("/[c0]/","",basename(dirname($href))));
+		$number = intval(preg_replace("/[c]/","",basename(dirname($href))));
 		
 		if($number == '')
 			$number = 0;

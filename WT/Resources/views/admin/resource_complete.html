@@ -1,0 +1,76 @@
+@extends('WT/admin/layout')
+
+@block('page-content')
+
+@include('WT/admin/resource')
+
+{# Dashboard #}
+<div class='ly-row'>
+
+	<div class='page-section page-section-content section-inner'>
+
+		<div class='ly-row'>
+			<img class='wt-poster' src='{{\Request::getDirUrl().$resource -> poster() -> getFullPath()}}'>
+			<div class='wt-get-manga-right-img'>
+				<h2>{{$resource -> name}}</h2>
+				<p>{{$resource -> overview}}</p>
+				<p><b>DataBase API</b>: {{$resource -> container -> database_name}} | {{$resource -> container -> id}}</p>
+				<p><b>Last update</b>: {{$resource -> container -> database_id}}</p>
+			</div>
+		</div>
+
+		<div>
+
+			@if($resource -> container -> type == 'series')
+
+				<h2>Episodi</h2>
+				<table width='600'>
+					<tr>
+						<td>Nome dell'episodio</td>
+						<td>Source</td>
+						<td>Day released</td>
+					</tr>
+					@foreach($resource -> seasons -> sortBy('number','number','ASC') as $season)
+						<tr>
+							<td colspan='3'>
+								<b>Season {{$season -> number}}</b>
+							</td>
+						</tr>
+						@foreach($season -> episodes -> sortBy('number','number','ASC') as $episode)
+							<tr>
+								<td>{{$episode -> number}}. {{$episode -> name}}</td>
+								<td><a href='#'><i class='fa fa-external-link'></i>&nbsp;Watch</a></td>
+								<td>{{(new \DateTime($episode -> aired_at)) -> format('d-m-Y')}}</td>
+							</tr>
+						@endforeach
+					@endforeach
+				</table>
+			@endif
+
+			@if($resource -> container -> type == 'manga')
+
+				<h2>Chapters</h2>
+				<table width='600'>
+					<tr>
+						<td>Chapter name</td>
+						<td>Source</td>
+						<td>Day released</td>
+					</tr>
+					@foreach($resource -> chapters -> sortBy('number','number','DESC') as $chapter)
+						<tr>
+							<td>Chapter {{$chapter -> number}}</td>
+							<td><a target='_blank' href='{{$chapter -> scan}}'><i class='fa fa-external-link'></i>&nbsp;Read</a></td>
+							<td>{{(new \DateTime($chapter -> released_at)) -> format('d-m-Y')}}</td>
+						</tr>
+					@endforeach
+				</table>
+
+			@endif
+
+
+
+
+		</div>
+	</div>
+</div>
+@endblock

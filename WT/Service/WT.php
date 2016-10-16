@@ -293,10 +293,16 @@ class WT{
 	public static function all($user){
 		$collection = new Collection();
 
+		$resources = Manga::all() -> toArray(false);
+		$resources = new Collection($resources);
+		$resources -> addParam('type','manga');
+		$collection = $collection -> merge($resources);
+		
 		$series = Serie::all() -> toArray(false);
 		$series = new Collection($series);
 		$series -> addParam('type','series');
 		$collection = $collection -> merge($series);
+
 
 		return $collection;
 	}
@@ -320,7 +326,7 @@ class WT{
 				# Select only the resource that are in the db and aren't updated
 				foreach($res as $k){
 					$r = $r -> orWhere(function($q) use ($k){
-						return $q -> where('resources.source_id',$k['id']) -> where('resources.updated_at','<',$k['updated_at']); 
+						return $q -> where('resources.database_id',$k['id']) -> where('resources.updated_at','<',$k['updated_at']); 
 					});
 				}
 
@@ -332,6 +338,27 @@ class WT{
 				$collection = $collection -> merge($r);
 			}
 
+			if($manager -> isResource('manga')){
+				$res = $manager -> update();
+
+
+				$r = Manga::leftJoin('resources','resources.id','manga.resource_id') 
+				-> select('manga.*');
+
+				# Select only the resource that are in the db and aren't updated
+				foreach($res as $k){
+					$r = $r -> orWhere(function($q) use ($k){
+						return $q -> where('resources.database_id',$k['id']) -> where('resources.updated_at','<',$k['updated_at']); 
+					});
+				}
+
+
+				$r = $r -> get();
+
+				$r = new Collection($r -> toArray());
+				$r -> addParam('type','manga');
+				$collection = $collection -> merge($r);
+			}
 		}
 
 		return $collection;
