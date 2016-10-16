@@ -10,7 +10,7 @@ use WT\Model\Chapter;
 use CoreWine\Component\Collection;
 
 use CoreWine\Http\Controller as Controller;
-use CoreWine\Component\Datetime;
+use CoreWine\Component\DateTime;
 
 
 class CalendarController extends Controller{
