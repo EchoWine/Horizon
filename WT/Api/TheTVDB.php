@@ -2,7 +2,7 @@
 
 namespace WT\Api;
 
-use WT\Api\TheTVDB as Object;
+use WT\Api\TheTVDB as Objects;
 use CoreWine\Component\Str;
 use CoreWine\Http\Client;
 use CoreWine\Component\File;
@@ -135,14 +135,14 @@ class TheTVDB extends Basic{
 				$banner = '';
 			}
 
-			$resource = Object\SerieObject::short($resource);
+			$resource = Objects\SerieObject::short($resource);
 			$return[$resource -> id] = [
 				'database' => $this -> getName(),
 				'type' => 'series',
 				'id' => $resource -> id,
 				'language' => $resource -> language,
 				'name' => $resource -> name,
-				'banner' => $banner,
+				'poster' => $banner,
 				'overview' => $resource -> overview,
 				'first_aired' => $resource -> first_aired_at,
 				'network' => $resource -> network,
@@ -170,7 +170,7 @@ class TheTVDB extends Basic{
 
 		}
 
-		$o = Object\SerieObject::long($resource);
+		$o = Objects\SerieObject::long($resource);
 		
 		if($o -> banner)
 			$o -> banner = $this -> url_public."banners/".$o -> banner;

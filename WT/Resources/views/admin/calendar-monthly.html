@@ -59,11 +59,22 @@
 								</div>
 								@foreach($day['data'] as $record)
 									<div class='wt-calendar-record'>
-										{{$record -> season -> serie -> name}} <br>
-										<div class='wt-calendar-record-info'>
-										<a href='#'>S{{$record -> season -> number}} - {{$record -> number}}:
-										{{$record -> name}}
-										</a>
+
+										@if($record -> season)
+											{{$record -> season -> serie -> name}} <br>
+											<div class='wt-calendar-record-info'>
+											<a href='#'>S{{$record -> season -> number}} - {{$record -> number}}:
+												{{$record -> name}}
+											</a>
+										@endif
+
+										@if($record -> volume)
+											{{$record -> volume -> manga -> name}} <br>
+											<div class='wt-calendar-record-info'>
+											<a href='#'>V{{$record -> volume -> number}} - {{$record -> number}}:
+												{{$record -> name}}
+											</a>
+										@endif
 										</div>
 									</div>
 								@endforeach

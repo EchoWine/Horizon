@@ -8,6 +8,7 @@ use Auth\Field\Schema as AuthField;
 
 use WT\Model\ResourceContainerUser;
 use WT\Model\Serie;
+use WT\Model\Manga;
 
 class User extends Model{
 
@@ -73,6 +74,19 @@ class User extends Model{
 
 
 		return empty($return) ? [] : Serie::whereIn('container_id',$return) -> get();
+	}
+	
+	public function getManga(){
+		$return = [];
+
+		foreach($this -> containers -> all() as $resource){
+			if($resource -> type == 'manga'){
+				$return[] = $resource -> id;
+			}
+		}
+
+
+		return empty($return) ? [] : Manga::whereIn('container_id',$return) -> get();
 	}
 }
 

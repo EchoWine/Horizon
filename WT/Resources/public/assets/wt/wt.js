@@ -151,7 +151,7 @@ WT.app.discovery = function(value){
 
 	WT.discovery('all',val,function(response){
 
-		html = {'library':'','thetvdb':'','baka-updates':''};
+		html = {'library':'','thetvdb':'','manga-fox':''};
 
 		// The response has sent, so set the "searching mode" to false
 		WT.app.searching(false);
@@ -167,7 +167,7 @@ WT.app.discovery = function(value){
 					database:resource.database,
 					id:resource.id,
 					title:resource.name,
-					banner:resource.banner,
+					poster:resource.poster,
 					user:resource.user ? 1 : 0,
 					library:resource.library ? 1 : 0
 				});
@@ -179,7 +179,7 @@ WT.app.discovery = function(value){
 		WT.app.addResultSearch('.wt-search-library',html['library']);
 
 		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
-		WT.app.addResultSearch('.wt-search-baka-updates',html['baka-updates']);
+		WT.app.addResultSearch('.wt-search-manga-fox',html['manga-fox']);
 	});
 };
 
@@ -321,7 +321,7 @@ WT.app.info = function(type,id){
 		}*/
 
 		switch(response.status){
-			case 'continuing':
+			case 'continuing': case 'Ongoing':
 				status_type = 'primary';
 			break;
 			case 'ended':
@@ -332,17 +332,36 @@ WT.app.info = function(type,id){
 			break;
 		}
 
-		content = template.get('wt-get-serie',{
-			id:response.id,
-			name:response.name,
-			banner:response.banner,
-			overview:response.overview,
-			updated_at:response.updated_at,
-			status:response.status,
-			status_type:status_type,
-			database_id:response.container.database_id,
-			database_name:response.container.database_name
-		});
+
+		if(response.container.type == 'series'){
+
+			content = template.get('wt-get-serie',{
+				id:response.id,
+				name:response.name,
+				banner:response.banner,
+				overview:response.overview,
+				updated_at:response.updated_at,
+				status:response.status,
+				status_type:status_type,
+				database_id:response.container.database_id,
+				database_name:response.container.database_name
+			});
+		}
+
+		if(response.container.type == 'manga'){
+
+			content = template.get('wt-get-manga',{
+				id:response.id,
+				name:response.name,
+				poster:response.poster,
+				overview:response.overview,
+				updated_at:response.updated_at,
+				status:response.status,
+				status_type:status_type,
+				database_id:response.container.database_id,
+				database_name:response.container.database_name
+			});
+		}
 
 
 		modal.open('modal-wt-get',{"modal-wt-get-body":content});

@@ -6,14 +6,14 @@ use CoreWine\DataBase\ORM\Model;
 use CoreWine\DataBase\ORM\Field\Schema as Field;
 
 
-class Episode extends Model{
+class Chapter extends Model{
 
 	/**
 	 * Table name
 	 *
 	 * @var
 	 */
-	public static $table = 'episodes';
+	public static $table = 'chapters';
 
 	/**
 	 * Set schema fields
@@ -27,17 +27,17 @@ class Episode extends Model{
 	
 		$schema -> string('name');
 	
-		$schema -> integer('number');
+		$schema -> string('number');
 
-		$schema -> integer('season_n');
+		$schema -> string('volume_n');
 
-		$schema -> datetime('aired_at');
+		$schema -> datetime('released_at');
 
 		$schema -> text('overview');
 
-		$schema -> toOne(Season::class,'season');
+		$schema -> toOne(Volume::class,'volume');
 
-		$schema -> toOne(Episode::class,'serie','serie_id');
+		$schema -> toOne(Manga::class,'manga','manga_id');
 
 		$schema -> updated_at();
 	}

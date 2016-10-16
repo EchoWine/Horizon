@@ -16,6 +16,13 @@
 				</div>
 			@endforeach
 
+			@foreach(Auth::user() -> getManga() as $resource)
+				<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$resource -> container -> type}},{{$resource -> id}}'>
+					<div class='wt-search-title'>{{$resource -> name}}</div>
+					<div class='wt-search-img'><img src='{{$resource -> poster() -> getFullPath()}}'></div>
+				</div>
+			@endforeach
+
 		</div>
 	</div>
 </div>

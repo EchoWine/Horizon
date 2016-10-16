@@ -26,13 +26,13 @@ class Manga extends Model implements Resource{
 
 		$schema -> string('type');
 
-		$schema -> string('alias');
+		$schema -> string('scan');
 
 		$schema -> string('genres');
 
 		$schema -> text('overview');
 
-		$schema -> string('status');
+		$schema -> text('status');
 
 		$schema -> file('poster');
 
@@ -58,9 +58,9 @@ class Manga extends Model implements Resource{
 		$res = parent::toArray();
 
 		$res['poster'] = $this -> poster() -> getFullPath();
-		$res['banner'] = $this -> banner() -> getFullPath();
+		$res['banner'] = $res['poster'];
 
-		foreach(Chapter::where('manga_id',$this -> id) -> get() as $chapters){
+		foreach(Chapter::where('manga_id',$this -> id) -> get() as $chapter){
 			$chapters[] = $chapter -> toArray();
 		}
 		
@@ -79,6 +79,7 @@ class Manga extends Model implements Resource{
 		$this -> container = $container;
 
 		$this -> name = $response -> name;
+		$this -> type = $response -> type;
 		$this -> overview = $response -> overview;
 		$this -> status = $response -> status;
 
@@ -95,26 +96,26 @@ class Manga extends Model implements Resource{
 
 		foreach($response -> chapters as $r_chapter){
 
-			/*$season = Season::firstOrCreate([
+			
+			$volume = Volume::firstOrCreate([
 				'number' => $r_chapter -> season,
-				'serie_id' => $this -> id
-			]);*/
+				'manga_id' => $this -> id,
+				'number' => $r_chapter -> volume,
+			]);
 
 
 			$chapter = Chapter::firstOrCreate([
 				'number' => $r_chapter -> number,
-				'manga_id' => $this -> id
+				'manga_id' => $this -> id,
 			]);
-			/*
-				'season_n' => $r_chapter -> season,
-				'season_id' => $season -> id,
-				*/
-
-			$r_chapter -> name = $r_chapter -> name;
-			$r_chapter -> overview = $r_chapter -> overview;
-			$r_chapter -> released_at = $r_chapter -> released_at;
-			$r_chapter -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
-			$r_chapter -> save();
+			
+			$chapter -> volume_n = $r_chapter -> volume,
+			$chapter -> volume = $volume;
+			$chapter -> name = $r_chapter -> name;
+			$chapter -> scan = $r_chapter -> scan;
+			$chapter -> released_at = $r_chapter -> released_at;
+			$chapter -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
+			$chapter -> save();
 
 		}
 	}

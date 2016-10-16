@@ -3,6 +3,7 @@
 namespace WT\Service;
 use WT\Api as Api;
 use WT\Model\Serie;
+use WT\Model\Manga;
 use WT\Model\Season;
 use WT\Model\Episode;
 use WT\Model\ResourceContainer;
@@ -37,7 +38,7 @@ class WT{
 	 * @var Array
 	 */
 	public static $managers = [
-		Api\BakaUpdates::class,
+		Api\MangaFox::class,
 		Api\TheTVDB::class,
 	];
 
@@ -133,6 +134,8 @@ class WT{
 
 					$container -> users -> add($user);
 					$container -> users -> save();
+
+					return ['message' => 'Added resource to library','status' => 'success'];
 				}
 
 			}else{
@@ -158,10 +161,12 @@ class WT{
 				$resource -> fillFromDatabaseApi($response,$container);
 
 				# TEMP-FIX
-				$resource = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
+				$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
 				$container -> users -> add($user);
 				$container -> users -> save();
+
+			return ['message' => 'Added new resource','status' => 'success'];
 			}
 
 		}catch(\Exception $e){
@@ -169,7 +174,6 @@ class WT{
 			return ['message' => $e -> getMessage(),'status' => 'error'];
 		}
 			
-		return ['message' => 'Resource added','status' => 'success'];
 		
 	}
 
