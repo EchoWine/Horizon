@@ -61,7 +61,7 @@
 									<div class='wt-calendar-record'>
 
 										@if($record -> season)
-											{{$record -> season -> serie -> name}} <br>
+											<i class='fa fa-tv'></i>&nbsp;{{$record -> season -> serie -> name}} <br>
 											<div class='wt-calendar-record-info'>
 											<a href='#'>S{{$record -> season -> number}} - {{$record -> number}}:
 												{{$record -> name}}
@@ -69,10 +69,9 @@
 										@endif
 
 										@if($record -> volume)
-											{{$record -> volume -> manga -> name}} <br>
+											<i class='fa fa-book'></i>&nbsp;{{$record -> volume -> manga -> name}} <br>
 											<div class='wt-calendar-record-info'>
-											<a href='#'>V{{$record -> volume -> number}} - {{$record -> number}}:
-												{{$record -> name}}
+											<a href='#'>Chapter {{$record -> number}}
 											</a>
 										@endif
 										</div>

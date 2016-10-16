@@ -26,8 +26,6 @@ class Manga extends Model implements Resource{
 
 		$schema -> string('type');
 
-		$schema -> string('scan');
-
 		$schema -> string('genres');
 
 		$schema -> text('overview');
@@ -109,7 +107,7 @@ class Manga extends Model implements Resource{
 				'manga_id' => $this -> id,
 			]);
 			
-			$chapter -> volume_n = $r_chapter -> volume,
+			$chapter -> volume_n = $r_chapter -> volume;
 			$chapter -> volume = $volume;
 			$chapter -> name = $r_chapter -> name;
 			$chapter -> scan = $r_chapter -> scan;

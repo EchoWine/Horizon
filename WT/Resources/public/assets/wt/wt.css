@@ -138,3 +138,8 @@
 .wt-get-manga-right-img{
     padding-left:15px;
 }
+
+.wt-seach-result-hover:hover{
+    background:#039BE5;
+    cursor:pointer;
+}

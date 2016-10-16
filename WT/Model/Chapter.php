@@ -31,6 +31,8 @@ class Chapter extends Model{
 
 		$schema -> string('volume_n');
 
+		$schema -> string('scan');
+
 		$schema -> datetime('released_at');
 
 		$schema -> text('overview');

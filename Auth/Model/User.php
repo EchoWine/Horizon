@@ -85,7 +85,7 @@ class User extends Model{
 			}
 		}
 
-
+		# This is slow because Manga is loading all chapters, need stop it
 		return empty($return) ? [] : Manga::whereIn('container_id',$return) -> get();
 	}
 }
