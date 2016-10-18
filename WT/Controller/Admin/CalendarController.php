@@ -47,7 +47,13 @@ class CalendarController extends Controller{
 		$collection = $datetime -> createCollectionMonth(true);
 
 		# Retrieve episodes
-		$episodes = Episode::where("DATE_FORMAT(aired_at,'%m-%Y')","$month-$year") -> get();
+		$episodes = Episode::where("DATE_FORMAT(aired_at,'%m-%Y')","$month-$year")
+		-> leftJoin('series','episodes.serie_id','series.id')
+		-> leftJoin('resource_containers','series.container_id','resource_containers.id')
+		-> leftJoin('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
+		-> where('resource_containers_users.user_id',Auth::user() -> id)
+		-> select('episodes.*')
+		-> get();
 
 		# Merge episodes with collection of days
 		foreach($episodes as $episode){
@@ -56,7 +62,13 @@ class CalendarController extends Controller{
 		}
 		
 		# Retrieve chapters
-		$resources = Chapter::where("DATE_FORMAT(released_at,'%m-%Y')","$month-$year") -> get();
+		$resources = Chapter::where("DATE_FORMAT(released_at,'%m-%Y')","$month-$year")
+		-> leftJoin('manga','chapters.manga_id','manga.id')
+		-> leftJoin('resource_containers','manga.container_id','resource_containers.id')
+		-> leftJoin('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
+		-> where('resource_containers_users.user_id',Auth::user() -> id)
+		-> select('chapters.*')
+		-> get();
 
 		# Merge episodes with collection of days
 		foreach($resources as $resource){
