@@ -43,7 +43,14 @@ class CalendarController extends Controller{
 		$year = $request -> query -> get('year',$datetime -> format('Y'));
 
 		# Create a collection of current period divining by weeks
-		$datetime = DateTime::createByMonthAndYear($month,$year);
+		try{
+			$datetime = DateTime::createByMonthAndYear($month,$year);
+		}catch(\Exception $e){
+			$datetime = (new DateTime()) -> startMonth();
+			$month = $datetime -> getMonth();
+			$year = $datetime -> getYear();
+		}
+
 		$collection = $datetime -> createCollectionMonth(true);
 
 		# Retrieve episodes
