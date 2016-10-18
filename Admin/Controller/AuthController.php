@@ -4,7 +4,7 @@ namespace Admin\Controller;
 
 use CoreWine\Http\Request;
 use CoreWine\Http\Router;
-use CoreWine\Component\Flash;
+use CoreWine\Http\Flash;
 use CoreWine\Component\Cfg;
 
 use Auth\Service\Auth;
