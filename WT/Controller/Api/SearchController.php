@@ -107,7 +107,7 @@ class SearchController extends Controller{
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
 		
 		
-		return $this -> json(WT::sync(
+		return $this -> json(WT::get(
 			$user,
 			$resource_type,
 			$resource_id

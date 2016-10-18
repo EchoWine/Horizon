@@ -206,11 +206,15 @@ class WT{
 	 */
 	public static function get($user,$resource_type,$resource_id){
 
-		$resource_class = self::getClassByType($resource_type);
+		try{
+			$resource_class = self::getClassByType($resource_type);
 
-		$resource = $resource_class::where('id',$resource_id) -> first();
-		
-		return $resource -> toArrayComplete();
+			$resource = $resource_class::where('id',$resource_id) -> first();
+			
+			return ['status' => 'success','data' => $resource -> toArrayComplete()];
+		}catch(\Exception $e){
+			return ['status' => 'error','message' => $e -> getMessage()];
+		}
 	}
 
 

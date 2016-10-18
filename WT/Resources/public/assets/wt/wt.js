@@ -277,89 +277,96 @@ WT.app.info = function(type,id){
 
 	WT.get(type,id,function(response){
 
-		/*
-		// Group episode in season
-		var seasons = [];
-		for(var i in response.episodes){
-			episode = response.episodes[i];
+		if(response.status == 'success'){
+			/*
+			// Group episode in season
+			var seasons = [];
+			for(var i in response.episodes){
+				episode = response.episodes[i];
 
-			if(typeof seasons[episode.season_n] == 'undefined')
-				seasons[episode.season_n] = [];
+				if(typeof seasons[episode.season_n] == 'undefined')
+					seasons[episode.season_n] = [];
 
-			seasons[episode.season_n].push(episode);
-		}
-
-
-		// Templating seasons
-		html_seasons = '';
-		for(var i in seasons){
-			var season = seasons[i];
-			html_episodes = '';
-			
-			// Templating episodes
-			for(e = 0; e < season.length; e++){
-				episode = season[e];
-				html_episodes += template.get('wt-get-episode',{
-					number: episode.number,
-					name: episode.name,
-					season: episode.season_n,
-					aired_at : episode.aired_at
-				});
-
+				seasons[episode.season_n].push(episode);
 			}
 
-			html_seasons += template.get('wt-get-season',{
-				'number': i,
-				'episodes': html_episodes,
-			});
 
-		}*/
+			// Templating seasons
+			html_seasons = '';
+			for(var i in seasons){
+				var season = seasons[i];
+				html_episodes = '';
+				
+				// Templating episodes
+				for(e = 0; e < season.length; e++){
+					episode = season[e];
+					html_episodes += template.get('wt-get-episode',{
+						number: episode.number,
+						name: episode.name,
+						season: episode.season_n,
+						aired_at : episode.aired_at
+					});
 
-		switch(response.status){
-			case 'continuing': case 'Ongoing':
-				status_type = 'primary';
-			break;
-			case 'ended':
-				status_type = 'danger';
-			break;
-			default:
-				status_type = 'default';
-			break;
+				}
+
+				html_seasons += template.get('wt-get-season',{
+					'number': i,
+					'episodes': html_episodes,
+				});
+
+			}*/
+
+			response = response.data;
+
+			switch(response.status){
+				case 'continuing': case 'Ongoing':
+					status_type = 'primary';
+				break;
+				case 'ended':
+					status_type = 'danger';
+				break;
+				default:
+					status_type = 'default';
+				break;
+			}
+
+
+			if(response.container.type == 'series'){
+
+				content = template.get('wt-get-serie',{
+					id:response.id,
+					name:response.name,
+					banner:response.banner,
+					overview:response.overview,
+					updated_at:response.updated_at,
+					status:response.status,
+					status_type:status_type,
+					database_id:response.container.database_id,
+					database_name:response.container.database_name
+				});
+			}
+
+			if(response.container.type == 'manga'){
+
+				content = template.get('wt-get-manga',{
+					id:response.id,
+					name:response.name,
+					poster:response.poster,
+					overview:response.overview,
+					updated_at:response.updated_at,
+					status:response.status,
+					status_type:status_type,
+					database_id:response.container.database_id,
+					database_name:response.container.database_name
+				});
+			}
+
+
+			modal.open('modal-wt-get',{"modal-wt-get-body":content});
+		}else{
+			console.log('Error:');
+			console.log(response);
 		}
-
-
-		if(response.container.type == 'series'){
-
-			content = template.get('wt-get-serie',{
-				id:response.id,
-				name:response.name,
-				banner:response.banner,
-				overview:response.overview,
-				updated_at:response.updated_at,
-				status:response.status,
-				status_type:status_type,
-				database_id:response.container.database_id,
-				database_name:response.container.database_name
-			});
-		}
-
-		if(response.container.type == 'manga'){
-
-			content = template.get('wt-get-manga',{
-				id:response.id,
-				name:response.name,
-				poster:response.poster,
-				overview:response.overview,
-				updated_at:response.updated_at,
-				status:response.status,
-				status_type:status_type,
-				database_id:response.container.database_id,
-				database_name:response.container.database_name
-			});
-		}
-
-
-		modal.open('modal-wt-get',{"modal-wt-get-body":content});
 	});
 	
 
