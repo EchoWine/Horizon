@@ -158,13 +158,14 @@ WT.app.discovery = function(value){
 
 		console.log(response);
 		$.map(response,function(service,key){
-			console.log(key);
 			$.map(service,function(resource){
 
 				var part = (resource.user == 1) ? 'library' : key;
 
 				html[part] += template.get('wt-search-result',{
 					database:resource.database,
+					resource_id:resource.resource.id,
+					resource_type:resource.container.type,
 					id:resource.id,
 					title:resource.name,
 					poster:resource.poster,
@@ -246,6 +247,8 @@ WT.app.add = function(database,id){
 
 			res = element.closest('.wt-search-result');
 			res.attr('wt-status-user',1);
+			res.find('[wt-remove]').attr('wt-remove',response.data.container.type+","+response.data.resource.id)
+
 			res.appendTo($('.wt-search-library'));
 
 		}
@@ -257,15 +260,7 @@ WT.app.sync = function(resource_type,resource_id){
 
 	WT.sync(resource_type,resource_id,function(response){
 
-		switch(response.status){
-			case 'error':
-				item.addAlert('alert-error','.alert-global',response);
-			break;
-			default:
-
-				item.addAlert('alert-'+response.status,'.alert-global',response);
-			break;
-		}
+		item.addAlert('alert-'+response.status,'.alert-global',response);
 	});
 
 };
@@ -476,10 +471,16 @@ $('body').on('click','[wt-remove]',function(e){
 
 	WT.remove(info[0],info[1],function(response){
 		WT.app.searching(false);
+
+
 		item.addAlert('alert-'+response.status,'.alert-global',response);
-		res = element.closest('.wt-search-result');
-		res.attr('wt-status-user',0);
-		res.appendTo($('.wt-search-discovery'));
+
+		if(response.status == 'success'){
+
+			res = element.closest('.wt-search-result');
+			res.attr('wt-status-user',0);
+			res.appendTo($('.wt-search-'+response.data.container.database_name));
+		}
 	
 	});
 

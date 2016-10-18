@@ -96,34 +96,35 @@ class SearchController extends Controller{
 	 * @GET
 	 *
 	 * @param Request $request
-	 * @param string $database
-	 * @param integer $id
+	 * @param string $resource_type
+	 * @param integer $resource_id
 	 *
 	 * @return Response
 	 */
-	public function get($request,$resource,$id){
+	public function get($request,$resource_type,$resource_id){
 		
 		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
 		
 		
-		return $this -> json(WT::get(
+		return $this -> json(WT::sync(
 			$user,
-			$resource,
-			$id
+			$resource_type,
+			$resource_id
 		));
+
 	}
 
 	/**
 	 * @POST
 	 *
 	 * @param Request $request
-	 * @param string $database
-	 * @param integer $id
+	 * @param string $resource_type
+	 * @param integer $resource_id
 	 *
 	 * @return Response
 	 */
-	public function sync($request,$resource,$id){
+	public function sync($request,$resource_type,$resource_id){
 		
 		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
@@ -131,8 +132,8 @@ class SearchController extends Controller{
 		
 		return $this -> json(WT::sync(
 			$user,
-			$resource,
-			$id
+			$resource_type,
+			$resource_id
 		));
 
 	}
@@ -141,21 +142,21 @@ class SearchController extends Controller{
 	 * @DELETE
 	 *
 	 * @param Request $request
-	 * @param string $database
-	 * @param integer $id
+	 * @param string $resource_type
+	 * @param integer $resource_id
 	 *
 	 * @return Response
 	 */
-	public function remove($request,$resource,$id){
+	public function remove($request,$resource_type,$resource_id){
 
-		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
+		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
 			return $this -> json(['status' => 'error','message' => 'Token invalid']);
 		
 		
 		return $this -> json(WT::delete(
 			$user,
-			$resource,
-			$id
+			$resource_type,
+			$resource_id
 		));
 	}
 

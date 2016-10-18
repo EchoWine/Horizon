@@ -71,5 +71,5 @@ http.put = function(url,params,callback){
  * @param {function} callback
  */
 http.delete = function(url,params,callback){
-	return http.ajax('DELETE',url,params,callback);
+	return http.ajax('DELETE',url+"?"+$.param(params),{},callback);
 };

@@ -131,6 +131,10 @@ item.addAlert = function(type,destination,data){
 
 	det = '';
 
+	if(type == 'alert-error'){
+		type = 'alert-danger';
+	}
+
 	for(index in data.details){
 		detail = data.details[index];
 		det += template.get('alert-details',{

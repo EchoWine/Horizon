@@ -76,7 +76,8 @@ class WT{
 	public static function discovery($user,$database_name,$key){
 
 		$response = [];
-			
+	
+
 		foreach(self::$managers as $manager){
 
 			$manager = new $manager();
@@ -85,22 +86,35 @@ class WT{
 				$response[$manager -> getName()] = $manager -> discovery($key);
 
 				foreach($response[$manager -> getName()] as $n => $k){
-					$container = ResourceContainer::where(['database_name' => $manager -> getName(),'database_id' => $k['id']]) -> first();
+
+					$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
 					
+
 					if($container){
-						$u = $container -> users -> has($user);
+
+
+						$u = $container -> users -> has($user) ? 1 : 0;
+
 						$r = 1;
 
+						$resource_class = self::getClassByType($container -> type);
+						$resource = $resource_class::where('container_id',$container -> id) -> first();
+
 						$response[$manager -> getName()][$n]['container'] = $container -> toArray();
+						$response[$manager -> getName()][$n]['resource'] = $resource -> toArray();
 					}else{
 						$r = 0;
 						$u = 0;
+
+						$response[$manager -> getName()][$n]['container'] = [];
+						$response[$manager -> getName()][$n]['resource'] = [];
 					}
 					
 					$response[$manager -> getName()][$n]['library'] = $r;
 					$response[$manager -> getName()][$n]['user'] = $u;
 
 				}
+
 			}
 
 		}
@@ -126,16 +140,20 @@ class WT{
 
 			if($container){
 
+				$resource_class = self::getClassByType($container -> type);
+
+				$resource = $resource_class::where('container_id',$container -> id) -> first();
+
 				if($container -> users -> has($user)){
 
-					return ['message' => 'Already added','status' => 'info'];
+					return ['message' => 'Already added','status' => 'info','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 
 				}else{
 
 					$container -> users -> add($user);
 					$container -> users -> save();
 
-					return ['message' => 'Added resource to library','status' => 'success'];
+					return ['message' => 'Added resource to library','status' => 'success','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 				}
 
 			}else{
@@ -166,7 +184,7 @@ class WT{
 				$container -> users -> add($user);
 				$container -> users -> save();
 
-			return ['message' => 'Added new resource','status' => 'success'];
+			return ['status' => 'success','message' => 'Added new resource','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 			}
 
 		}catch(\Exception $e){
@@ -250,34 +268,37 @@ class WT{
 	 * Delete a resource
 	 *
 	 * @param string $user
-	 * @param string $resource
-	 * @param string $database
-	 * @param mixed $id
+	 * @param string $resource_type
+	 * @param int $resource_id
 	 *
 	 * @return array
 	 */
-	public static function delete($user,$manager_type,$database,$id){
+	public static function delete($user,$resource_type,$resource_id){
 
 		try{
 
 			$response = [];
 
-			$model = self::getClassByType($manager_type);
+			$model = self::getClassByType($resource_type);
 
 			if(!$model)
 				throw new \Exception("Resource type name invalid");
 			
-			$resource = ResourceContainer::where(['database_name' => $database,'database_id' => $id]) -> first();
+			$resource = $model::where('id',$resource_id) -> first();
 
 			if(!$resource)
 				throw new \Exception("The resource doesn't exists");
 
-			if(!$resource -> users -> has($user))
+			$container = $resource -> container;
+
+			if(!$container -> users -> has($user))
 				throw new \Exception("The resource insn't in library");
 
 
-			$resource -> users -> remove($user);
-			$resource -> users -> save();
+			$container -> users -> remove($user);
+			$container -> users -> save();
+
+			# Delete resource if not user have it? 
 
 
 		}catch(\Exception $e){
@@ -286,7 +307,7 @@ class WT{
 		}
 			
 		
-		return ['status' => 'success','message' => 'Deleted'];
+		return ['status' => 'success','message' => 'Deleted','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 	}
 
 
