@@ -64,7 +64,7 @@ class CalendarController extends Controller{
 
 		# Merge episodes with collection of days
 		foreach($episodes as $episode){
-			$aired_at = new DateTime($episode -> aired_at);
+			$aired_at = $episode -> aired_at;
 			$collection[$aired_at -> getWeek()][$aired_at -> format('Y-m-d')]['data'][] = $episode;
 		}
 		
@@ -79,7 +79,7 @@ class CalendarController extends Controller{
 
 		# Merge episodes with collection of days
 		foreach($resources as $resource){
-			$released_at = new DateTime($resource -> released_at);
+			$released_at = $resource -> released_at;
 			$collection[$released_at -> getWeek()][$released_at -> format('Y-m-d')]['data'][] = $resource;
 		}
 

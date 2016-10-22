@@ -6,6 +6,7 @@ use CoreWine\DataBase\ORM\Model;
 use CoreWine\DataBase\ORM\Field\Schema as Field;
 use Auth\Field\Schema as AuthField;
 
+use WT\Model\ResourceContainer;
 use WT\Model\ResourceContainerUser;
 use WT\Model\Serie;
 use WT\Model\Manga;
@@ -41,10 +42,7 @@ class User extends Model{
 
 		$schema -> toMany(Session::class,'sessions','user_id');
 
-        $schema -> toMany(ResourceContainerUser::class,'user_containers','user_id')
-                -> to('containers','container');
-
-
+        $schema -> throughMany('containers',ResourceContainer::class) -> resolver(ResourceContainerUser::class,'user','container');
 	}
 
 	/**

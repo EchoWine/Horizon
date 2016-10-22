@@ -32,9 +32,8 @@ class ResourceContainer extends Model{
 
 		$schema -> updated_at();
 
-        $schema -> toMany(ResourceContainerUser::class,'container_users','container_id')
-                -> to('users','user');
 
+        $schema -> throughMany('users',ResourceContainer::class) -> resolver(ResourceContainerUser::class,'container','user');
 
 	}
 }
