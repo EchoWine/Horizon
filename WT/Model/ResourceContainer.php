@@ -3,6 +3,7 @@
 namespace WT\Model;
 
 use CoreWine\DataBase\ORM\Model;
+use Auth\Model\User;
 
 class ResourceContainer extends Model{
 
@@ -33,7 +34,7 @@ class ResourceContainer extends Model{
 		$schema -> updated_at();
 
 
-        $schema -> throughMany('users',ResourceContainer::class) -> resolver(ResourceContainerUser::class,'container','user');
+        $schema -> throughMany('users',User::class) -> resolver(ResourceContainerUser::class,'container','user');
 
 	}
 }

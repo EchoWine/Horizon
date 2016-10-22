@@ -91,62 +91,71 @@ class TheTVDB extends Basic{
 			try{
 
 				if($resource){
-					# Send request for banners
-					$response = $client -> request($this -> url_api.$this -> token."/series/".$resource -> seriesid."/banners.xml");
+					if(substr($resource -> SeriesName,0,6) == '** 403'){
 
-					if(!($banners = Str::xml($response)))
-						throw new \Exception();
+						# Series blocked by policy
 
+					}else{
+						# Send request for banners
+						$response = $client -> request($this -> url_api.$this -> token."/series/".$resource -> seriesid."/banners.xml");
 
-					if(!isset($banners -> Banner))
-						throw new \Exception();
-
-					$banners = $banners -> Banner;
-
-					if(!is_array($banners))
-						$banners = [$banners];
-
-					foreach($banners as $banner){
-						if($banner -> BannerType == 'poster'){
-
-							try{
+						if(!($banners = Str::xml($response)))
+							throw new \Exception();
 
 
-								# Get image
-								$response = $client -> request($this -> url_public."banners/".$banner -> BannerPath);
+						if(!isset($banners -> Banner))
+							throw new \Exception();
 
-								if($response){
+						$banners = $banners -> Banner;
 
-									# Save image
-									$banner = $this -> url_public."banners/".$banner -> BannerPath;
-									break;
-								}else{
+						if(!is_array($banners))
+							$banners = [$banners];
+
+						foreach($banners as $banner){
+							if($banner -> BannerType == 'poster'){
+
+								try{
+
+
+									# Get image
+									$response = $client -> request($this -> url_public."banners/".$banner -> BannerPath);
+
+									if($response){
+
+										# Save image
+										$banner = $this -> url_public."banners/".$banner -> BannerPath;
+										break;
+									}else{
+										$banner = '';
+									}
+								}catch(\Exception $e){
+
 									$banner = '';
 								}
-							}catch(\Exception $e){
-
-								$banner = '';
 							}
 						}
+
+						$resource = Objects\SerieObject::short($resource);
+						$return[$resource -> id] = [
+							'database' => $this -> getName(),
+							'type' => 'series',
+							'id' => $resource -> id,
+							'language' => $resource -> language,
+							'name' => $resource -> name,
+							'poster' => $banner,
+							'overview' => $resource -> overview,
+							'first_aired' => $resource -> first_aired_at,
+							'network' => $resource -> network,
+						];
 					}
+			
 				}
 			}catch(\Exception $e){
 
 				$banner = '';
 			}
 
-			$resource = Objects\SerieObject::short($resource);
-			$return[$resource -> id] = [
-				'database' => $this -> getName(),
-				'type' => 'series',
-				'id' => $resource -> id,
-				'language' => $resource -> language,
-				'name' => $resource -> name,
-				'poster' => $banner,
-				'overview' => $resource -> overview,
-				'first_aired' => $resource -> first_aired_at,
-				'network' => $resource -> network,
-			];
+	
 		}
 
 		Cache::set($name_request,$return,3600);
