@@ -87,8 +87,6 @@ class Manga extends Model implements Resource{
 		if($response -> banner)
 			$this -> banner() -> setByUrl($response -> banner);
 
-		$this -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-
 		$this -> save();
 
 
@@ -112,7 +110,6 @@ class Manga extends Model implements Resource{
 			$chapter -> name = $r_chapter -> name;
 			$chapter -> scan = $r_chapter -> scan;
 			$chapter -> released_at = $r_chapter -> released_at;
-			$chapter -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
 			$chapter -> save();
 
 		}

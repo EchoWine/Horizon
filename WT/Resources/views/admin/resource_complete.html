@@ -40,7 +40,7 @@
 							<tr>
 								<td>{{$episode -> number}}. {{$episode -> name}}</td>
 								<td><a href='#'><i class='fa fa-external-link'></i>&nbsp;Watch</a></td>
-								<td>{{(new \DateTime($episode -> aired_at)) -> format('d-m-Y')}}</td>
+								<td>{{$episode -> aired_at -> format('d-m-Y')}}</td>
 							</tr>
 						@endforeach
 					@endforeach
@@ -60,7 +60,7 @@
 						<tr>
 							<td>Chapter {{$chapter -> number}}</td>
 							<td><a target='_blank' href='{{$chapter -> scan}}'><i class='fa fa-external-link'></i>&nbsp;Read</a></td>
-							<td>{{(new \DateTime($chapter -> released_at)) -> format('d-m-Y')}}</td>
+							<td>{{$chapter -> released_at -> format('d-m-Y')}}</td>
 						</tr>
 					@endforeach
 				</table>

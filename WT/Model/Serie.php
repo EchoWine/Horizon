@@ -84,8 +84,6 @@ class Serie extends Model implements Resource{
 		if($response -> banner)
 			$this -> banner() -> setByUrl($response -> banner);
 
-		$this -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-
 		$this -> save();
 
 
@@ -106,8 +104,7 @@ class Serie extends Model implements Resource{
 
 			$episode -> name = $r_episode -> name;
 			$episode -> overview = $r_episode -> overview;
-			$episode -> aired_at = $r_episode -> aired_at;
-			$episode -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s');
+			$episode -> aired_at = $r_episode -> aired_at." 00:00:00";
 			$episode -> save();
 
 		}
