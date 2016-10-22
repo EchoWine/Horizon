@@ -9,13 +9,15 @@
 }
 
 .wt-search-result{
-	margin: 3px;
     border: 1px solid #DDD;
     padding: 5px;
-    width: 171px;
-    max-width: 171px;
+    width: 100%;
     flex-grow: 1;
     text-decoration: none;
+}
+
+.wt-search-result-container{
+    padding:5px;
 }
 
 .wt-search-result .button{
@@ -23,7 +25,6 @@
 }
 
 .wt-search-img{
-    height: 240px;
     margin-top: 5px;
     background: black;
 }

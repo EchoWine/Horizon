@@ -36,97 +36,103 @@
 <body>
 
 	@block('body')
-		<div class='ly-container ly-container-layout'>
+		<div class='ly-row ly-row-desktop'>
 
-			<div class='ly-element-column ly-container-layout nav-container'>
-				<div class='header nav-header'>
-				
-					@block('nav_head')
-						<div class='ly-container-center nav-header-icon-container'>
-							<i class='fa fa-glass' aria-hidden='true'></i>
-						</div>
-						<span class='nav-header-name'>Gate</span>
-					@endblock
 
-					<i class='fa fa-list nav-header-menu-icon' aria-hidden='true'></i>
+			<div class='ly-row ly-center left-container header nav-header'>
+			
+				@block('nav_head')
+					<div class='ly-row ly-center nav-header-icon-container'>
+						<i class='fa fa-glass' aria-hidden='true'></i>
+					</div>
+					<span class='nav-header-name'>Gate</span>
+				@endblock
+
+				<i class='fa fa-list nav-header-menu-icon' aria-hidden='true'></i>
+				<div class='ly-show-sm'>
+					<form method='GET' action="{{route('admin/logout')}}">
+						<button type='submit'>
+							<div class='page-header-button ly-center'><i class='page-header-icon fa fa-sign-out'></i> </div>
+						</button>
+					</form>
 				</div>
-				<div class='nav-content'>
-					@block('nav')
-					@endblock
+
+			</div>
+
+			<div class='ly-row ly-center header ly-fill ly-hidden-sm'>
+				<div class='ly-fill'></div>
+				<div class='page-header-separator'></div>
+				<div class='page-header-button ly-center'>{{Auth::getUserDisplay()}}</div>
+				<div class='page-header-separator'></div>
+				<div>
+					<form method='GET' action="{{route('admin/logout')}}">
+						<button type='submit'>
+							<div class='page-header-button ly-center'><i class='page-header-icon fa fa-sign-out'></i> </div>
+						</button>
+					</form>
 				</div>
 			</div>
-			<span></span>
-			</span>
-		</li>
 
-			<div class='ly-element-column ly-container page-container'>
-				<div class='header page-header'>
-					<div class='page-header-main'></div>
-					<div class='page-header-separator'></div>
-					<div class='page-header-button ly-container-center'>{{Auth::getUserDisplay()}}</div>
-					<div class='page-header-separator'></div>
-					<div>
-						<form method='GET' action="{{route('admin/logout')}}">
-							<button type='submit'>
-								<div class='page-header-button ly-container-center'><i class='page-header-icon fa fa-sign-out'></i> </div>
-							</button>
-						</form>
-					</div>
+		</div>
+
+		<div class='ly-row ly-row-desktop ly-container'>
+			<div class='nav-content left-container'>
+				@block('nav')
+				@endblock
+			</div>
+			<div class='page-content'>
+				<!--
+				<div class='page-nav'>
+					@block('page-nav')
+						<div class='page-nav-path'>
+							<i class='fa fa-home'></i>
+							<div class='page-nav-path-sub'><i class='fa fa-angle-right'></i></div>
+							<div class='page-nav-path-element'>Home</div>
+						</div>
+						<div class='page-title'>
+							<h1>Title</h1>
+						</div>
+					@endblock
 				</div>
-				<div class='page-content'>
-					<!--
-					<div class='page-nav'>
-						@block('page-nav')
-							<div class='page-nav-path'>
-								<i class='fa fa-home'></i>
-								<div class='page-nav-path-sub'><i class='fa fa-angle-right'></i></div>
-								<div class='page-nav-path-element'>Home</div>
-							</div>
-							<div class='page-title'>
-								<h1>Title</h1>
-							</div>
-						@endblock
+				-->
+				@block('alerts')
+
+					<!-- ALERT DETAILS -->
+					<div data-template='alert-details'>
+						<li>{message}</li>
 					</div>
-					-->
-					@block('alerts')
 
-						<!-- ALERT DETAILS -->
-						<div data-template='alert-details'>
-							<li>{message}</li>
-						</div>
+					<!-- ALERT SUCCESS TEMPLATE -->	
+					<div data-template='alert-success'>
+						<div class='alert alert-success'>{message}<ul>{details}</ul></div>
+					</div>
 
-						<!-- ALERT SUCCESS TEMPLATE -->	
-						<div data-template='alert-success'>
-							<div class='alert alert-success'>{message}<ul>{details}</ul></div>
-						</div>
+					<!-- ALERT DANGER TEMPLATE -->
+					<div data-template='alert-danger'>
+						<div class='alert alert-danger'>{message}<ul>{details}</ul></div>
+					</div>
 
-						<!-- ALERT DANGER TEMPLATE -->
-						<div data-template='alert-danger'>
-							<div class='alert alert-danger'>{message}<ul>{details}</ul></div>
-						</div>
+					<!-- ALERT DANGER INFO -->
+					<div data-template='alert-info'>
+						<div class='alert alert-info'>{message}<ul>{details}</ul></div>
+					</div>
+					
+					<div class='page-section'>
+						<div class='alert-global'></div>
+					</div>
 
-						<!-- ALERT DANGER INFO -->
-						<div data-template='alert-info'>
-							<div class='alert alert-info'>{message}<ul>{details}</ul></div>
-						</div>
-						
+
+				@endblock
+				@block('page-content')
+
+
+					<div class='ly-row'>
 						<div class='page-section'>
-							<div class='alert-global'></div>
+							Contenuto
 						</div>
+					</div>
+				@endblock
 
-
-					@endblock
-					@block('page-content')
-
-
-						<div class='ly-row'>
-							<div class='page-section'>
-								Contenuto
-							</div>
-						</div>
-					@endblock
-
-				</div>
 			</div>
 		</div>
 	@endblock

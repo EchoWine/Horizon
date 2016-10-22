@@ -6,6 +6,10 @@
 	padding:20px;
 }
 
+.nav-header button{
+	color:white;
+}
+
 .section-title{
 	margin:0;
 	font-size:18px;
