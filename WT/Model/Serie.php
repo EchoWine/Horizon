@@ -104,7 +104,10 @@ class Serie extends Model implements Resource{
 
 			$episode -> name = $r_episode -> name;
 			$episode -> overview = $r_episode -> overview;
-			$episode -> aired_at = $r_episode -> aired_at." 00:00:00";
+
+			if($r_episode -> aired_at)
+				$episode -> aired_at = $r_episode -> aired_at." 00:00:00";
+
 			$episode -> save();
 
 		}
