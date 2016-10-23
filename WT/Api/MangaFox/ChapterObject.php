@@ -4,6 +4,8 @@ namespace WT\Api\MangaFox;
 
 use WT\Api\Object;
 
+use DateTime;
+
 class ChapterObject extends Object{
 
 	/**
@@ -26,7 +28,7 @@ class ChapterObject extends Object{
 				$c -> releaset_at = (new DateTime()) -> setTime(00,00,00) -> modify('-1 days') -> format('Y-m-d H:i:s');
 			break;
 			default:
-				$c -> released_at = \DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+				$c -> released_at = DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
 			break;
 		}
 		

@@ -73,7 +73,7 @@ class Manga extends Model implements Resource{
 	 * @param Container $container
 	 */
 	public function fillFromDatabaseApi($response,$container){
-		
+
 		$this -> container = $container;
 
 		$this -> name = $response -> name;
@@ -109,7 +109,7 @@ class Manga extends Model implements Resource{
 			$chapter -> volume = $volume;
 			$chapter -> name = $r_chapter -> name;
 			$chapter -> scan = $r_chapter -> scan;
-			$chapter -> released_at = $r_chapter -> released_at;
+			$chapter -> released_at = new \DateTime($r_chapter -> released_at);
 			$chapter -> save();
 
 		}
