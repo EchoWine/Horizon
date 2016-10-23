@@ -81,7 +81,7 @@ class MangaFox extends Basic{
 
 		$response = $client -> request($this -> url."search.php",'GET',$params);
 
-		
+
 		$collection = CollectionObject::create($response);
 
 		foreach($collection as $n => $row){

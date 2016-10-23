@@ -17,7 +17,18 @@ class ChapterObject extends Object{
 
 		# Retrieve date
 		$date = $dom -> getElementsByTagName('span') -> item(0) -> nodeValue;
-		$c -> released_at = \DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+
+		switch($date){
+			case 'Today':
+				$c -> releaset_at = (new DateTime()) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+			break;
+			case 'Yesterday':
+				$c -> releaset_at = (new DateTime()) -> setTime(00,00,00) -> modify('-1 days') -> format('Y-m-d H:i:s');
+			break;
+			default:
+				$c -> released_at = \DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+			break;
+		}
 		
 		# Basic info from link
 		$name = $dom -> getElementsByTagName('a') -> item(1) ;

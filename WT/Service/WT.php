@@ -75,7 +75,7 @@ class WT{
 	 */
 	public static function discovery($user,$database_name,$key){
 
-		$response = [];
+		$response = new Collection();
 	
 
 		foreach(self::$managers as $manager){
@@ -88,13 +88,12 @@ class WT{
 				foreach($response[$manager -> getName()] as $n => $k){
 
 					$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
-					
+
 
 					if($container){
 
 
 						$u = $container -> users -> has($user) ? 1 : 0;
-
 						$r = 1;
 
 						$resource_class = self::getClassByType($container -> type);
