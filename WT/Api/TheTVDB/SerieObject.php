@@ -57,7 +57,10 @@ class SerieObject extends Object{
 		$obj -> episodes = [];
 		
 		foreach($resource -> Episode as $episode){
-			$obj -> episodes[] = new EpisodeObject($episode);
+			$episode_obj = new EpisodeObject($episode);
+
+			if($episode_obj -> name)
+				$obj -> episodes[] = $episode_obj;
 		}
 
 		return $obj;

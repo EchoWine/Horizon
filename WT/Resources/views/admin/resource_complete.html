@@ -40,7 +40,13 @@
 							<tr>
 								<td>{{$episode -> number}}. {{$episode -> name}}</td>
 								<td><a href='#'><i class='fa fa-external-link'></i>&nbsp;Watch</a></td>
-								<td>{{$episode -> aired_at -> format('d-m-Y')}}</td>
+								<td>
+									@if($episode -> aired_at)
+										{{$episode -> aired_at -> format('d-m-Y')}}
+									@else
+										Unknow 
+									@endif
+								</td>
 							</tr>
 						@endforeach
 					@endforeach
