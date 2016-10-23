@@ -38,9 +38,9 @@ class Manga extends Model implements Resource{
 
 		$schema -> toOne(ResourceContainer::class,'container');
 
-		$schema -> toMany(Season::class,'volumes','manga_id');
+		$schema -> toMany('volumes',Volume::class,'manga');
 
-		$schema -> toMany(Chapter::class,'chapters','manga_id');
+		$schema -> toMany('chapters',Chapter::class,'manga');
 		
 		$schema -> updated_at();
 

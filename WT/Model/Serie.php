@@ -36,9 +36,9 @@ class Serie extends Model implements Resource{
 
 		$schema -> toOne(ResourceContainer::class,'container');
 
-		$schema -> toMany(Season::class,'seasons','serie_id');
+		$schema -> toMany('seasons',Season::class,'serie');
 
-		$schema -> toMany(Episode::class,'episodes','serie_id');
+		$schema -> toMany('episodes',Episode::class,'serie');
 		
 		$schema -> updated_at();
 

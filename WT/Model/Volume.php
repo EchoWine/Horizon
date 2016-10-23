@@ -27,7 +27,7 @@ class Volume extends Model{
 
 		$schema -> toOne(Manga::class,'manga');
 
-		$schema -> toMany(Chapter::class,'chapters','manga_id');
+		$schema -> toMany('chapters',Chapter::class,'manga');
 
 	}
 }
