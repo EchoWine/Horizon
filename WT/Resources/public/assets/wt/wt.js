@@ -247,7 +247,8 @@ WT.app.add = function(database,id){
 
 			res = element.closest('.wt-search-result');
 			res.attr('wt-status-user',1);
-			res.find('[wt-remove]').attr('wt-remove',response.data.container.type+","+response.data.resource.id)
+			res.find('[wt-remove]').attr('wt-remove',response.data.container.type+","+response.data.resource.id);
+			res = res.closest('.wt-search-result-container');
 
 			res.appendTo($('.wt-search-library'));
 
@@ -486,6 +487,7 @@ $('body').on('click','[wt-remove]',function(e){
 
 			res = element.closest('.wt-search-result');
 			res.attr('wt-status-user',0);
+			res = res.closest('.wt-search-result-container');
 			res.appendTo($('.wt-search-'+response.data.container.database_name));
 		}
 	
