@@ -378,8 +378,19 @@ WT.app.info = function(type,id){
 }
 
 
-
-
+/**
+ * Return a date object given string
+ *
+ * @param String date
+ * 
+ * @return Date
+ */
+WT.app.date = function(date){
+   	parts = date.split(' ');
+    time = parts[1].split(':');
+    date = parts[0].split('-');
+    return new Date(date[0], parseInt(date[1], 10) - 1, date[2], time[0], time[1], time[2]);
+};
 
 /**
  * @Application
@@ -404,6 +415,7 @@ WT.app.syncAll = function(){
 		if(attempt > 3)
 			manager(results,i+1,1,length);
 
+
 		if(WT.stop_sync)
 			return;
 
@@ -415,14 +427,17 @@ WT.app.syncAll = function(){
 		}
 
 		resource = results[i];
-		
 
+		
 		attempt_text = attempt == 0 ? '' : ' #'+(attempt)+'';
 		status.html(resource.name+attempt_text);
 		p = (i + 1) * (100 / length);
 		p = parseFloat(p).toFixed(2);
 		progress.html(p+"%");
 		bar.find('span').css('width',p+"%");
+
+		if(((new Date) - WT.app.date(resource.updated_at)) < (1000*60*45))
+			manager(results,i+1,1,length);
 
 		WT.sync(resource.type,resource.id,function(response){
 			if(response.status == 'success'){
