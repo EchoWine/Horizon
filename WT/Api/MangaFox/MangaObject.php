@@ -53,8 +53,11 @@ class MangaObject extends Object{
 		$keywords = $dom -> getElementsByAttribute('name','keywords') -> item(0) -> getAttribute('content');
 		$o -> name = explode(",",$keywords)[0];
 
+
 		# Overview
-		$o -> overview = $dom -> getElementsByAttribute('class','summary') -> item(0) -> nodeValue;
+
+		$summary = $dom -> getElementsByAttribute('class','summary') -> item(0);
+		$o -> overview = $summary ? $summary -> nodeValue : '';
 		
 		# Genres
 		$genres = $dom -> getElementsByAttribute('valign','top') -> item(3) -> nodeValue;
