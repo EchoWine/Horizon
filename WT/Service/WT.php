@@ -327,7 +327,6 @@ class WT{
 		$series -> addParam('type','series');
 		$collection = $collection -> merge($series);
 
-
 		return $collection;
 	}
 	/**

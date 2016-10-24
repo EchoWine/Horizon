@@ -176,7 +176,6 @@ WT.app.discovery = function(value){
 			});
 		});
 
-		console.log(html);
 		WT.app.addResultSearch('.wt-search-library',html['library']);
 
 		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
@@ -262,6 +261,7 @@ WT.app.sync = function(resource_type,resource_id){
 	WT.sync(resource_type,resource_id,function(response){
 
 		item.addAlert('alert-'+response.status,'.alert-global',response);
+		modal.close("modal-wt-get");
 	});
 
 };
@@ -342,6 +342,7 @@ WT.app.info = function(type,id){
 					updated_at:response.updated_at,
 					status:response.status,
 					status_type:status_type,
+					container_type:response.container.type,
 					database_id:response.container.database_id,
 					database_name:response.container.database_name
 				});
@@ -357,6 +358,7 @@ WT.app.info = function(type,id){
 					updated_at:response.updated_at,
 					status:response.status,
 					status_type:status_type,
+					container_type:response.container.type,
 					database_id:response.container.database_id,
 					database_name:response.container.database_name
 				});
@@ -397,6 +399,8 @@ WT.app.syncAll = function(){
 
 	var manager = function(results,i,attempt,length){
 
+
+
 		if(WT.stop_sync)
 			return;
 
@@ -408,10 +412,11 @@ WT.app.syncAll = function(){
 		}
 
 		resource = results[i];
+		
 
 		attempt_text = attempt == 0 ? '' : ' #'+(attempt)+'';
 		status.html(resource.name+attempt_text);
-		p = (i + 1) * (length / 100);
+		p = (i + 1) * (100 / length);
 		p = parseFloat(p).toFixed(2);
 		progress.html(p+"%");
 		bar.find('span').css('width',p+"%");
