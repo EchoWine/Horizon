@@ -412,8 +412,10 @@ WT.app.syncAll = function(){
 
 	var manager = function(results,i,attempt,length){
 
-		if(attempt > 3)
+		if(attempt > 3){
 			manager(results,i+1,1,length);
+			return;
+		}
 
 
 		if(WT.stop_sync)
@@ -436,8 +438,10 @@ WT.app.syncAll = function(){
 		progress.html(p+"%");
 		bar.find('span').css('width',p+"%");
 
-		if(((new Date) - WT.app.date(resource.updated_at)) < (1000*60*45))
+		if(((new Date) - WT.app.date(resource.updated_at)) < (1000*60*45)){
 			manager(results,i+1,1,length);
+			return;
+		}
 
 		WT.sync(resource.type,resource.id,function(response){
 			if(response.status == 'success'){
