@@ -401,7 +401,8 @@ WT.app.syncAll = function(){
 
 	var manager = function(results,i,attempt,length){
 
-
+		if(attempt > 3)
+			manager(results,i+1,1,length);
 
 		if(WT.stop_sync)
 			return;
