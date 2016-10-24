@@ -20,16 +20,31 @@ class ChapterObject extends Object{
 		# Retrieve date
 		$date = $dom -> getElementsByTagName('span') -> item(0) -> nodeValue;
 
-		switch($date){
-			case 'Today':
-				$c -> releaset_at = (new DateTime()) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
-			break;
-			case 'Yesterday':
-				$c -> releaset_at = (new DateTime()) -> setTime(00,00,00) -> modify('-1 days') -> format('Y-m-d H:i:s');
-			break;
-			default:
-				$c -> released_at = DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
-			break;
+		if(preg_match("/^([0-9]*) ([\w]*) ago$/",$date,$res)){
+
+			$types = [
+				'minutes','minute','seconds','second','hours','hour','days','day'
+			];
+
+			if(in_array($res[2],$types)){
+
+				$c -> released_at = (new DateTime()) -> modify("-".$res[1]." ".$res[2]) -> format('Y-m-d H:i:s');
+
+			}else{
+				throw new \Exception("MangaFox | Chapter released_at: Format ".$res[2]." not supported");
+			}
+	
+		}elseif($date == 'Today'){
+
+			$c -> released_at = (new DateTime()) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+
+		}elseif($date == 'Today'){
+
+			$c -> released_at = (new DateTime()) -> setTime(00,00,00) -> modify('-1 days') -> format('Y-m-d H:i:s');
+
+		}else{
+			$c -> released_at = DateTime::createFromFormat('M d, Y', $date) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
+
 		}
 		
 		# Basic info from link

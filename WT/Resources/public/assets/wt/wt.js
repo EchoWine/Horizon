@@ -242,15 +242,17 @@ WT.app.add = function(database,id){
 		
 		item.addAlert('alert-'+response.status,'.alert-global',response);
 
-		if(element){
+		if(response.status == 'success'){
+			if(element){
 
-			res = element.closest('.wt-search-result');
-			res.attr('wt-status-user',1);
-			res.find('[wt-remove]').attr('wt-remove',response.data.container.type+","+response.data.resource.id);
-			res = res.closest('.wt-search-result-container');
+				res = element.closest('.wt-search-result');
+				res.attr('wt-status-user',1);
+				res.find('[wt-remove]').attr('wt-remove',response.data.container.type+","+response.data.resource.id);
+				res = res.closest('.wt-search-result-container');
 
-			res.appendTo($('.wt-search-library'));
+				res.appendTo($('.wt-search-library'));
 
+			}
 		}
 	});
 
