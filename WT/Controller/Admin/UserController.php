@@ -35,6 +35,7 @@ class UserController extends AdminController{
 			$view -> username();
 			$view -> email();
 			$view -> token();
+			$view -> password();
 
 		});
 
@@ -42,7 +43,7 @@ class UserController extends AdminController{
 			$view -> username();
 			$view -> email();
 			$view -> token();
-
+			$view -> password();
 		});
 
 		$views -> get(function($view){

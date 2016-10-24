@@ -329,9 +329,14 @@ abstract class Controller extends SourceController{
 				$new_model = $this -> getModel()::copy($from_model);
 
 
+				if(!$new_model){
+					throw new \Exception("Unexpected error: ".json_encode($this -> getModel()::getLastValidate()));
+				}
+
 				$models[] = ['from' => $from_model,'new' => $new_model];
 
 			}
+
 
 			# Return success
 			return new Response\ApiCopySuccess($models);

@@ -63,16 +63,6 @@ class Schema extends FieldSchema{
 	public $min_length = 1;
 
 	/**
-	 * Edit if empty
-	 *
-	 * If this value is set to false and the value of field sent in update operation is empty,
-	 * then this field will be removed in edit/update operation
-	 *
-	 * @var bool
-	 */
-	public $edit_if_empty = false;
-
-	/**
 	 * Include field in toArray operations
 	 *
 	 * @var bool
