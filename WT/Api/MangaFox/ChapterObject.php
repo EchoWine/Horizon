@@ -38,7 +38,7 @@ class ChapterObject extends Object{
 
 			$c -> released_at = (new DateTime()) -> setTime(00,00,00) -> format('Y-m-d H:i:s');
 
-		}elseif($date == 'Today'){
+		}elseif($date == 'Yesterday'){
 
 			$c -> released_at = (new DateTime()) -> setTime(00,00,00) -> modify('-1 days') -> format('Y-m-d H:i:s');
 
