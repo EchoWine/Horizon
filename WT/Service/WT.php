@@ -285,17 +285,17 @@ class WT{
 			$model = self::getClassByType($resource_type);
 
 			if(!$model)
-				throw new \Exception("Resource type name invalid");
+				throw new \Exception("Resource type {$resource_type} name invalid");
 			
 			$resource = $model::where('id',$resource_id) -> first();
 
 			if(!$resource)
-				throw new \Exception("The resource doesn't exists");
+				throw new \Exception("The resource #{$resource_id} doesn't exists");
 
 			$container = $resource -> container;
 
 			if(!$container -> users -> has($user))
-				throw new \Exception("The resource insn't in library");
+				throw new \Exception("The resource #{$resource_id} insn't in library");
 
 
 			$container -> users -> remove($user);
@@ -317,15 +317,16 @@ class WT{
 	public static function all($user){
 		$collection = new Collection();
 
+		$resources = Serie::all() -> toArray(false);
+		$resources = new Collection($resources);
+		$resources -> addParam('type','series');
+		$collection = $collection -> merge($resources);
+
 		$resources = Manga::all() -> toArray(false);
 		$resources = new Collection($resources);
 		$resources -> addParam('type','manga');
 		$collection = $collection -> merge($resources);
 		
-		$series = Serie::all() -> toArray(false);
-		$series = new Collection($series);
-		$series -> addParam('type','series');
-		$collection = $collection -> merge($series);
 
 		return $collection;
 	}

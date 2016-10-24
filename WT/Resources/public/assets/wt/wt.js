@@ -447,6 +447,7 @@ WT.app.syncAll = function(){
 			if(response.status == 'success'){
 				manager(results,i+1,1,length);
 			}else if(response.status == 'error'){
+				console.log(response);
 				manager(results,i,attempt + 1,length);
 			}
 		});
