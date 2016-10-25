@@ -146,7 +146,12 @@ class MangaFox extends Basic{
 	}
 
 	public function update(){
+		$client = new Client();
 		
+		$response = $client -> request($this -> url."releases/");
+
+		return CollectionObject::releases($response);
+
 	}
 
 }

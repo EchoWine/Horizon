@@ -344,13 +344,13 @@ class WT{
 				$res = $manager -> update();
 
 
-				$r = Serie::leftJoin('resources','resources.id','series.resource_id') 
+				$r = Serie::leftJoin('resource_containers','resource_containers.id','series.container_id') 
 				-> select('series.*');
 
 				# Select only the resource that are in the db and aren't updated
 				foreach($res as $k){
 					$r = $r -> orWhere(function($q) use ($k){
-						return $q -> where('resources.database_id',$k['id']) -> where('resources.updated_at','<',$k['updated_at']); 
+						return $q -> where('resource_containers.database_id',$k['id']) -> where('resource_containers.updated_at','<',$k['updated_at']); 
 					});
 				}
 
@@ -366,22 +366,38 @@ class WT{
 				$res = $manager -> update();
 
 
-				$r = Manga::leftJoin('resources','resources.id','manga.resource_id') 
+				$r = Manga::leftJoin('resource_containers','resource_containers.id','manga.container_id') 
 				-> select('manga.*');
 
-				# Select only the resource that are in the db and aren't updated
-				foreach($res as $k){
-					$r = $r -> orWhere(function($q) use ($k){
-						return $q -> where('resources.database_id',$k['id']) -> where('resources.updated_at','<',$k['updated_at']); 
-					});
+
+				if($res -> count() > 0){
+
+					# Select only the resource that are in the db and aren't updated
+					foreach($res as $k){
+						$r = $r -> orWhere(function($q) use ($k){
+
+							return $q 
+								-> where('resource_containers.database_id',$k['id']) 
+								-> where($k['chapters'] -> count(),"!=",function($q) use($k){
+
+								return DB::table('chapters') 
+									-> where('chapters.manga_id','=','manga.id',false) 
+									-> whereIn('chapters.number',$k['chapters'] -> map(function($chapter){
+										return $chapter -> number;	
+									}) -> toArray()) 
+									-> select('count(*)');
+							});
+						});
+					}
+
+
+					$r = $r -> get();
+
+					$r = new Collection($r -> toArray());
+					$r -> addParam('type','manga');
+					$collection = $collection -> merge($r);
 				}
 
-
-				$r = $r -> get();
-
-				$r = new Collection($r -> toArray());
-				$r -> addParam('type','manga');
-				$collection = $collection -> merge($r);
 			}
 		}
 

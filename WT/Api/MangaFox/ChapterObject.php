@@ -58,7 +58,7 @@ class ChapterObject extends Object{
 		$c -> name = $name -> nodeValue;
 
 		# Number chapter
-		$number = intval(preg_replace("/[c]/","",basename(dirname($href))));
+		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
 		
 		if($number == '')
 			$number = 0;
@@ -91,6 +91,26 @@ class ChapterObject extends Object{
 
 
 		return $c;
+	}
+
+	public static function release($dom){
+
+		$c = new self();
+
+		$name = $dom -> getElementsByTagName('a') -> item(0);
+		$href = $name -> getAttribute('href');
+
+		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
+		
+		if($number == '')
+			$number = 0;
+
+		$c -> number = $number;
+		$c -> scan = $href;
+		$c -> name = $name -> nodeValue;
+
+		return $c;
+
 	}
 
 }

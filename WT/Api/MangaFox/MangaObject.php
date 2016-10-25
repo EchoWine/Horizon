@@ -98,4 +98,28 @@ class MangaObject extends Object{
 
 		return $o;
 	}
+
+	public static function release($dom){
+
+		$o = new self();
+
+		$a = $dom -> getElementsByTagName('a') -> item(0);
+
+		$href = $a -> getAttribute('href');
+		$id = str_replace("http://mangafox.me/manga/","",$href);
+		$id = str_replace("/","",$id);
+
+		$o -> id = $id;
+
+		$chapters = new Collection();
+		foreach($dom -> getElementsByTagName('dt') as $chapter){
+			$chapter = ChapterObject::release($chapter);
+			$chapters[] = $chapter;
+		}
+
+		$o -> chapters = $chapters;
+		return $o;
+		
+	}
+
 }

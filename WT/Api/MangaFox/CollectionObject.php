@@ -47,4 +47,38 @@ class CollectionObject extends Object{
 		return $collection;
 	}
 
+	/**
+	 * Return a list of all manga in releases
+	 *
+	 * @param string $response
+	 *
+	 * @return collection
+	 */
+	public static function releases($response){
+
+		$collection = new Collection();
+
+		$dom = new DomDocument($response);
+		$rows = $dom -> getElementsByAttribute('id','updates') -> item(0);
+
+		if(!$rows)
+			return $collection;
+
+		$rows = $rows -> getElementsByTagName('li');
+
+		foreach($rows as $row){
+			
+			$manga = MangaObject::release($row);
+
+			$collection[$manga -> id] = [
+				'id' => $manga -> id,
+				'chapters' => $manga -> chapters
+			];
+		}
+
+		return $collection;
+
+	}
+
+
 }
