@@ -32,3 +32,25 @@
 	margin-left: 154px;
     margin-top: 358px;
 }
+
+
+body{
+	margin:0;
+	overflow:hidden;
+	background:black;
+}
+
+.error-404{
+	position: absolute;
+	width:100%;
+	top: 0%;
+	min-width:800px;
+}
+
+@media (max-width:768px){
+	.error-404{
+		left:42%;
+		transform: translate(-42%, 0%);
+	}
+
+}
