@@ -1,56 +1,20 @@
-.container{
-	max-width:800px;
-	margin:-80px auto
+body,html{
+	margin:0;
+	height:100%;
 }
-
-.box{
-    /*
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
-    */
-    margin: 10px;
-    background: white;
-    width: 100%;
-    padding:20px;
-    background:white;
-    font-size:22px;
-}
-
-
-.tv-container{
-	position:relative;
-}
-
-.tv-container > *{
-	position:absolute;
-}
-.tv{
-	z-index:5;
-}
-
-.he{
-	z-index:4;
-	margin-left: 154px;
-    margin-top: 358px;
-}
-
 
 body{
-	margin:0;
-	overflow:hidden;
-	background:black;
+	margin: 0;
+    height: 100%;
+    background: url(http://cit.h-cdn.co/assets/15/50/1449837146-cinema.gif);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
 }
 
-.error-404{
-	position: absolute;
-	width:100%;
-	top: 0%;
-	min-width:800px;
-}
-
-@media (max-width:768px){
-	.error-404{
-		left:42%;
-		transform: translate(-42%, 0%);
+@media (max-device-width:768px){
+	body{
+    	background-size: auto 100%;
+    	background-position-x: 36%;
 	}
 
 }
