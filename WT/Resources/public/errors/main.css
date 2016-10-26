@@ -18,3 +18,11 @@ body{
 	}
 
 }
+
+@media (max-width:768px){
+	body{
+    	background-size: auto 100%;
+    	background-position-x: 36%;
+	}
+
+}
