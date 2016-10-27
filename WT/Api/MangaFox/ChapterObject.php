@@ -56,7 +56,7 @@ class ChapterObject extends Object{
 		$c -> scan = $href;
 
 		# Name chapter
-		$c -> name = $span -> nodeValue;
+		$c -> name = $span ? $span -> nodeValue : '';
 
 		# Number chapter
 		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
@@ -108,7 +108,7 @@ class ChapterObject extends Object{
 		$c -> scan = $href;
 
 		# Name chapter
-		$c -> name = $span -> nodeValue;
+		$c -> name = $span ? $span -> nodeValue : '';
 
 		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
 		
