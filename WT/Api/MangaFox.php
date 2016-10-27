@@ -123,10 +123,10 @@ class MangaFox extends Basic{
 
 		#
 		$manga = MangaObject::long($response);
+		
 
 		# Retrieve banner
-		$poster = explode("?",$manga -> poster)[0];
-		$basename = basename($poster);
+		$basename = basename($manga -> poster);
 		$destination = 'uploads/manga-fox/'.$manga -> id.".jpg";
 
 		if(!file_exists(dirname($destination))){
@@ -134,10 +134,10 @@ class MangaFox extends Basic{
 		}
 		
 		if(!file_exists($destination)){	
-			$client -> download($poster,$destination);
+			$client -> download($manga -> poster,$destination);
 		}
 
-		$manga -> poster = $poster;
+		$manga -> poster = Request::host().Request::base().$destination;
 		$manga -> type = 'manga';
 
 		# It's time to retrieve all scan, or maybe not

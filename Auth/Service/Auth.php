@@ -136,6 +136,7 @@ class Auth implements Service{
 	 * @return string hash password
 	 */
 	public static function getHashPass($v){
+		
 		return hash('sha512',sha1($v).$v); 
 	}
 		

@@ -28,7 +28,7 @@ class MangaObject extends Object{
 		$o -> id = $i;
 
 		$o -> name = $response -> getElementsByTagName('a') -> item(0) -> nodeValue;
-		$o -> poster = "http://h.mfcdn.net/store/manga/{$id}/cover.jpg";
+		$o -> poster = "http://h.mfcdn.net/store/manga/{$id}/cover.jpg?v=".time();
 
 		return $o;
 	}
@@ -65,7 +65,6 @@ class MangaObject extends Object{
 
 		# Poster
 		$src = $dom -> getElementsByTagName('img') -> item(1) -> getAttribute('src');
-		$src = explode("?",$src)[0];
 		$o -> poster = $src;
 
 		# Banner
