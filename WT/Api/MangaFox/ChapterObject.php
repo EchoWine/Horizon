@@ -48,14 +48,15 @@ class ChapterObject extends Object{
 		}
 		
 		# Basic info from link
-		$name = $dom -> getElementsByTagName('a') -> item(1) ;
-		$href = $name -> getAttribute('href');
+		$a = $dom -> getElementsByTagName('a') -> item(1);
+		$span = $dom -> getElementsByTagName('span') -> item(2);
+		$href = $a -> getAttribute('href');
 		
 		# Link for scan
 		$c -> scan = $href;
 
 		# Name chapter
-		$c -> name = $name -> nodeValue;
+		$c -> name = $span -> nodeValue;
 
 		# Number chapter
 		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
@@ -89,6 +90,7 @@ class ChapterObject extends Object{
 
 		$c -> volume = $volume;
 
+		
 
 		return $c;
 	}
@@ -97,8 +99,16 @@ class ChapterObject extends Object{
 
 		$c = new self();
 
-		$name = $dom -> getElementsByTagName('a') -> item(0);
-		$href = $name -> getAttribute('href');
+		# Basic info from link
+		$a = $dom -> getElementsByTagName('a') -> item(1);
+		$span = $dom -> getElementsByTagName('span') -> item(2);
+		$href = $a -> getAttribute('href');
+		
+		# Link for scan
+		$c -> scan = $href;
+
+		# Name chapter
+		$c -> name = $span -> nodeValue;
 
 		$number = floatval(preg_replace("/[c]/","",basename(dirname($href))));
 		
@@ -107,7 +117,6 @@ class ChapterObject extends Object{
 
 		$c -> number = $number;
 		$c -> scan = $href;
-		$c -> name = $name -> nodeValue;
 
 		return $c;
 

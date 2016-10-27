@@ -133,9 +133,8 @@ class MangaFox extends Basic{
 			mkdir(dirname($destination),0777,true);
 		}
 		
-		if(!file_exists($destination)){	
-			$client -> download($manga -> poster,$destination);
-		}
+		$client -> download($manga -> poster,$destination);
+		
 
 		$manga -> poster = Request::host().Request::base().$destination;
 		$manga -> type = 'manga';

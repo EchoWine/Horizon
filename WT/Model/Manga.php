@@ -102,6 +102,7 @@ class Manga extends Model implements Resource{
 
 			$chapter = Chapter::firstOrCreate([
 				'number' => $r_chapter -> number,
+				'volume_n' => $r_chapter -> volume_n,
 				'manga_id' => $this -> id,
 			]);
 			
