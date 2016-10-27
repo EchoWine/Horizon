@@ -59,16 +59,32 @@
 				<table width='600'>
 					<tr>
 						<td>Chapter name</td>
-						<td>Source</td>
-						<td>Day released</td>
+						<td  style='text-align:right'>Day released</td>
 					</tr>
-					@foreach($resource -> chapters -> sortBy(['volume_n' => ['direction' => 'DESC','type' => 'number'],'number' => ['direction' => 'DESC','type' => 'number']]) as $chapter)
+					@foreach($resource -> volumes -> where('number','TBD') -> merge($resource -> volumes -> whereNot('number','TBD') -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']])) as $volume)
 						<tr>
-							<td>Chapter {{$chapter -> volume_n}}|{{$chapter -> number}} {{$chapter -> name}}</td>
-							<td><a target='_blank' href='{{$chapter -> scan}}'><i class='fa fa-external-link'></i>&nbsp;Read</a></td>
-							<td>{{$chapter -> released_at -> format('d-m-Y')}}</td>
+							<td colspan='2'>
+								<b>Volume {{$volume -> number}}</b>
+							</td>
 						</tr>
+						@foreach($volume -> chapters -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']]) as $chapter)
+							<tr>
+								<td>
+									<a target='_blank' href='{{$chapter -> scan}}'>
+										Chapter {{$chapter -> number}} - {{$chapter -> name}}
+									</a>
+								</td>
+								<td style='text-align:right'>
+									@if($chapter -> released_at)
+										{{$chapter -> released_at -> format('M d, Y')}}
+									@else
+										Unknow 
+									@endif
+								</td>
+							</tr>
+						@endforeach
 					@endforeach
+
 				</table>
 
 			@endif

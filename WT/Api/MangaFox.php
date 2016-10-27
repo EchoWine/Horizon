@@ -124,7 +124,7 @@ class MangaFox extends Basic{
 		#
 		$manga = MangaObject::long($response);
 		
-
+		
 		# Retrieve banner
 		$basename = basename($manga -> poster);
 		$destination = 'uploads/manga-fox/'.$manga -> id.".jpg";

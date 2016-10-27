@@ -76,7 +76,7 @@ class ChapterObject extends Object{
 				$volume = 'TBD';
 			}else{
 
-				$volume = preg_replace("/[v0]/","",$volume);
+				$volume = preg_replace("/[v]/","",$volume);
 
 				if(!$volume)
 					$volume = 0;

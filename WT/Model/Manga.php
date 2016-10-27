@@ -89,6 +89,8 @@ class Manga extends Model implements Resource{
 
 		$this -> save();
 
+		$volumes_ids = [];
+		$chapters_ids = [];
 
 		foreach($response -> chapters as $r_chapter){
 
@@ -104,8 +106,11 @@ class Manga extends Model implements Resource{
 				'number' => $r_chapter -> number,
 				'volume_n' => $r_chapter -> volume_n,
 				'manga_id' => $this -> id,
-			]);
+			]);	
 			
+			$volumes_ids[] = $volume -> id;
+			$chapters_ids[] = $chapter -> id;
+
 			$chapter -> volume_n = $r_chapter -> volume;
 			$chapter -> volume = $volume;
 			$chapter -> name = $r_chapter -> name;
@@ -114,6 +119,9 @@ class Manga extends Model implements Resource{
 			$chapter -> save();
 
 		}
+
+		Volume::where('manga_id',$this -> id) -> whereNotIn('id',$volumes_ids) -> delete();
+		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> delete();
 	}
 }
 
