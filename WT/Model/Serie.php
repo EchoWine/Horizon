@@ -30,7 +30,7 @@ class Serie extends Model implements Resource{
 
 		$schema -> string('status');
 
-		$schema -> file('poster');
+		$schema -> file('poster') -> thumb('small',['width' => '500','height' => '750','ext' => 'jpg']);
 
 		$schema -> file('banner');
 
@@ -52,9 +52,6 @@ class Serie extends Model implements Resource{
 	public function toArrayComplete(){
 
 		$res = parent::toArray();
-
-		$res['poster'] = $this -> poster() -> getFullPath();
-		$res['banner'] = $this -> banner() -> getFullPath();
 
 		foreach(Episode::where('serie_id',$this -> id) -> get() as $episode){
 			$episodes[] = $episode -> toArray();

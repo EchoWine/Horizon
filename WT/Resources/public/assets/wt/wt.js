@@ -339,7 +339,7 @@ WT.app.info = function(type,id){
 				content = template.get('wt-get-serie',{
 					id:response.id,
 					name:response.name,
-					banner:response.banner,
+					banner:response.banner.original,
 					overview:response.overview,
 					updated_at:response.updated_at,
 					status:response.status,
@@ -355,7 +355,7 @@ WT.app.info = function(type,id){
 				content = template.get('wt-get-manga',{
 					id:response.id,
 					name:response.name,
-					poster:response.poster,
+					poster:response.poster.small,
 					overview:response.overview,
 					updated_at:response.updated_at,
 					status:response.status,

@@ -32,7 +32,7 @@ class Manga extends Model implements Resource{
 
 		$schema -> text('status');
 
-		$schema -> file('poster');
+		$schema -> file('poster') -> thumb('small',['width' => '500','height' => '750','ext' => 'jpg']);
 
 		$schema -> file('banner');
 
@@ -55,14 +55,10 @@ class Manga extends Model implements Resource{
 
 		$res = parent::toArray();
 
-		$res['poster'] = $this -> poster() -> getFullPath();
-		$res['banner'] = $res['poster'];
-
 		foreach(Chapter::where('manga_id',$this -> id) -> get() as $chapter){
 			$chapters[] = $chapter -> toArray();
 		}
 		
-
 		return array_merge($res,['chapters' => $chapters,'container' => $this -> container -> toArray()]);
 	}
 
