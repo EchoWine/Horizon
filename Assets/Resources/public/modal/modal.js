@@ -16,6 +16,8 @@ modal.open = function(id,data,events){
 
 	modal.opening = true;
 
+
+
 	if(!events){
 		events = {};
 	}
@@ -29,11 +31,11 @@ modal.open = function(id,data,events){
 
 
 	modal.closeActual();
-	$('html,body').scrollTop(0);
 
 	var el = $('#'+id);
 	modal.html[id] = el.html();
 	el.addClass('modal-active');
+
 
 
 	for(info in data){
@@ -50,6 +52,7 @@ modal.open = function(id,data,events){
 
 	// Set body active
 	$('body').addClass('body-modal-active');
+
 	el.parent().addClass('modal-container');
 };
 
@@ -106,8 +109,7 @@ modal.close = function(id){
 
 	modal.actual = null;
 
-
-	$('body').removeClass('body-modal-active');
+	$('body').removeClass('modal-body-active');
 
 	$('#'+id).parent().removeClass('modal-container');
 

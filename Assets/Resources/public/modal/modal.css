@@ -1,5 +1,4 @@
-body.body-modal-active{
-    overflow: hidden;
+body.modal-body-active{
 }
 
 .modal-container{
@@ -8,7 +7,7 @@ body.body-modal-active{
 }
 
 .modal{
-	position: absolute;
+	position: fixed;
     top: 0;
     left: 0;
     background: rgba(0,0,0,0.6);
@@ -17,6 +16,8 @@ body.body-modal-active{
    	visibility:hidden;
 	transition: visibility 0.20s linear;
 	z-index:10;
+	overflow-y: auto !important;
+    height: 100%;
 }
 
 .modal-active{
@@ -54,7 +55,7 @@ body.body-modal-active{
 }
 
 .modal-body-medium{
-	max-width:650px;
+	max-width:790px;
 }
 
 
