@@ -136,7 +136,7 @@ class MangaFox extends Basic{
 		$client -> download($manga -> poster,$destination);
 		
 
-		$manga -> poster = Request::host().Request::base().$destination;
+		$manga -> poster = Cfg::get('app.host').Cfg::get('app.root').Cfg::get('app.public').$destination;
 		$manga -> type = 'manga';
 
 		# It's time to retrieve all scan, or maybe not
