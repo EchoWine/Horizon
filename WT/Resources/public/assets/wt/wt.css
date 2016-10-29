@@ -149,3 +149,7 @@
     width: 180px;
     height: 100%;
 }
+
+.wt-modal-resource-image{
+    max-height: 250px;
+}
