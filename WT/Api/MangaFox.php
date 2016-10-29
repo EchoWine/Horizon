@@ -10,6 +10,7 @@ use CoreWine\Http\Request;
 use Cache;
 use WT\Api\MangaFox\MangaObject;
 use WT\Api\MangaFox\CollectionObject;
+use Cfg;
 
 class MangaFox extends Basic{
 
