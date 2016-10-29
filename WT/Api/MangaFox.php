@@ -128,7 +128,9 @@ class MangaFox extends Basic{
 		
 		# Retrieve banner
 		$basename = basename($manga -> poster);
-		$destination = 'uploads/manga-fox/'.$manga -> id.".jpg";
+		$basename = 'tmp/api/manga-fox/'.$manga -> id.".jpg";
+		$destination = Cfg::get('app.path.drive.public').$basename;
+
 
 		if(!file_exists(dirname($destination))){
 			mkdir(dirname($destination),0777,true);
@@ -137,7 +139,7 @@ class MangaFox extends Basic{
 		$client -> download($manga -> poster,$destination);
 		
 
-		$manga -> poster = Cfg::get('app.host').Cfg::get('app.root').Cfg::get('app.public').$destination;
+		$manga -> poster = Cfg::get('app.host').Cfg::get('app.root').Cfg::get('app.public').$basename;
 		$manga -> type = 'manga';
 
 		# It's time to retrieve all scan, or maybe not

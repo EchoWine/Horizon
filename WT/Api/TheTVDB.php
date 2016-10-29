@@ -7,6 +7,7 @@ use CoreWine\Component\Str;
 use CoreWine\Http\Client;
 use CoreWine\Component\File;
 use Cache;
+use Cfg;
 
 class TheTVDB extends Basic{
 
@@ -208,8 +209,10 @@ class TheTVDB extends Basic{
 
 
 	public function update(){
-		$zip_filename = "public/api/thetvdb/updates_day.zip";
-		$xml = "public/api/thetvdb/";
+		$zip_filename = Cfg::get('app.path.drive.public')."tmp/api/thetvdb/updates_day.zip";
+
+
+		$xml = Cfg::get('app.path.drive.public')."tmp/api/thetvdb/";
 
 		if(!file_exists($xml)){
 			mkdir($xml,0777,true);
