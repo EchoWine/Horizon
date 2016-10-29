@@ -100,10 +100,12 @@ class ChapterObject extends Object{
 		$c = new self();
 
 		# Basic info from link
-		$a = $dom -> getElementsByTagName('a') -> item(1);
-		$span = $dom -> getElementsByTagName('span') -> item(2);
+
+		$a = $dom -> getElementsByTagName('a') -> item(0);
+		$span = $dom -> getElementsByTagName('span') -> item(0);		
+
 		$href = $a -> getAttribute('href');
-		
+
 		# Link for scan
 		$c -> scan = $href;
 

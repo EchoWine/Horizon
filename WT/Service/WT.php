@@ -252,9 +252,10 @@ class WT{
 				$container = $resource -> container;
 
 				$container -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
-				$container -> save();
 
-				$resource -> fillFromDatabaseApi($response,$container);			
+				$resource -> fillFromDatabaseApi($response,$container);	
+				
+				$container -> save();	
 
 			}
 
