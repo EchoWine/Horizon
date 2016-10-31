@@ -10,6 +10,7 @@ use WT\Model\ResourceContainer;
 use WT\Model\ResourceContainerUser;
 use WT\Model\Serie;
 use WT\Model\Manga;
+use CoreWine\Component\Collection;
 
 class User extends Model{
 
@@ -62,7 +63,7 @@ class User extends Model{
 	}
 	
 	public function getSeries(){
-		$return = [];
+		$return = new Collection();
 
 		foreach($this -> containers -> all() as $resource){
 			if($resource -> type == 'series'){
@@ -71,11 +72,11 @@ class User extends Model{
 		}
 
 
-		return empty($return) ? [] : Serie::whereIn('container_id',$return) -> get();
+		return $return -> isEmpty() ? $return : Serie::whereIn('container_id',$return -> toArray()) -> get();
 	}
 	
 	public function getManga(){
-		$return = [];
+		$return = new Collection();
 
 		foreach($this -> containers -> all() as $resource){
 			if($resource -> type == 'manga'){
@@ -84,7 +85,7 @@ class User extends Model{
 		}
 
 		# This is slow because Manga is loading all chapters, need stop it
-		return empty($return) ? [] : Manga::whereIn('container_id',$return) -> get();
+		return $return -> isEmpty() ? $return : Manga::whereIn('container_id',$return -> toArray()) -> get();
 	}
 }
 
