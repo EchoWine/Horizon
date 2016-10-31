@@ -1,5 +1,25 @@
 @extends('WT/admin/layout')
 
+@block('header-nav')
+	<div class='page-header-button ly-center' cw-show='dashboard:series|manga' cw-default>
+	All ({{Auth::user() -> getSeries() -> count() + Auth::user() -> getManga() -> count()}})
+	</div>
+
+	<div class='page-header-separator'></div>
+
+	<div class='page-header-button ly-center' cw-show='dashboard:series'>
+		<i class='fa fa-tv'></i>&nbsp;Series/Anime ({{Auth::user() -> getSeries() -> count()}})
+	</div>
+
+	<div class='page-header-separator'></div>
+
+	<div class='page-header-button ly-center' cw-show='dashboard:manga'>
+		<i class='fa fa-book'></i>&nbsp;Manga ({{Auth::user() -> getManga() -> count()}})
+	</div>
+
+	<div class='page-header-separator'></div>
+@endblock
+
 @block('page-content')
 
 @include('WT/admin/resource')
@@ -8,9 +28,9 @@
 <div class='ly-row'>
 
 	<div class='page-section page-section-content'>
-		<div class='ly-row wt-search-results'>
+		<div class='ly-row wt-search-results' cw-container='dashboard'>
 			@foreach(Auth::user() -> getSeries() as $serie)
-				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8'>
+				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='series'>
 					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$serie -> container -> type}},{{$serie -> id}}'>
 						<div class='wt-search-title'>{{$serie -> name}}</div>
 						<div class='wt-search-img'><img src='{{$serie -> poster() -> thumb('small')}}'></div>
@@ -20,7 +40,7 @@
 
 			@foreach(Auth::user() -> getManga() as $resource)
 			
-				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8'>
+				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='manga'>
 					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$resource -> container -> type}},{{$resource -> id}}'>
 						<div class='wt-search-title'>{{$resource -> name}}</div>
 						<div class='wt-search-img'><img src='{{$resource -> poster() -> thumb('small')}}'></div>

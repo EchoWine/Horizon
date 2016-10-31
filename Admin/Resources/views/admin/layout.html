@@ -60,6 +60,9 @@
 			</div>
 
 			<div class='ly-row ly-center header ly-fill ly-hidden-sm'>
+				@block('header-nav')
+
+				@endblock
 				<div class='ly-fill'></div>
 				<div class='page-header-separator'></div>
 				<div class='page-header-button ly-center'>{{Auth::getUserDisplay()}}</div>
@@ -144,6 +147,7 @@
 		<script src='{{assets('src/Assets/modal/modal.js')}}'></script>
 		<script src='{{assets('src/Assets/http/http.js')}}'></script>
 		<script src='{{assets('src/Assets/template/template.js')}}'></script>
+		<script src='{{assets('src/Assets/cw/cw.js')}}'></script>
 		<!--<script src='{{assets('src/Assets/alert/alert.js')}}'></script>-->
 
 

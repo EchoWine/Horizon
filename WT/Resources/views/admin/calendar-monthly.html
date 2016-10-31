@@ -61,7 +61,10 @@
 									<div class='wt-calendar-record'>
 
 										@if($record -> season)
-											<i class='fa fa-tv'></i>&nbsp;{{$record -> season -> serie -> name}} <br>
+											<i class='fa fa-tv'></i>&nbsp;
+											<a href="{{route('admin.resource',['resource_type' => 'series','resource_id' => $record -> season -> serie -> id])}}">
+												{{$record -> season -> serie -> name}}
+											</a>
 											<div class='wt-calendar-record-info'>
 											<a href='#'>S{{$record -> season -> number}} - {{$record -> number}}:
 												{{$record -> name}}
@@ -69,9 +72,13 @@
 										@endif
 
 										@if($record -> volume)
-											<i class='fa fa-book'></i>&nbsp;{{$record -> volume -> manga -> name}} <br>
+											<i class='fa fa-book'></i>&nbsp;
+											<a href="{{route('admin.resource',['resource_type' => 'manga','resource_id' => $record -> volume -> manga -> id])}}">
+												{{$record -> volume -> manga -> name}}
+											</a>
+											<br>
 											<div class='wt-calendar-record-info'>
-											<a href='#'>Chapter {{$record -> number}}
+											<a href='{{$record -> scan}}' target='_blank'>Chapter {{$record -> number}}
 											</a>
 										@endif
 										</div>
