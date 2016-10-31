@@ -15,6 +15,9 @@ cw.click = function(element){
 	var container = $("[cw-container='"+parts[0]+"']");
 	var elements = parts[1].split("|");
 
+	$('[cw-show-active]').removeAttr('cw-show-active');
+	element.attr('cw-show-active','');
+
 	if(container)
 		cw.show(container,elements);
 };

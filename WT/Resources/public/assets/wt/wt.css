@@ -153,3 +153,8 @@
 .wt-modal-resource-image{
     max-height: 250px;
 }
+
+[cw-show-active]{
+    background: #039BE5 !important;
+    color:white;
+}
