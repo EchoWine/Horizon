@@ -21,7 +21,7 @@ class UpdateCommand extends Command{
 			
 		}
 
-		echo "\nCompleted";
+		echo "\nCompleted.\n\n";
 	}
 }
 

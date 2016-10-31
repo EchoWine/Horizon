@@ -6,14 +6,14 @@ use CoreWine\DataBase\ORM\Model;
 
 use Auth\Model\User;
 
-class DownloadStack extends Model{
+class Video extends Model{
 
 	/**
 	 * Table name
 	 *
 	 * @var
 	 */
-	public static $table = 'download_stack';
+	public static $table = 'videos';
 
 	/**
 	 * Set schema fields
@@ -23,19 +23,12 @@ class DownloadStack extends Model{
 	public static function fields($schema){
 
 		$schema -> id();
-
+	
 		$schema -> string('name');
 	
-		$schema -> text('url_video');
+		$schema -> file('file');
 
-		$schema -> text('url_audio');
-
-		$schema -> toOne(Playlist::class,'playlist');
-
-		$schema -> toOne(User::class,'user');
-
-		$schema -> integer('progress') -> default(0);
-
+        $schema -> throughMany('playlists',Playlist::class) -> resolver(PlaylistVideo::class,'video','playlist');
 	}
 }
 

@@ -28,6 +28,8 @@ class Playlist extends Model{
 
 		$schema -> toOne(User::class,'user');
 
+        $schema -> throughMany('videos',Video::class) -> resolver(PlaylistVideo::class,'playlist','video');
+
 	}
 }
 

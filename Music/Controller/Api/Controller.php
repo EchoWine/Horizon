@@ -56,9 +56,16 @@ class Controller extends HttpController{
 
 			$yt = Youtube::video($query['v']);
 			$title = $yt -> getTitle();
-			$url = $yt -> getVideoCloserTo('720p') -> getUrl();
+			$url_video = $yt -> getVideoCloserTo('360p') -> getUrl();
+			$url_audio = $yt -> getFirstAudio() -> getUrl();
 
-			$d = DownloadStack::firstOrCreate(['playlist_id' => $playlist -> id,'name' => $title,'url' => $url,'user_id' => $user -> id]);
+			$d = DownloadStack::firstOrCreate([
+				'playlist_id' => $playlist -> id,
+				'name' => $title,
+				'url_video' => $url_video,
+				'url_audio' => $url_audio,
+				'user_id' => $user -> id
+			]);
 
 			return $d 
 				? $this -> success('Added successfully')
