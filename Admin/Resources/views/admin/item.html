@@ -30,6 +30,7 @@
 
 	@include('Admin/admin/tmpl/row',['table' => $table,'fields' => $views -> fields('all')])
 
+
 	@include('Admin/admin/modal/add',['table' => $table,'fields' => $views -> fields('add')])
 	@include('Admin/admin/modal/get',['table' => $table,'fields' => $views -> fields('get')])
 	@include('Admin/admin/modal/edit',['table' => $table,'fields' => $views -> fields('edit')])

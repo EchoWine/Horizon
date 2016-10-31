@@ -7,7 +7,7 @@
 
 	<h3>Includes some file with overwrite block...</h3>
 
-	@embed('Example/row','row1')
+	@embed('Example/row',[],'row1')
 		@block('section')
 			Yohohohohohoooo! Row extended and overwritten!!!
 		@endblock
@@ -22,7 +22,7 @@
 
 	<h3>Includes some file with overwrite block...again...</h3>
 
-	@embed('Example/row','row2')
+	@embed('Example/row',[],'row2')
 		@block('section')
 			Yohohohohohoooo! Row extended and overwritten, again !!!
 		@endblock
@@ -30,11 +30,11 @@
 
 	<h3>Includes some file in includes with overwrite block...</h3>
 
-	@embed('Example/row','row3')
+	@embed('Example/row',[],'row3')
 		@block('section')
 			@block('section_new')
 				<p> The force of includes may be with you</p>
-				@embed('Example/row','row8')
+				@embed('Example/row',,[]'row8')
 					@block('section')
 						Yohohohohohoooo! Row extended and overwritten x2x2!!!
 					@endblock
@@ -47,10 +47,10 @@
 
 	<h3>Includes some file without overwrite block...</h3>
 
-	@embed('Example/row','uhm}}{{/includes')
+	@embed('Example/row',[],'uhm}}{{/includes')
 
 	<h3>Includes some file that is extended to other file... i'm lost</h3>
-	@embed('Example/jolly','jolly')
+	@embed('Example/jolly',[],'jolly')
 		@block('section')jolly extended is the way@endblock
 	@endembed
 

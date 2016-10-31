@@ -142,8 +142,6 @@ item.addAlert = function(type,destination,data){
 		});
 	}
 
-	console.log(destination);
-
 	template.set(type,{
 		message:data.message,
 		details:det
