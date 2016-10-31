@@ -33,9 +33,22 @@ modal.open = function(id,data,events){
 	modal.closeActual();
 
 	var el = $('#'+id);
-	modal.html[id] = el.html();
-	el.addClass('modal-active');
+	html = el.html();
+	modal.html[id] = html;
 
+	// Replace all {vars}
+
+	for(info in data){
+		var value = data[info];
+		var name = info.replace("data-modal-","");
+
+
+		html = html.replace("{"+name+"}",value);
+	}
+
+	el.html($(html).first());
+
+	el.addClass('modal-active');
 
 
 	for(info in data){

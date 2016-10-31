@@ -1,16 +1,16 @@
 @extends('Admin/admin/layout')
 
 @block('favicon')
-	<link rel='icon' type='image/x-icon' href='{{assets('src/WT/assets/img/favicon.png')}}'>
-	<link rel='shortcut icon' type='image/x-icon' href='{{assets('src/WT/assets/img/favicon.png')}}'>
+	<link rel='icon' type='image/x-icon' href='{{assets('src/WT/assets/img/chip.png')}}'>
+	<link rel='shortcut icon' type='image/x-icon' href='{{assets('src/WT/assets/img/chip.png')}}'>
 @endblock
 
 @block('nav_head')
 
 	<div class='ly-center nav-header-icon-container'>
-		<i class='fa fa-television' aria-hidden='true' style='padding-top:1px;font-size:18px;max-width:23px'></i>
+		<i class='fa fa-microchip' aria-hidden='true' style='padding-top:1px;font-size:18px;max-width:23px'></i>
 	</div>
-	<span class='nav-header-name'>What's Today</span>
+	<span class='nav-header-name'>Horizon</span>
 @endblock
 
 @block('nav')
@@ -74,6 +74,15 @@
 		</li>
 	</ul>
 	-->
+	<h5 class='nav-title'>Music</h5>
+	<ul>
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('admin/playlists')}}'>
+				<i class='nav-link-icon fa fa-music'></i>
+				<span>Playlists</span>
+			</a>
+		</li>
+	</ul>
 	<h5 class='nav-title'>Administration</h5>
 	<ul>
 		<li class='nav-link-container'>

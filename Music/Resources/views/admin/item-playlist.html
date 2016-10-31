@@ -1,0 +1,47 @@
+@extends('WT/admin/layout')
+
+@block('page-content')
+	
+	@embed('Admin/admin/item',[
+		'table' => $table,
+		'api_url' => $api_url,
+		'api' => $api,
+		'views' => $views,
+		'sort_by_field' => $sort_by_field,
+		'sort_by_direction' => $sort_by_direction
+	])
+		@block('item-row-actions')
+
+			{# Add to stack #}
+			<button type='button' class='button-action button-action-icon button-primary' data-modal='modal-item-playlist-video-add'  data-modal-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/video/retrieve">
+				<i class="fa fa-upload"></i>
+			</button>
+
+			{# Play #}
+			<button type='button' class='button-action button-action-icon button-primary' data-modal='modal-item-get'>
+				<i class="fa fa-play"></i>
+			</button>
+
+			@parent
+		@endblock
+	@endembed
+
+	@embed('Admin/admin/__modal')
+		@block('__class')modal-body-small@endblock
+		@block('id')modal-item-playlist-video-add@endblock
+		@block('title')Add new video to download@endblock
+		@block('content')
+			<div class='alert-modal'></div>
+			<form action-modal-api='POST|{url}'>
+				<div class="item-form-label">Youtube URL:</div>
+				<div class="item-form-input">
+					<input type="text" class="input-data item-form-element" name="youtube_url">
+				</div>
+				<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
+				<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
+			</form>
+		@endblock
+	@endembed
+
+@endblock
+

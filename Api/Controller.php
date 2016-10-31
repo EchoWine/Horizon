@@ -2,14 +2,14 @@
 
 namespace Api;
 
-use CoreWine\Http\Controller as SourceController;
+use CoreWine\Http\Controller as HttpController;
 use Api\Response;
 use Api\Exceptions;
 use CoreWine\Http\Request;
 use Api\Service\Api;
 use CoreWine\DataBase\DB;
 
-abstract class Controller extends SourceController{
+abstract class Controller extends HttpController{
 
 	/**
 	 * Name of obj in url
@@ -208,7 +208,15 @@ abstract class Controller extends SourceController{
 		try{
 
 			# Create and retrieve a new model
-			$model = $this -> getModel()::create($request -> request -> all());
+			$model_class = $this -> getModel();
+			$model = new $model_class;
+			$model -> fill($request -> request -> all());
+
+			$this -> __insert($model);
+			$this -> __save($model);
+
+			$model -> save();
+
 
 			# Get last validation
 			$errors = $this -> getModel()::getLastValidate();
@@ -366,6 +374,24 @@ abstract class Controller extends SourceController{
 		return $params;
 
 	}
+
+	/**
+	 * Insert a model
+	 *
+	 * @param ORM\Model $model
+	 */
+	public function __insert($model){
+
+	}
+
+	/**
+	 * Save a model
+	 *
+	 * @param ORM\Model $model
+	 */
+	public function __save($model){
+	}
+
 }
 
 

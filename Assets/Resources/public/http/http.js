@@ -31,6 +31,11 @@ http.ajax = function(type,url,params = {},callback){
 };
 
 /**
+ * @Alias ajax
+ */
+http.request = http.ajax;
+
+/**
  * Make get call
  *
  * @param {string} url
