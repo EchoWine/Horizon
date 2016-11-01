@@ -102,15 +102,14 @@
 
 @block('stylesheet')
 	@parent
-		
-		
-
 	<link rel='stylesheet' href='{{assets('src/WT/assets/wt/wt.css')}}'>
+	<link rel='stylesheet' href='{{assets('src/Music/assets/music/music.css')}}'>
 @endblock
 @block('scripts')
 	@parent
 
 	<script src='{{assets('src/WT/assets/wt/wt.js')}}'></script>
+	<script src='{{assets('src/Music/assets/music/music.js')}}'></script>
 	<script>
 
 		WT.url = "{{WT\Service\WT::url()}}";

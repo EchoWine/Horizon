@@ -10,6 +10,7 @@ use WT\Model\ResourceContainer;
 use WT\Model\ResourceContainerUser;
 use WT\Model\Serie;
 use WT\Model\Manga;
+use Music\Model\Playlist;
 use CoreWine\Component\Collection;
 
 class User extends Model{
@@ -44,6 +45,9 @@ class User extends Model{
 		$schema -> toMany('sessions',Session::class,'user');
 
         $schema -> throughMany('containers',ResourceContainer::class) -> resolver(ResourceContainerUser::class,'user','container');
+
+		$schema -> toMany('playlists',Playlist::class,'user');
+
 	}
 
 	/**
@@ -84,9 +88,9 @@ class User extends Model{
 			}
 		}
 
-		# This is slow because Manga is loading all chapters, need stop it
 		return $return -> isEmpty() ? $return : Manga::whereIn('container_id',$return -> toArray()) -> get();
-	}
+	}	
+
 }
 
 ?>
