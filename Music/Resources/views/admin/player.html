@@ -1,0 +1,17 @@
+@extends('WT/admin/layout')
+
+
+@block('page-content')
+
+{# Player #}
+<div class='ly-row'>
+
+	<div class='page-section page-section-content'>
+		<video width="320" height="240" controls>
+		  <source src="{{\Music\Model\Video::first() -> file() -> original()}}" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
+
+	</div>
+</div>
+@endblock
