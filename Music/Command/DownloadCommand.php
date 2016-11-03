@@ -40,8 +40,10 @@ class DownloadCommand extends Command{
 		$path = Cfg::get('app.path.drive.public').'uploads/videos/';
 		$callback = "/".Cfg::get('app.path.drive').'app/console';
 		$params = "music:callback";
-		echo "bash $shell \"{$path}\" \"https://www.youtube.com/watch?v=BZP1rYjoBgI\" \"{$callback}\" \"{$params}\" > /dev/null &";
-		exec("bash $shell \"{$path}\" \"https://www.youtube.com/watch?v=BZP1rYjoBgI\" \"{$callback}\" \"{$params}\" > /dev/null &");
+		$url = $ds -> url;
+		
+		echo "bash $shell \"{$path}\" \"$url\" \"{$callback}\" \"{$params}\" > /dev/null &";
+		exec("bash $shell \"{$path}\" \"$url\" \"{$callback}\" \"{$params}\" > /dev/null &");
 
 		echo "\nCompleted";
 	}

@@ -20,8 +20,6 @@ class CallbackDownloadCommand extends Command{
 		$ds = DownloadStack::where('progress',1) -> first();
 
 		$playlist = $ds -> playlist;
-
-		// $ds -> delete();
 		
 		$path = Cfg::get('app.path.drive.public')."uploads/videos/";
 
@@ -65,6 +63,7 @@ class CallbackDownloadCommand extends Command{
 		}
 
 		$playlist -> videos -> save();
+		$ds -> delete();
 
 		echo "\nCompleted";
 	}

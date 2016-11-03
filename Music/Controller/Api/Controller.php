@@ -42,17 +42,6 @@ class Controller extends HttpController{
 			
 			$raw_url = $request -> request -> get('youtube_url');
 
-			# Extract ?v= from $url;
-			$url = parse_url($raw_url);
-
-			if(!isset($url['query']))
-				return $this -> error('Incorrect URL');
-
-			parse_str($url['query'],$query);
-
-			if(!isset($query['v']))
-				return $this -> error('Incorrect URL');			
-
 			$d = DownloadStack::firstOrCreate([
 				'playlist_id' => $playlist -> id,
 				'url' => $raw_url,
