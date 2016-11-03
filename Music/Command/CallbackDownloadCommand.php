@@ -44,7 +44,7 @@ class CallbackDownloadCommand extends Command{
 					$files['thumb'] = $k;
 				}
 
-				if(in_array($ext,['mp4','webm'])){
+				if(in_array($ext,['mp4','webm','mkv'])){
 					$files['video'] = $k;
 					$files['video_ext'] = $ext;
 				}
