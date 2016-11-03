@@ -7,25 +7,25 @@
 <div class='ly-row'>
 
 	<div class='page-section page-section-content section-inner'>
-		<div class='ly-center music-player-container'>
-			<video id='music-player' width="100%" height="100%" controls>
-				Your browser does not support the video tag.
-			</video>
-		</div>
-
-		@foreach(Auth::user() -> playlists as $playlist)
-			<h3>{{$playlist -> name}}</h3>
-			@foreach($playlist -> videos as $video)
-				<div class='music-pl-item ly-row'>
-					<div class=' ly-center'>
-						{{$video -> name()}}
+		<div class='ly-row'>
+			<div class='music-player-container'>
+				<video id='music-player' width="100%" height="100%" controls>
+					Your browser does not support the video tag.
+				</video>
+			</div>
+			<div class='music-pl-item-container'>
+			@foreach(Auth::user() -> playlists as $playlist)
+				<h3>{{$playlist -> name}}</h3>
+				@foreach($playlist -> videos as $video)
+					<div class='music-pl-item ly-row' music-n='{{$video -> id}}' music-play='{{$video -> file() -> original()}}'>
+						<div class=' ly-center'>
+							{{$video -> name()}}
+						</div>
 					</div>
-					<div class='music-pl-item-action'>
-						<i class='button button-action button-primary' music-n='{{$video -> id}}' music-play='{{$video -> file() -> original()}}'><i class='fa fa-play'></i></i>
-					</div>
-				</div>
+				@endforeach
 			@endforeach
-		@endforeach
+			</div>
+		</div>
 
 	</div>
 </div>

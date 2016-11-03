@@ -25,8 +25,20 @@ class Video extends Model{
 		$schema -> id();
 	
 		$schema -> string('name');
-	
-		$schema -> file('file');
+
+		# E.g. ?v=a9d8hadh
+		$schema -> string('uid');
+
+		# E.g. Youtube
+		$schema -> string('source');
+
+		$schema -> file('file') -> filesystem(function($model){
+			return "videos/{$model -> uid}/{$model -> file() -> getValue()}";
+		});
+
+		$schema -> file('thumb') -> filesystem(function($model){
+			return "videos/{$model -> uid}/{$model -> thumb() -> getValue()}";
+		});
 
         $schema -> throughMany('playlists',Playlist::class) -> resolver(PlaylistVideo::class,'video','playlist');
 	}

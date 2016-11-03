@@ -15,7 +15,7 @@ use Auth\Service\Auth;
 class Controller extends HttpController{
 
 	/**
-	 * Routes
+	 * Routes 
 	 *
 	 * @param $router
 	 */
@@ -40,11 +40,10 @@ class Controller extends HttpController{
 			if(!$playlist && $playlist -> user != $user)
 				return $this -> error('Cannot find playlist');
 			
-
-			$url = $request -> request -> get('youtube_url');
+			$raw_url = $request -> request -> get('youtube_url');
 
 			# Extract ?v= from $url;
-			$url = parse_url($url);
+			$url = parse_url($raw_url);
 
 			if(!isset($url['query']))
 				return $this -> error('Incorrect URL');
@@ -52,18 +51,11 @@ class Controller extends HttpController{
 			parse_str($url['query'],$query);
 
 			if(!isset($query['v']))
-				return $this -> error('Incorrect URL');
-
-			$yt = Youtube::video($query['v']);
-			$title = $yt -> getTitle();
-			$url_video = $yt -> getVideoCloserTo('360p') -> getUrl();
-			$url_audio = $yt -> getFirstAudio() -> getUrl();
+				return $this -> error('Incorrect URL');			
 
 			$d = DownloadStack::firstOrCreate([
 				'playlist_id' => $playlist -> id,
-				'name' => $title,
-				'url_video' => $url_video,
-				'url_audio' => $url_audio,
+				'url' => $raw_url,
 				'user_id' => $user -> id
 			]);
 

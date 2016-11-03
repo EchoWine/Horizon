@@ -41,9 +41,8 @@ modal.open = function(id,data,events){
 	for(info in data){
 		var value = data[info];
 		var name = info.replace("data-modal-","");
-
-
-		html = html.replace("{"+name+"}",value);
+		var re = new RegExp("{"+name+"}", 'gi');
+		html = html.replace(re,value);
 	}
 
 	el.html($(html).first());

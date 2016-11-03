@@ -7,7 +7,32 @@
 }
 
 .music-player-container{
-	max-width:900px;
-	max-height:700px;
-	margin:0 auto;
+    max-width: 880px;
+    max-height: 480px;
+    width: 100%;
+    background: black;
+}
+
+.music-pl-item-container{
+
+}
+
+.music-pl-item-container h3{
+	margin:10px;
+	padding:10px;
+	border-bottom:1px solid #525252;
+}
+
+.music-pl-item-container{
+	background-color: #3a3a3a;
+	color:white;
+	flex-grow:1;
+	overflow-y:auto;
+}
+.music-pl-item{
+	cursor:pointer;
+	padding:20px 20px;
+}
+.music-pl-item:hover{
+	background-color: #525252;
 }

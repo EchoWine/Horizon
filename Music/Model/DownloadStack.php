@@ -26,9 +26,7 @@ class DownloadStack extends Model{
 
 		$schema -> string('name');
 	
-		$schema -> text('url_video');
-
-		$schema -> text('url_audio');
+		$schema -> text('url');
 
 		$schema -> toOne(Playlist::class,'playlist');
 
@@ -36,6 +34,7 @@ class DownloadStack extends Model{
 
 		$schema -> integer('progress') -> default(0);
 
+		$schema -> datetime('started_at');
 	}
 }
 
