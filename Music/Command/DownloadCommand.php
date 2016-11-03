@@ -34,7 +34,7 @@ class DownloadCommand extends Command{
 		}
 
 
-		$shell = Cfg::get('app.path.drive').'src/Music/Commands/yt_download.sh';
+		$shell = Cfg::get('app.path.drive').'src/Music/Command/yt_download.sh';
 		$path = Cfg::get('app.path.drive.public').'uploads/videos/';
 
 		echo "bash {$shell} {$path} \"https://www.youtube.com/watch?v=BZP1rYjoBgI\" \"app/console music:callback\"";
