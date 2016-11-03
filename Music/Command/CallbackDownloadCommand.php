@@ -23,7 +23,7 @@ class CallbackDownloadCommand extends Command{
 
 		// $ds -> delete();
 		
-		$path = Cfg::get('app.path.drive.public')."videos/";
+		$path = Cfg::get('app.path.drive.public')."uploads/videos/";
 
 		$dirs = [];
 
