@@ -30,6 +30,6 @@ youtube-dl "$2" --write-thumbnail -o "$FOLDER""%(id)s/%(title)s.%(ext)s"
 rm "$PROGRESS"
 
 # Call php command in order to update database with new videos
-php "$3"
+php "$3" "$4"
 
 
