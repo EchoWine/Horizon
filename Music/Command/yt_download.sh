@@ -24,7 +24,7 @@ echo " " > "$PROGRESS"
 
 # Download
 echo "Elaborating: $2"
-youtube-dl "$2" --write-thumbnail -o "$FOLDER""%(id)s/%(title)s.%(ext)s"
+youtube-dl "$2" --write-thumbnail --ignore-errors -o "$FOLDER""%(id)s/%(title)s.%(ext)s"
 
 # Remove lock
 rm "$PROGRESS"
