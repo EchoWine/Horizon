@@ -7,6 +7,7 @@ use CoreWine\Http\Controller as HttpController;
 use CoreWine\Youtube\Youtube;
 
 use Music\Model\Playlist;
+use Music\Model\PlaylistSync;
 use Music\Model\DownloadStack;
 use Music\Model\Video;
 
@@ -21,6 +22,8 @@ class Controller extends HttpController{
 	 */
 	public function __routes($router){
 		$router -> post('/api/v1/music/playlist/{id}/video/retrieve','retrieveVideoToPlaylist','music.playlist.retrieve');
+		$router -> post('/api/v1/music/playlist/{id}/sync','addSyncPlaylist','music.playlist.sync.add');
+		$router -> delete('/api/v1/music/playlist/{playlist_id}/sync/{sync_id}','removeSyncPlaylist','music.playlist.sync.remove');
 	}
 
 	/**
@@ -56,6 +59,76 @@ class Controller extends HttpController{
 			return $this -> error($e -> __toString());
 		}
 	}
+
+	/**
+	 * @POST
+	 * 
+	 * Add a new sync playlist
+	 *
+	 * @param integer $id
+	 */
+	public function addSyncPlaylist($request,$id){
+		try{
+
+			if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
+				return $this -> error('Token invalid');
+
+			$playlist = Playlist::where('id',$id) -> first();
+
+			if(!$playlist && $playlist -> user != $user)
+				return $this -> error('Cannot find playlist');
+			
+			$raw_url = $request -> request -> get('youtube_url');
+
+			$d = PlaylistSync::firstOrCreate([
+				'playlist_id' => $playlist -> id,
+				'url' => $raw_url,
+			]);
+
+			return $d 
+				? $this -> success('Added successfully')
+				: $this -> error('Something goes wrong');
+
+		}catch(\Exception $e){
+			return $this -> error($e -> __toString());
+		}
+	}
+
+	/**
+	 * @POST
+	 * 
+	 * Remove sync playlist
+	 *
+	 * @param integer $id
+	 */
+	public function removeSyncPlaylist($request,$id,$sync_id){
+
+		try{
+
+			if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
+				return $this -> error('Token invalid');
+
+			$playlist = Playlist::where('id',$id) -> first();
+
+			if(!$playlist && $playlist -> user != $user)
+				return $this -> error('Cannot find playlist');
+
+			$playlist_sync = PlaylistSync::where('id',$sync_id) -> first();
+
+			if(!$playlist_sync)
+				return $this -> error('Cannot find playlist');
+			
+			$playlist_sync -> delete();
+
+			return $d 
+				? $this -> success('Removed successfully')
+				: $this -> error('Something goes wrong');
+
+		}catch(\Exception $e){
+			return $this -> error($e -> __toString());
+		}
+	}
+
 
 	/**
 	 * Return a JSON success response

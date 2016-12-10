@@ -26,7 +26,8 @@
 				type='button' 
 				class='button-action button-action-icon button-primary' 
 				data-modal='modal-item-playlist-sync'
-				data-modal-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync/add"
+				data-modal-url-add="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync"
+				data-modal-url-remove="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync/"
 			>
 				<i class="fa fa-list"></i>
 			</button>
@@ -40,15 +41,6 @@
 		@block('title')Video@endblock
 		@block('content')
 			<div class='alert-modal'></div>
-			<form action-modal-api='POST|{url}'>
-				
-				<div class='ly-hs-small'></div>
-				<div class='ly-row'>
-					<div class='ly-center'><img src='' width='80' height='50'></div>
-					<div class='ly-center'>#1 Video: PL5DoIRbZev5-6PI5MceGzn9aaTVLlzMs8</div>
-					<div class='ly-fill'></div>
-				</div>
-			</form>
 			<div class='ly-hs-small'></div>
 			<hr>
 			<form action-modal-api='POST|{url}'>
@@ -71,22 +63,18 @@
 
 			<form action-modal-api='POST|{url}'>
 				
+				<div>
 				<div class='ly-hs-small'></div>
 				<div class='ly-row'>
 					<div class='ly-center'>#1 Playlist: PL5DoIRbZev5-6PI5MceGzn9aaTVLlzMs8</div>
 					<div class='ly-fill'></div>
 					<button class='button button-action button-danger'><i class='fa fa-trash'></i></button>
 				</div>
-				<div class='ly-hs-small'></div>
-				<div class='ly-row'>
-					<div class='ly-center'>#1 Playlist: PL5DoIRbZev5-6PI5MceGzn9aaTVLlzMs8</div>
-					<div class='ly-fill'></div>
-					<button class='button button-action button-danger'><i class='fa fa-trash'></i></button>
 				</div>
 			</form>
 			<div class='ly-hs-small'></div>
 			<hr>
-			<form action-modal-api='POST|{url}'>
+			<form action-modal-api='POST|{url-add}'>
 				<div class="item-form-label">Youtube URL:</div>
 				<div class="item-form-input">
 					<input type="text" class="input-data item-form-element" name="youtube_url">

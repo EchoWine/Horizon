@@ -38,12 +38,19 @@ class DownloadCommand extends Command{
 
 		$shell = Cfg::get('app.path.drive').'src/Music/Command/yt_download.sh';
 		$path = Cfg::get('app.path.drive.public').'uploads/videos/';
-		$callback = "/".Cfg::get('app.path.drive').'app/console';
+
+		if(!file_exists($path))
+			mkdir($path,0755,true);
+
+		$callback = "".Cfg::get('app.path.drive').'app/console';
 		$params = "music:callback";
 		$url = $ds -> url;
 		
-		echo "bash $shell \"{$path}\" \"$url\" \"{$callback}\" \"{$params}\" > /dev/null &";
-		exec("bash $shell \"{$path}\" \"$url\" \"{$callback}\" \"{$params}\" > /dev/null &");
+		$command = "bash $shell \"{$path}\" \"$url\" \"{$callback}\" \"{$params}\"";
+
+		$command = str_replace("\\","/",$command);
+		echo $command;
+		exec($command);
 
 		echo "\nCompleted";
 	}

@@ -15,11 +15,24 @@
 			</div>
 			<div class='music-pl-item-container'>
 			@foreach(Auth::user() -> playlists as $playlist)
-				<h3>{{$playlist -> name}}</h3>
-				@foreach($playlist -> videos as $video)
+				<h3>{{$playlist -> name}}
+				<span class='music-playlist-video-button-add' data-modal='music-modal-source-add' data-modal-id='{{$playlist -> id}}'>
+					<i class='fa fa-plus'></i> add video
+				</span>
+				</h3>
+				@foreach($playlist -> videos as $n => $video)
 					<div class='music-pl-item ly-row' music-n='{{$video -> id}}' music-play='{{$video -> file() -> original()}}'>
-						<div class=' ly-center'>
-							{{$video -> name()}}
+						<span class='ly-center music-pl-item-n music-pl-item-default-n'>
+							{{$n + 1}}
+						</span>
+						<span class='ly-center music-pl-item-n music-pl-item-active-n'>
+							<i class='fa fa-play'></i>
+						</span>
+						<div class='ly-center'>
+							<img class='music-pl-thumb' src='{{$video -> thumb() -> original()}}'>
+						</div>
+						<div class='ly-center'>
+							<span>{{$video -> name}}</span>
 						</div>
 					</div>
 				@endforeach
@@ -29,4 +42,25 @@
 
 	</div>
 </div>
+
+{# Add new video to current playlist #}
+@embed('Admin/admin/__modal')
+	@block('__class')modal-body-small@endblock
+	@block('id')music-modal-source-add@endblock
+	@block('title')Video@endblock
+	@block('content')
+		<div class='alert-modal'></div>
+		<form id='music-playlist-source-add' data-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/video/retrieve">
+			<div class="item-form-label">Youtube URL:</div>
+			<div class="item-form-input">
+				<input type="text" class="input-data item-form-element" name="youtube_url" autocomplete="off">
+			</div>
+			<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
+			<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
+		</form>
+	@endblock
+@endembed
+
 @endblock
+
+
