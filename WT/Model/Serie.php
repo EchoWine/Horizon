@@ -30,7 +30,7 @@ class Serie extends Model implements Resource{
 
 		$schema -> string('status');
 
-		$schema -> file('poster') -> thumb('small',['width' => '500','height' => '750','ext' => 'jpg']);
+		$schema -> file('poster');
 
 		$schema -> file('banner');
 
