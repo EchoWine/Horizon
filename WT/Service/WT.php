@@ -78,47 +78,52 @@ class WT{
 		$response = new Collection();
 	
 
-		foreach(self::$managers as $manager){
+		try{
+			foreach(self::$managers as $manager){
 
-			$manager = new $manager();
+				$manager = new $manager();
 
-			if($database_name == 'all' || $manager -> getName() == $database_name){
-				$response[$manager -> getName()] = $manager -> discovery($key);
+				if($database_name == 'all' || $manager -> getName() == $database_name){
+					$response[$manager -> getName()] = $manager -> discovery($key);
 
-				foreach($response[$manager -> getName()] as $n => $k){
+					foreach($response[$manager -> getName()] as $n => $k){
 
-					$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
-
-
-					if($container){
+						$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
 
 
-						$u = $container -> users -> has($user) ? 1 : 0;
-						$r = 1;
+						if($container){
 
-						$resource_class = self::getClassByType($container -> type);
-						$resource = $resource_class::where('container_id',$container -> id) -> first();
 
-						$response[$manager -> getName()][$n]['container'] = $container -> toArray();
-						$response[$manager -> getName()][$n]['resource'] = $resource -> toArray();
-					}else{
-						$r = 0;
-						$u = 0;
+							$u = $container -> users -> has($user) ? 1 : 0;
+							$r = 1;
 
-						$response[$manager -> getName()][$n]['container'] = [];
-						$response[$manager -> getName()][$n]['resource'] = [];
+							$resource_class = self::getClassByType($container -> type);
+							$resource = $resource_class::where('container_id',$container -> id) -> first();
+
+							$response[$manager -> getName()][$n]['container'] = $container -> toArray();
+							$response[$manager -> getName()][$n]['resource'] = $resource -> toArray();
+						}else{
+							$r = 0;
+							$u = 0;
+
+							$response[$manager -> getName()][$n]['container'] = [];
+							$response[$manager -> getName()][$n]['resource'] = [];
+						}
+						
+						$response[$manager -> getName()][$n]['library'] = $r;
+						$response[$manager -> getName()][$n]['user'] = $u;
+
 					}
-					
-					$response[$manager -> getName()][$n]['library'] = $r;
-					$response[$manager -> getName()][$n]['user'] = $u;
 
 				}
 
 			}
 
-		}
+			return $response;
+		}catch(\Exception $e){
 
-		return $response;
+			return ['message' => $e -> getMessage(),'status' => 'error'];
+		}
 	}
 
 	/**
