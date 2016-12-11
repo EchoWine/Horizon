@@ -78,8 +78,7 @@ class WT{
 		$response = new Collection();
 	
 
-		try{
-			foreach(self::$managers as $manager){
+		foreach(self::$managers as $manager){
 
 				$manager = new $manager();
 
@@ -89,7 +88,6 @@ class WT{
 					foreach($response[$manager -> getName()] as $n => $k){
 
 						$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
-
 
 						if($container){
 
@@ -117,13 +115,11 @@ class WT{
 
 				}
 
-			}
-
-			return $response;
-		}catch(\Exception $e){
-
-			return ['message' => $e -> getMessage(),'status' => 'error'];
+		
 		}
+		
+		return $response;
+
 	}
 
 	/**

@@ -80,27 +80,35 @@ class MangaFox extends Basic{
 			'advopts' => 1
 		];
 
-		$response = $client -> request($this -> url."search.php",'GET',$params);
 
+		$response = $client -> request($this -> url."search.php",'GET',$params);
 
 		$collection = CollectionObject::create($response);
 
 		foreach($collection as $n => $row){
 
-			$poster = explode("?",$row['poster'])[0];
+			$poster = $row['poster'];
 			$basename = basename($poster);
 			$destination = 'uploads/manga-fox/'.$row['id'].".jpg";
+
 
 			if(!file_exists(dirname($destination))){
 				mkdir(dirname($destination),0777,true);
 			}
-			
-			if(!file_exists($destination)){	
-				$client -> download($poster,$destination);
+
+			$final_poster = Cfg::get('app.host')."/src/WT/assets/img/default_200x281.jpg";
+
+			if(!empty($poster)){
+
+				if(!file_exists($destination)){	
+					$client -> download($poster,$destination);
+				}
+
+				$final_poster = Cfg::get('app.host')."/".$destination;
 			}
 
-			$collection[$n]['poster'] = Request::getDirUrl()."/".$destination;
-				
+			$collection[$n]['poster'] = $final_poster;
+
 		}
 
 
@@ -127,7 +135,6 @@ class MangaFox extends Basic{
 		
 		
 		# Retrieve banner
-		$basename = basename($manga -> poster);
 		$basename = 'tmp/api/manga-fox/'.$manga -> id.".jpg";
 		$destination = Cfg::get('app.path.drive.public').$basename;
 
@@ -137,6 +144,7 @@ class MangaFox extends Basic{
 		}
 		
 		$client -> download($manga -> poster,$destination);
+
 		
 
 		$manga -> poster = Cfg::get('app.host').Cfg::get('app.root').Cfg::get('app.public').$basename;

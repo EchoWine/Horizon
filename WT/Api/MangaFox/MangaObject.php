@@ -5,6 +5,7 @@ namespace WT\Api\MangaFox;
 use WT\Api\Object;
 use CoreWine\Component\DomDocument;
 use CoreWine\Component\Collection;
+use CoreWine\Http\Client;
 
 class MangaObject extends Object{
 
@@ -28,7 +29,17 @@ class MangaObject extends Object{
 		$o -> id = $i;
 
 		$o -> name = $response -> getElementsByTagName('a') -> item(0) -> nodeValue;
-		$o -> poster = "http://h.mfcdn.net/store/manga/{$id}/cover.jpg?v=".time();
+
+
+
+		
+		try{
+			$client = new Client();
+			$response = $client -> request("http://mangafox.me/ajax/series.php",'POST',['sid' => $id]);
+			$response = json_decode($response);
+			$o -> poster = $response[10];
+		}catch(\Exception $e){
+		}
 
 		return $o;
 	}
