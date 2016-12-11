@@ -33,7 +33,7 @@
 				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='series'>
 					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$serie -> container -> type}},{{$serie -> id}}'>
 						<div class='wt-search-title'>{{$serie -> name}}</div>
-						<div class='wt-search-img'><img src='{{$serie -> poster() -> thumb('small')}}'></div>
+						<div class='wt-search-img'><img src='{{$serie -> poster() -> thumb(540,780)}}'></div>
 					</div>
 				</div>
 			@endforeach
@@ -43,7 +43,7 @@
 				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='manga'>
 					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$resource -> container -> type}},{{$resource -> id}}'>
 						<div class='wt-search-title'>{{$resource -> name}}</div>
-						<div class='wt-search-img'><img src='{{$resource -> poster() -> thumb('small')}}'></div>
+						<div class='wt-search-img'><img src='{{$resource -> poster() -> thumb(540,780)}}'></div>
 					</div>
 				</div>
 			@endforeach
