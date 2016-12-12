@@ -75,7 +75,7 @@ class MangaObject extends Object{
 		$o -> genres = explode(",",$genres);
 
 		# Poster
-		$src = $dom -> getElementsByTagName('img') -> item(1) -> getAttribute('src');
+		$src = $dom -> getElementsByAttribute('id','series_info') -> item(0) -> getElementsByTagName('img') -> item(0) -> getAttribute('src');
 		$o -> poster = $src;
 
 		# Banner

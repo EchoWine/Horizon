@@ -89,7 +89,7 @@ class MangaFox extends Basic{
 
 			$poster = $row['poster'];
 			$basename = basename($poster);
-			$destination = 'uploads/manga-fox/'.$row['id'].".jpg";
+			$destination = Cfg::get('app.dir').Cfg::get('app.public').'uploads/manga-fox/'.$row['id'].".jpg";
 
 
 			if(!file_exists(dirname($destination))){
@@ -104,7 +104,7 @@ class MangaFox extends Basic{
 					$client -> download($poster,$destination);
 				}
 
-				$final_poster = Cfg::get('app.host')."/".$destination;
+				$final_poster = Cfg::get('app.host').Cfg::get('app.root').'uploads/manga-fox/'.$row['id'].".jpg";
 			}
 
 			$collection[$n]['poster'] = $final_poster;
@@ -133,22 +133,7 @@ class MangaFox extends Basic{
 		#
 		$manga = MangaObject::long($response);
 		
-		
-		# Retrieve banner
-		$basename = 'tmp/api/manga-fox/'.$manga -> id.".jpg";
-		$destination = Cfg::get('app.path.drive.public').$basename;
-
-
-		if(!file_exists(dirname($destination))){
-			mkdir(dirname($destination),0777,true);
-		}
-		
-		$client -> download($manga -> poster,$destination);
-
-		
-
-		$manga -> poster = Cfg::get('app.host').Cfg::get('app.root').Cfg::get('app.public').$basename;
-		$manga -> type = 'manga';
+		return $manga;
 
 		# It's time to retrieve all scan, or maybe not
 
