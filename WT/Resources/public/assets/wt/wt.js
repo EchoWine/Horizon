@@ -355,7 +355,7 @@ WT.app.info = function(type,id){
 				content = template.get('wt-get-manga',{
 					id:response.id,
 					name:response.name,
-					poster:response.poster.small,
+					poster:response.poster.original,
 					overview:response.overview,
 					updated_at:response.updated_at,
 					status:response.status,
