@@ -2,14 +2,16 @@
 	<div class='table-col-select table-col table-col-head'></div>
 	@foreach($views -> fields('all') as $field)
 
-		@if($views -> isField('search',$field))
-		<div class='table-col table-col-head table-col-search  @if($field -> getSchema() -> isType('integer'))table-col-number@endif'>
-			@include('Admin/admin/field-search',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])
-		</div>
-		@else
-		<div class='table-col table-col-head table-col-search'>
+		@if(!$field -> isHidden())
+			@if($views -> isField('search',$field))
+			<div class='table-col table-col-head table-col-search  @if($field -> getSchema() -> isType('integer'))table-col-number@endif'>
+				@include('Admin/admin/field-search',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])
+			</div>
+			@else
+			<div class='table-col table-col-head table-col-search'>
 
-		</div>
+			</div>
+			@endif
 		@endif
 
 	@endforeach

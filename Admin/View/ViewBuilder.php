@@ -2,7 +2,7 @@
 
 namespace Admin\View;
 
-use Exception;
+use Admin\View\Exceptions as Exceptions;
 
 class ViewBuilder{
 
@@ -26,6 +26,13 @@ class ViewBuilder{
 	 * @var Component\Select
 	 */
 	public $input = true;
+
+	/**
+	 * Don't display the field
+	 *
+	 * @var bool
+	 */
+	public $hidden = false;
 
 	/**
 	 * Label
@@ -186,6 +193,14 @@ class ViewBuilder{
 
 	public function getColumn(){
 		return $this -> getSchema() -> getColumn();
+	}
+
+	public function hidden($hidden = true){
+		$this -> hidden = $hidden;
+	}
+
+	public function isHidden(){
+		return $this -> hidden;
 	}
 }
 ?>

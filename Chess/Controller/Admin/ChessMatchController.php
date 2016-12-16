@@ -26,7 +26,7 @@ class ChessMatchController extends AdminController{
 	public function views($views){
 		
 		$views -> all(function($view){
-			$view -> id();
+			$view -> id() -> hidden();
 			$view -> player();
 			$view -> opponent();
 			$view -> date();

@@ -7,23 +7,26 @@
 
 	</div>
 	@foreach($fields as $field)
-		@if($field -> getSchema() -> isSort())
-			<div class="table-col table-col-head table-col-sort @if($field -> getSchema() -> isType('integer'))table-col-number@endif" data-item-sort-field='{{$field -> getName()}}' data-item-table='{{$table}}'>
-				<div class='table-col-text no-select'>
-					<span>{{$field -> getLabel()}}</span>
 
-					<i class='fa fa-sort' data-item-sort-none></i>
-					<i class='fa fa-sort-asc hide' data-item-sort-asc></i>
-					<i class='fa fa-sort-desc hide' data-item-sort-desc></i>
-				</div>
-			</div>
-		@else
+		@if(!$field -> isHidden())
+			@if($field -> getSchema() -> isSort())
+				<div class="table-col table-col-head table-col-sort @if($field -> getSchema() -> isType('integer'))table-col-number@endif" data-item-sort-field='{{$field -> getName()}}' data-item-table='{{$table}}'>
+					<div class='table-col-text no-select'>
+						<span>{{$field -> getLabel()}}</span>
 
-			<div class='table-col table-col-head'>
-				<div class='table-col-text'>
-					<span>{{$field -> getSchema() -> getLabel()}}</span>
+						<i class='fa fa-sort' data-item-sort-none></i>
+						<i class='fa fa-sort-asc hide' data-item-sort-asc></i>
+						<i class='fa fa-sort-desc hide' data-item-sort-desc></i>
+					</div>
 				</div>
-			</div>
+			@else
+
+				<div class='table-col table-col-head'>
+					<div class='table-col-text'>
+						<span>{{$field -> getSchema() -> getLabel()}}</span>
+					</div>
+				</div>
+			@endif
 		@endif
 	@endforeach
 	<div class='table-col table-col-action'>
