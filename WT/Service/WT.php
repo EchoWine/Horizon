@@ -210,7 +210,6 @@ class WT{
 			$resource_class = self::getClassByType($resource_type);
 
 			$resource = $resource_class::where('id',$resource_id) -> first();
-			
 			return ['status' => 'success','data' => $resource -> toArrayComplete()];
 		}catch(\Exception $e){
 			return ['status' => 'error','message' => $e -> getMessage()];
