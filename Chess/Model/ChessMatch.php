@@ -22,7 +22,9 @@ class ChessMatch extends Model{
 
 		$schema -> id();
 
-		$schema -> string('name');
+		$schema -> string('player');
+
+		$schema -> string('opponent');
 		
 		$schema -> string('score');
 		

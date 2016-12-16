@@ -27,13 +27,16 @@ class ChessMatchController extends AdminController{
 		
 		$views -> all(function($view){
 			$view -> id();
-			$view -> name();
+			$view -> player();
+			$view -> opponent();
 			$view -> date();
 			$view -> score();
+			$view -> description();
 		});
 
 		$views -> add(function($view){
-			$view -> name();
+			$view -> player();
+			$view -> opponent();
 			$view -> date();
 			$view -> score();
 			$view -> description();
@@ -41,7 +44,8 @@ class ChessMatchController extends AdminController{
 		});
 
 		$views -> edit(function($view){
-			$view -> name();
+			$view -> player();
+			$view -> opponent();
 			$view -> date();
 			$view -> score();
 			$view -> description();
@@ -49,7 +53,8 @@ class ChessMatchController extends AdminController{
 		});
 
 		$views -> get(function($view){
-			$view -> name();
+			$view -> player();
+			$view -> opponent();
 			$view -> date();
 			$view -> score();
 			$view -> description();
@@ -59,8 +64,10 @@ class ChessMatchController extends AdminController{
 
 		$views -> search(function($view){
 			$view -> id();
-			$view -> name();
+			$view -> player();
+			$view -> opponent();
 			$view -> date();
+			$view -> description();
 			$view -> score();
 		});
 	}
