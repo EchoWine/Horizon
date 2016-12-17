@@ -132,7 +132,9 @@ class MangaFox extends Basic{
 
 		#
 		$manga = MangaObject::long($response);
-		
+			
+		$manga -> type = 'manga';
+
 		return $manga;
 
 		# It's time to retrieve all scan, or maybe not

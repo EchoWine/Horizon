@@ -162,6 +162,7 @@ class WT{
 
 				$response = $manager -> get($database_id);
 
+
 				# Detect type
 				$resource_type = $response -> type;
 
