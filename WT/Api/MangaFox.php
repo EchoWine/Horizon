@@ -89,7 +89,7 @@ class MangaFox extends Basic{
 
 			$poster = $row['poster'];
 			$basename = basename($poster);
-			$destination = Cfg::get('app.dir').Cfg::get('app.public').'uploads/manga-fox/'.$row['id'].".jpg";
+			$destination = Cfg::get('app.drive').Cfg::get('app.public').'uploads/manga-fox/'.$row['id'].".jpg";
 
 
 			if(!file_exists(dirname($destination))){
