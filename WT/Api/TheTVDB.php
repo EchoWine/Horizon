@@ -37,14 +37,14 @@ class TheTVDB extends Basic{
 	 *
 	 * @param string
 	 */
-	protected $url_api = "http://www.thetvdb.com/api/";
+	protected $url_api = "https://www.thetvdb.com/api/";
 
 	/**
 	 * Basic api url
 	 *
 	 * @param string
 	 */
-	protected $url_public = "http://www.thetvdb.com/";
+	protected $url_public = "https://www.thetvdb.com/";
 
 	/**
 	 * Perform the request to the api in order to discovery new series
