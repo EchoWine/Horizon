@@ -137,6 +137,11 @@ class TheTVDB extends Basic{
 						}
 
 						$resource = Objects\SerieObject::short($resource);
+
+
+						$banner = $this -> download($banner,'thetvdb/'.$resource -> id.".jpg");
+
+
 						$return[$resource -> id] = [
 							'database' => $this -> getName(),
 							'type' => 'series',

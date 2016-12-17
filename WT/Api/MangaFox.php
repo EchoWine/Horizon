@@ -87,30 +87,11 @@ class MangaFox extends Basic{
 
 		foreach($collection as $n => $row){
 
-			$poster = $row['poster'];
-			$basename = basename($poster);
-			$destination = Cfg::get('app.drive').Cfg::get('app.public').'uploads/manga-fox/'.$row['id'].".jpg";
 
+			$collection[$n]['poster'] = $this -> download($row['poster'],'manga-fox/'.$row['id'].".jpg");
 
-			if(!file_exists(dirname($destination))){
-				mkdir(dirname($destination),0777,true);
-			}
-
-			$final_poster = Cfg::get('app.host')."/src/WT/assets/img/default_200x281.jpg";
-
-			if(!empty($poster)){
-
-				if(!file_exists($destination)){	
-					$client -> download($poster,$destination);
-				}
-
-				$final_poster = Cfg::get('app.host').Cfg::get('app.root').'uploads/manga-fox/'.$row['id'].".jpg";
-			}
-
-			$collection[$n]['poster'] = $final_poster;
 
 		}
-
 
 		Cache::set($name_request,$collection,3600);
 
