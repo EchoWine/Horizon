@@ -11,6 +11,10 @@ cw.load = function(){
 cw.click = function(element){
 
 	var object = element.attr('cw-show');
+
+	if(!object)
+		return;
+
 	var parts = object.split(":");
 	var container = $("[cw-container='"+parts[0]+"']");
 	var elements = parts[1].split("|");
@@ -29,7 +33,6 @@ cw.show = function(container,elements){
 		types = type.split("|");
 
 		var show = false;
-
 
 
 		for(i = 0;i < types.length;i++){
