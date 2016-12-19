@@ -69,6 +69,12 @@
     display:block;
 }
 
+
+.wt-section-container-results[data-count='0']{
+    display:none !important;
+}
+
+
 .wt-get-season{
     padding:3px 1px;
     cursor:pointer;

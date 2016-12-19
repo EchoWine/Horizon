@@ -151,18 +151,17 @@ WT.app.discovery = function(value){
 
 	WT.discovery('all',val,function(response){
 
-		html = {'library':'','thetvdb':'','manga-fox':''};
+		var data = {'library':{'html':'','count':0},'thetvdb':{'html':'','count':0},'manga-fox':{'html':'','count':0}};
 
 		// The response has sent, so set the "searching mode" to false
 		WT.app.searching(false);
 
-		console.log(response);
 		$.map(response,function(service,key){
 			$.map(service,function(resource){
 
 				var part = (resource.user == 1) ? 'library' : key;
 
-				html[part] += template.get('wt-search-result',{
+				data[part]['html'] += template.get('wt-search-result',{
 					database:resource.database,
 					resource_id:resource.resource.id,
 					resource_type:resource.container.type,
@@ -173,13 +172,48 @@ WT.app.discovery = function(value){
 					library:resource.library ? 1 : 0
 				});
 
+				data[part]['count']++;
 			});
 		});
 
-		WT.app.addResultSearch('.wt-search-library',html['library']);
+		WT.app.addResultSearch('.wt-search-library',data['library']);
 
-		WT.app.addResultSearch('.wt-search-thetvdb',html['thetvdb']);
-		WT.app.addResultSearch('.wt-search-manga-fox',html['manga-fox']);
+		WT.app.addResultSearch('.wt-search-thetvdb',data['thetvdb']);
+		WT.app.addResultSearch('.wt-search-manga-fox',data['manga-fox']);
+	});
+};
+
+/**
+ * @Application
+ * 
+ * Add the result retrieved during discovery
+ *
+ * @param {string} selector
+ * @param {string} html
+ */
+WT.app.addResultSearch = function(selector,results){
+
+	html = results.html;
+
+	html = $(html);
+	
+	html.find('img').on('error',function(){
+		$(this).hide();
+	});
+
+	WT.app.updateSearchCount();
+
+	$(selector).html(html);
+};
+
+WT.app.updateSearchCount = function(){
+	
+	$.map($('.wt-section-container-results'),function(container){
+
+		container = $(container);
+		count = container.find('.wt-search-result').length;
+		container.attr('data-count',count);
+		container.find('.wt-search-section-count').html(count);
 	});
 };
 
@@ -212,24 +246,7 @@ WT.app.searching = function(state){
 	}
 };
 
-/**
- * @Application
- * 
- * Add the result retrieved during discovery
- *
- * @param {string} selector
- * @param {string} html
- */
-WT.app.addResultSearch = function(selector,html){
 
-	html = $(html);
-	
-	html.find('img').on('error',function(){
-		$(this).hide();
-	});
-
-	$(selector).html(html);
-};
 
 WT.app.add = function(database,id){
 
@@ -251,6 +268,8 @@ WT.app.add = function(database,id){
 				res = res.closest('.wt-search-result-container');
 
 				res.appendTo($('.wt-search-library'));
+
+				WT.app.updateSearchCount();
 
 			}
 		}
@@ -517,6 +536,8 @@ $('body').on('click','[wt-remove]',function(e){
 			res.attr('wt-status-user',0);
 			res = res.closest('.wt-search-result-container');
 			res.appendTo($('.wt-search-'+response.data.container.database_name));
+
+			WT.app.updateSearchCount();
 		}
 	
 	});
