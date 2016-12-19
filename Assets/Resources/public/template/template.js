@@ -90,7 +90,7 @@ template.parseObjectToVars = function(object){
 	for(var param in object){
 		value = object[param];
 
-		if(value !== null){
+		if(value !== null && typeof value !== 'undefined'){
 
 			if(value.constructor === Object){
 				value = template.parseObjectToVars(value);
