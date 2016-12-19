@@ -577,3 +577,49 @@ $('body').on('click','.wt-get-season',function(){
 	var status = $(this).closest('.wt-get-season-container').attr('data-active') == "1";
 	$(this).closest('.wt-get-season-container').attr('data-active',status == "1" ? "0" : "1");
 });
+
+WT.dashboard = {};
+WT.dashboard.serie = {};
+WT.dashboard.serie.index = 0;
+WT.dashboard.serie.data = {};
+
+WT.dashboard.manga = {};
+WT.dashboard.manga.index = 0;
+WT.dashboard.manga.data = {};
+
+WT.dashboard.load = function(){
+
+	WT.dashboard.loadData(WT.dashboard.serie);
+	WT.dashboard.loadData(WT.dashboard.manga);
+};
+
+WT.dashboard.loadData = function(collection,max = 20){
+
+	for(var i = collection.index, y = 0; i < collection.data.length && y < max; i++, y++){
+
+		record = collection.data[i];
+
+		var html = template.get("wt-dashboard-element",{
+			resource:record
+		});
+
+		$("[cw-container='dashboard']").append(html);
+
+		collection.index++;
+
+	};
+};
+
+
+$(document).ready(function(){
+	var win = $(window);
+
+	win.scroll(function(){
+
+		if ($(document).height() - win.height() == win.scrollTop()){
+
+			WT.dashboard.loadData(WT.dashboard.serie);
+			WT.dashboard.loadData(WT.dashboard.manga);
+		}
+	});
+});

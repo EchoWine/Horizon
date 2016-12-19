@@ -1,13 +1,13 @@
 @extends('WT/admin/layout')
 
 @block('header-nav')
-	<div class='page-header-button ly-center' cw-show='dashboard:series|manga' cw-default>
+	<div class='page-header-button ly-center' cw-show='dashboard:serie|manga' cw-default>
 	All ({{Auth::user() -> getSeries() -> count() + Auth::user() -> getManga() -> count()}})
 	</div>
 
 	<div class='page-header-separator'></div>
 
-	<div class='page-header-button ly-center' cw-show='dashboard:series'>
+	<div class='page-header-button ly-center' cw-show='dashboard:serie'>
 		<i class='fa fa-tv'></i>&nbsp;Series/Anime ({{Auth::user() -> getSeries() -> count()}})
 	</div>
 
@@ -25,31 +25,37 @@
 @include('WT/admin/resource')
 
 {# Dashboard #}
+<div data-template='wt-dashboard-element'>
+	<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='{resource.type}'>
+		<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{resource.container.type},{resource.id}'>
+			<div class='wt-search-title'>{resource.name}</div>
+			<div class='wt-search-img'><img src='{resource.poster}'></div>
+		</div>
+	</div>
+</div>
 <div class='ly-row'>
 
 	<div class='page-section page-section-content'>
 		<div class='ly-row wt-search-results' cw-container='dashboard'>
-			@foreach(Auth::user() -> getSeries() as $serie)
-				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='series'>
-					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$serie -> container -> type}},{{$serie -> id}}'>
-						<div class='wt-search-title'>{{$serie -> name}}</div>
-						<div class='wt-search-img'><img src='{{$serie -> poster() -> thumb(540,780)}}'></div>
-					</div>
-				</div>
-			@endforeach
 
-			@foreach(Auth::user() -> getManga() as $resource)
-			
-				<div class='wt-search-result-container ly-xs-1 ly-sm-2 ly-md-4 ly-xl-6 ly-en-8' cw-element='manga'>
-					<div class='wt-search-result wt-seach-result-hover' wt-status-user='1' wt-info='{{$resource -> container -> type}},{{$resource -> id}}'>
-						<div class='wt-search-title'>{{$resource -> name}}</div>
-						<div class='wt-search-img'><img src='{{$resource -> poster() -> thumb(540,780)}}'></div>
-					</div>
-				</div>
-			@endforeach
-
-		</div>
 		</div>
 	</div>
+
 </div>
+
+<div class='ly-row'>
+<div class='ly-center'><div id='loading'>Loading...</div>
+</div>
+@endblock
+
+@block('scripts')
+	@parent
+
+	<script>
+		WT.dashboard.serie.data = {{Auth::user() -> getSeries()}};
+		WT.dashboard.manga.data = {{Auth::user() -> getManga()}};
+
+		$(document).ready(function(){WT.dashboard.load()});
+
+	</script>
 @endblock

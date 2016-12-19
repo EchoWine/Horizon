@@ -59,7 +59,27 @@ class Manga extends Model implements Resource{
 			$chapters[] = $chapter -> toArray();
 		}
 		
-		return array_merge($res,['chapters' => $chapters,'container' => $this -> container -> toArray()]);
+		return array_merge($res,[
+			'type' => 'manga',
+			'poster' => $this -> poster() -> thumb(540,780),
+			'chapters' => $chapters,
+			'container' => $this -> container -> toArray()
+		]);
+	}
+
+	/**
+	 * Return a complete array of this model
+	 *
+	 * @return array
+	 */
+	public function toArray(){
+
+		$res = parent::toArray();
+		
+		return array_merge($res,[
+			'type' => 'manga',
+			'poster' => $this -> poster() -> thumb(540,780),
+		]);
 	}
 
 	/**

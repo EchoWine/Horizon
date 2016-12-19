@@ -62,12 +62,53 @@ template.get = function(source,vars){
  *
  * @return {string}
  */
-template.vars = function(html,vars){
+template.vars = function(html,object){
+
+	var vars = [];
+
+	vars = template.parseObjectToVars(object);
+
 	for(col in vars){
+
 		html = html.replace(new RegExp('{'+col+'}', 'g'),vars[col]);
 	};
+	
 	return html;
 };
+
+/**
+ * Transform object into object with one index
+ *
+ * @param {object}
+ *
+ * @return {object} 
+ */
+template.parseObjectToVars = function(object){
+
+	var ret = {};
+
+	for(var param in object){
+		value = object[param];
+
+		if(value !== null){
+
+			if(value.constructor === Object){
+				value = template.parseObjectToVars(value);
+
+				for(param1 in value){
+					ret[param+"."+param1] = value[param1];
+				}
+
+			}else{
+				ret[param] = value;
+			}
+		}
+
+
+	}
+
+	return ret;
+}
 
 /**
  * Get source DOM given name

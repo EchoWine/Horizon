@@ -58,7 +58,28 @@ class Serie extends Model implements Resource{
 		}
 		
 
-		return array_merge($res,['episodes' => $episodes,'container' => $this -> container -> toArray()]);
+		return array_merge($res,[
+			'type' => 'serie',
+			'poster' => $this -> poster() -> thumb(540,780),
+			'episodes' => $episodes,
+			'container' => $this -> container -> toArray()
+		]);
+	}
+
+
+	/**
+	 * Return a complete array of this model
+	 *
+	 * @return array
+	 */
+	public function toArray(){
+
+		$res = parent::toArray();
+		
+		return array_merge($res,[
+			'type' => 'serie',
+			'poster' => $this -> poster() -> thumb(540,780),
+		]);
 	}
 
 	/**
