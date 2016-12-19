@@ -42,7 +42,7 @@ class User extends Model{
 
 		$schema -> string('token');
 
-		$schema -> toMany('sessions',Session::class,'user');
+		$schema -> belongsToOne('session',[Session::class => 'user']);
 
         $schema -> throughMany('containers',ResourceContainer::class) -> resolver(ResourceContainerUser::class,'user','container');
 

@@ -122,10 +122,9 @@
 	<script>
 
 		WT.url = "{{WT\Service\WT::url()}}";
-		WT.token = '{{Auth::user() -> token}}';
-
+		WT.token = '{{Auth::user() -> session -> sid}}';
 
 		User = {};
-		User.token = "{{Auth::user() -> token}}";
+		User.token = "{{Auth::user() -> session -> sid}}";
 	</script>
 @endblock

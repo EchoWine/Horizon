@@ -10,6 +10,13 @@ class SearchController extends Controller{
 
 
 	/**
+	 * Middleware
+	 *
+	 * @var Array
+	 */
+	public $middleware = ['Admin\Middleware\Authenticate'];
+
+	/**
 	 * Define your routes
 	 *
 	 * @param Router $router
@@ -42,11 +49,7 @@ class SearchController extends Controller{
 	 */
 	public function discovery($request,$database,$key){
 
-		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
-
-		return $this -> json(WT::discovery($user,$database,$key));
+		return $this -> json(WT::discovery(Auth::user(),$database,$key));
 	}
 
 	/**
@@ -59,13 +62,9 @@ class SearchController extends Controller{
 	 * @return Response
 	 */
 	public function add($request,$database,$id){
-
-		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
 		
 		return $this -> json(WT::add(
-			$user,
+			Auth::user(),
 			$database,
 			$id
 		));
@@ -81,12 +80,8 @@ class SearchController extends Controller{
 	 */
 	public function all($request,$database){
 		
-		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
-		
 		return $this -> json(WT::all(
-			$user,
+			Auth::user(),
 			$database
 		));
 
@@ -103,12 +98,8 @@ class SearchController extends Controller{
 	 */
 	public function get($request,$resource_type,$resource_id){
 		
-		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
-		
 		return $this -> json(WT::get(
-			$user,
+			Auth::user(),
 			$resource_type,
 			$resource_id
 		));
@@ -126,12 +117,8 @@ class SearchController extends Controller{
 	 */
 	public function sync($request,$resource_type,$resource_id){
 		
-		if(!($user = Auth::getUserByToken($request -> request -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
-		
 		return $this -> json(WT::sync(
-			$user,
+			Auth::user(),
 			$resource_type,
 			$resource_id
 		));
@@ -148,13 +135,9 @@ class SearchController extends Controller{
 	 * @return Response
 	 */
 	public function remove($request,$resource_type,$resource_id){
-
-		if(!($user = Auth::getUserByToken($request -> query -> get('token'))))
-			return $this -> json(['status' => 'error','message' => 'Token invalid']);
-		
 		
 		return $this -> json(WT::delete(
-			$user,
+			Auth::user(),
 			$resource_type,
 			$resource_id
 		));

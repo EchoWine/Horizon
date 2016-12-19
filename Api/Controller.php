@@ -74,7 +74,7 @@ abstract class Controller extends HttpController{
 
 		else if(!class_exists($this -> getModel()))
 			throw new Exceptions\ModelNotExistsException(static::class,$this -> getModel());
-
+		
 	
 	}
 

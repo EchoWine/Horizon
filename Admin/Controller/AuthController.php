@@ -18,16 +18,16 @@ class AuthController extends Controller{
 	 *
 	 * @var Array
 	 */
-	// public $middleware = ['Admin\Middleware\Authenticate'];
+	//public $middleware = ['Admin\Middleware\Authenticate'];
 
 	/**
 	 * Routers
 	 */
 	public function __routes($router){
 
-		$router -> get('admin/login','showLogin');
-		$router -> post('admin/login','attemptLogin') -> as('admin/login/action');
-		$router -> get('admin/logout','attemptLogout');
+		$router -> get('admin/login','formLogin') -> as('auth.form.login');
+		$router -> post('admin/login','login') -> as('auth.login');
+		$router -> get('admin/logout','logout') -> as('auth.logout');
 	}
 	
 	/**
@@ -35,8 +35,8 @@ class AuthController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function showLogin(){
-		Auth::load();
+	public function formLogin(){
+
 		return $this -> view('Admin/auth/login');
 	}
 
@@ -45,15 +45,14 @@ class AuthController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function attemptLogin(){
-
-		Auth::load();
+	public function login(Request $request){
 
 		if(!Auth::logged()){
 			if(!$this -> checkLogin()){
 				Request::refresh();
 			}
 		}
+
 
 
 		Request::redirect(Router::url('admin/dashboard'));
@@ -65,15 +64,13 @@ class AuthController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function attemptLogout(){
-
-		Auth::load();
+	public function logout(Request $request){
 
 		if(Auth::logged()){
-			Auth::logout();
+			Auth::logout($request);
 		}
 
-		Request::redirect(Router::url('admin/login'));
+		Request::redirect(Router::url('auth.form.login'));
 	}
 
 	/**
@@ -94,7 +91,14 @@ class AuthController extends Controller{
 
 		}else if($users_num == 1){
 
-			Auth::login($users[0],$type);
+			$session = Auth::login($users[0],$type['expire']);
+
+			if($type['data'] == 0)
+				Request::setCookie(Cfg::get('Auth.cookie'),$session -> sid,$expire);
+			else
+				Request::setSession(Cfg::get('Auth.cookie'),$session -> sid);
+
+
 			return true;
 			
 		}else{

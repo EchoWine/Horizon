@@ -31,36 +31,26 @@ class Auth implements Service{
 	 */
 	public static function load(){
 
-		User::schema();
-		Session::schema();
-
 		Auth::removeSessionExpired();
-		Auth::checkSession();
 	}
 
 	/**
 	 * Check if current user is logged
 	 */
-	public static function checkSession(){
+	public static function authenticate($sid){
 
-		$sid = Auth::getSidByCookie();
+		if(empty($sid))
+			return null;
 
-		if(!empty($sid)){
+		$session = Session::where('sid',$sid) -> first();
 
-			$session = Session::where('sid',$sid) -> first();
+		if(!empty($session)){
 
-			if(!empty($session)){
+			Auth::$user = $session -> user;
+			Auth::$session = $session;	
 
-				Auth::$user = $session -> user;
-				Auth::$session = $session;
-				
-
-			}else
-				Request::unsetCookie(Cfg::get('Auth.cookie'));
-			
 		}
-
-		return [];
+	
 	}
 
 	/**
@@ -98,10 +88,6 @@ class Auth implements Service{
 		# Delete from table
 		Auth::deleteSessionBySID(Auth::session() -> SID);
 
-		# Delete from cookies
-		Request::unsetCookie(Cfg::get('Auth.cookie'));
-		Request::unsetSession(Cfg::get('Auth.cookie'));
-
 	}
 
 	/**
@@ -110,22 +96,18 @@ class Auth implements Service{
 	 * @param array $user
 	 * @param cfg $type
 	 */
-	public static function login($user,$type){
+	public static function login($user,$expire){
 
 		$sid = Auth::generateSID();
 
-		$expire = time()+$type['expire'];
+		$expire = time()+$expire;
 
-		Session::create([
+		return Session::create([
 			'user' => $user,
 			'sid' => $sid,
 			'expire' => $expire
 		]);
 
-		if($type['data'] == 0)
-			Request::setCookie(Cfg::get('Auth.cookie'),$sid,$expire);
-		else
-			Request::setSession(Cfg::get('Auth.cookie'),$sid);
 
 	}
 	
@@ -139,22 +121,6 @@ class Auth implements Service{
 		
 		return hash('sha512',sha1($v).$v); 
 	}
-		
-	/**
-	 * Get current SID saved in cookie or session
-	 *
-	 * @return string sid
-	 */
-	public static function getSidByCookie(){
-
-		$sid = Request::getCookie(Cfg::get('Auth.cookie'));
-
-		if(empty($sid))
-			$sid = Request::getSession(Cfg::get('Auth.cookie'));
-
-		return $sid;
-	}
-
 
 	/**
 	 * Get current display name (user or email)
