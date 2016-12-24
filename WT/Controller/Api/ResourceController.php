@@ -5,8 +5,9 @@ namespace WT\Controller\Api;
 use CoreWine\Http\Controller as Controller;
 use WT\Service\WT;
 use Auth;
+use CoreWine\Http\Request;
 
-class SearchController extends Controller{
+class ResourceController extends Controller{
 
 
 	/**
@@ -47,7 +48,7 @@ class SearchController extends Controller{
 	 * 	 
 	 * @return Response
 	 */
-	public function discovery($request,$database,$key){
+	public function discovery(Request $request,$database,$key){
 
 		return $this -> json(WT::discovery(Auth::user(),$database,$key));
 	}
@@ -61,7 +62,7 @@ class SearchController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function add($request,$database,$id){
+	public function add(Request $request,$database,$id){
 		
 		return $this -> json(WT::add(
 			Auth::user(),
@@ -78,11 +79,14 @@ class SearchController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function all($request,$database){
+	public function all(Request $request,$database){
 		
 		return $this -> json(WT::all(
 			Auth::user(),
-			$database
+			$database,
+			[
+				'sort' => $request -> query -> get('sort','name'), 
+			]
 		));
 
 	}
@@ -96,7 +100,7 @@ class SearchController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function get($request,$resource_type,$resource_id){
+	public function get(Request $request,$resource_type,$resource_id){
 		
 		return $this -> json(WT::get(
 			Auth::user(),
@@ -115,7 +119,7 @@ class SearchController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function sync($request,$resource_type,$resource_id){
+	public function sync(Request $request,$resource_type,$resource_id){
 		
 		return $this -> json(WT::sync(
 			Auth::user(),
@@ -134,7 +138,7 @@ class SearchController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function remove($request,$resource_type,$resource_id){
+	public function remove(Request $request,$resource_type,$resource_id){
 		
 		return $this -> json(WT::delete(
 			Auth::user(),
