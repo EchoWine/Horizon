@@ -31,6 +31,9 @@ class Auth implements Service{
 	 */
 	public static function load(){
 
+		User::schema();
+		Session::schema();
+		
 		Auth::removeSessionExpired();
 	}
 
