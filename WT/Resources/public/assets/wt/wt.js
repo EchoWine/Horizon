@@ -615,14 +615,13 @@ WT.dashboard.call = function(){
 
 		$.map(response,function(resource,id){
 			if(resource.type == 'manga'){
-				WT.dashboard.manga.data[id] = resource;
+				WT.dashboard.manga.data.push(resource);
 			}
 
 			if(resource.type == 'series'){
-				WT.dashboard.series.data[id] = resource;
+				WT.dashboard.series.data.push(resource);
 			}
 		});
-
 
 		$('#wt-library-count-all').html(WT.dashboard.series.data.length + WT.dashboard.manga.data.length);
 		$('#wt-library-count-series').html(WT.dashboard.series.data.length);
