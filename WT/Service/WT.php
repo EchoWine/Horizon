@@ -316,23 +316,23 @@ class WT{
 		return ['status' => 'success','message' => 'Deleted','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 	}
 
-
+	/**
+	 * Retrieve all
+	 */
 	public static function all($user){
 		$collection = new Collection();
 
 		$resources = Serie::all() -> toArray(false);
 		$resources = new Collection($resources);
-		$resources -> addParam('type','series');
 		$collection = $collection -> merge($resources);
 
 		$resources = Manga::all() -> toArray(false);
 		$resources = new Collection($resources);
-		$resources -> addParam('type','manga');
 		$collection = $collection -> merge($resources);
-		
 
 		return $collection;
 	}
+
 	/**
 	 * Sync the series with update
 	 */

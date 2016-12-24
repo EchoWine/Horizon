@@ -2,19 +2,19 @@
 
 @block('header-nav')
 	<div class='page-header-button ly-center' cw-show='dashboard:series|manga' cw-default>
-	All ({{Auth::user() -> getSeries() -> count() + Auth::user() -> getManga() -> count()}})
+	All (<span id='wt-library-count-all'>0</span>)
 	</div>
 
 	<div class='page-header-separator'></div>
 
 	<div class='page-header-button ly-center' cw-show='dashboard:series'>
-		<i class='fa fa-tv'></i>&nbsp;Series/Anime ({{Auth::user() -> getSeries() -> count()}})
+		<i class='fa fa-tv'></i>&nbsp;Series/Anime (<span id='wt-library-count-series'>0</span>)
 	</div>
 
 	<div class='page-header-separator'></div>
 
 	<div class='page-header-button ly-center' cw-show='dashboard:manga'>
-		<i class='fa fa-book'></i>&nbsp;Manga ({{Auth::user() -> getManga() -> count()}})
+		<i class='fa fa-book'></i>&nbsp;Manga (<span id='wt-library-count-manga'>0</span>)
 	</div>
 
 	<div class='page-header-separator'></div>
@@ -49,9 +49,6 @@
 	@parent
 
 	<script>
-		WT.dashboard.serie.data = {{Auth::user() -> getSeries()}};
-		WT.dashboard.manga.data = {{Auth::user() -> getManga()}};
-
 		$(document).ready(function(){WT.dashboard.load()});
 
 	</script>

@@ -600,17 +600,44 @@ $('body').on('click','.wt-get-season',function(){
 });
 
 WT.dashboard = {};
-WT.dashboard.serie = {};
-WT.dashboard.serie.index = 0;
-WT.dashboard.serie.data = {};
 
-WT.dashboard.manga = {};
-WT.dashboard.manga.index = 0;
-WT.dashboard.manga.data = {};
+WT.dashboard.call = function(){
+
+	WT.dashboard.series = {};
+	WT.dashboard.series.index = 0;
+	WT.dashboard.series.data = [];
+
+	WT.dashboard.manga = {};
+	WT.dashboard.manga.index = 0;
+	WT.dashboard.manga.data = [];
+
+	http.get(WT.url+'all',{token:WT.token},function(response){
+
+		$.map(response,function(resource,id){
+			if(resource.type == 'manga'){
+				WT.dashboard.manga.data[id] = resource;
+			}
+
+			if(resource.type == 'series'){
+				WT.dashboard.series.data[id] = resource;
+			}
+		});
+
+
+		$('#wt-library-count-all').html(WT.dashboard.series.data.length + WT.dashboard.manga.data.length);
+		$('#wt-library-count-series').html(WT.dashboard.series.data.length);
+		$('#wt-library-count-manga').html(WT.dashboard.manga.data.length);
+
+		WT.dashboard.loadData(WT.dashboard.series);
+		WT.dashboard.loadData(WT.dashboard.manga);
+
+	});
+
+};
 
 WT.dashboard.load = function(){
 
-	WT.dashboard.loadData(WT.dashboard.serie);
+	WT.dashboard.loadData(WT.dashboard.series);
 	WT.dashboard.loadData(WT.dashboard.manga);
 };
 
@@ -632,14 +659,18 @@ WT.dashboard.loadData = function(collection,max = 20){
 };
 
 
+
 $(document).ready(function(){
+
+	WT.dashboard.call();
+
 	var win = $(window);
 
 	win.scroll(function(){
 
         if($(document).height() - win.height() - win.scrollTop() <= 600){
 
-			WT.dashboard.loadData(WT.dashboard.serie);
+			WT.dashboard.loadData(WT.dashboard.series);
 			WT.dashboard.loadData(WT.dashboard.manga);
 		}
 	});
