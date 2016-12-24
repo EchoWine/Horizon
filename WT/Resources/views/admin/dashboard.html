@@ -1,13 +1,13 @@
 @extends('WT/admin/layout')
 
 @block('header-nav')
-	<div class='page-header-button ly-center' cw-show='dashboard:serie|manga' cw-default>
+	<div class='page-header-button ly-center' cw-show='dashboard:series|manga' cw-default>
 	All ({{Auth::user() -> getSeries() -> count() + Auth::user() -> getManga() -> count()}})
 	</div>
 
 	<div class='page-header-separator'></div>
 
-	<div class='page-header-button ly-center' cw-show='dashboard:serie'>
+	<div class='page-header-button ly-center' cw-show='dashboard:series'>
 		<i class='fa fa-tv'></i>&nbsp;Series/Anime ({{Auth::user() -> getSeries() -> count()}})
 	</div>
 
