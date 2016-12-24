@@ -383,3 +383,13 @@
 	overflow: hidden;
 	background:#039BE5;
 }
+
+
+[action-progress]{
+	opacity:0.5 !important;
+	cursor:default !important;
+}
+
+[action-progress]:hover{
+	
+}

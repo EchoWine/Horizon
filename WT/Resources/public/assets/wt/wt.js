@@ -277,10 +277,11 @@ WT.app.add = function(database,id){
 
 };
 
-WT.app.sync = function(resource_type,resource_id){
+WT.app.sync = function(resource_type,resource_id,callback){
 
 	WT.sync(resource_type,resource_id,function(response){
 
+		callback();
 		item.addAlert('alert-'+response.status,'.alert-global',response);
 		modal.close("modal-wt-get");
 	});
@@ -551,11 +552,19 @@ $('body').on('click','[wt-remove]',function(e){
  */
 $('body').on('click','[wt-sync]',function(e){
 	
+	if(Action.is($(this)))
+		return;
+
 	var info = $(this).attr('wt-sync').split(",");
 	var resource_type = info[0];
 	var resource_id = info[1];
 
-	WT.app.sync(resource_type,resource_id);
+	Action.start($(this));
+
+	WT.app.sync(resource_type,resource_id,function(){
+
+		Action.end($(this));
+	});
 });
 
 
