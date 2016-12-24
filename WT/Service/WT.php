@@ -322,15 +322,22 @@ class WT{
 	public static function all($user){
 		$collection = new Collection();
 
-		$resources = Serie::all() -> toArray(false);
-		$resources = new Collection($resources);
-		$collection = $collection -> merge($resources);
 
-		$resources = Manga::all() -> toArray(false);
-		$resources = new Collection($resources);
-		$collection = $collection -> merge($resources);
+		$series = Serie::leftJoin('resource_containers','resource_containers.id','series.container_id')
+			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
+			-> where('resource_containers_users.user_id',$user -> id)
+			-> select('series.*')
+			-> get() 
+			-> toArray(false);
 
-		return $collection;
+		$manga = Manga::leftJoin('resource_containers','resource_containers.id','manga.container_id')
+			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
+			-> where('resource_containers_users.user_id',$user -> id)
+			-> select('manga.*')
+			-> get() 
+			-> toArray(false);
+
+		return $collection -> merge($series) -> merge($manga);
 	}
 
 	/**
