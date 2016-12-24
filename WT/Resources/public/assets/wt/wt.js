@@ -647,13 +647,17 @@ WT.dashboard.loadData = function(collection,max = 20){
 
 		record = collection.data[i];
 
-		var html = template.get("wt-dashboard-element",{
-			resource:record
-		});
+		if(typeof record !== "undefined" && record){
 
-		$("[cw-container='dashboard']").append(html);
+			var html = template.get("wt-dashboard-element",{
+				resource:record
+			});
 
-		collection.index++;
+			$("[cw-container='dashboard']").append(html);
+
+			collection.index++;
+
+		}
 
 	};
 };
