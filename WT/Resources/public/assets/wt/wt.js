@@ -636,15 +636,24 @@ WT.dashboard.call = function(){
 		$('#wt-library-count-series').html(WT.dashboard.series.data.length);
 		$('#wt-library-count-manga').html(WT.dashboard.manga.data.length);
 
-		WT.dashboard.loadData(WT.dashboard.series);
-		WT.dashboard.loadData(WT.dashboard.manga);
-
+		WT.dashboard.load();
 	});
 
 };
 
 WT.dashboard.load = function(){
 
+	var win = $(window);
+
+	win.scroll(function(){
+
+        if($(document).height() - win.height() - win.scrollTop() <= 600){
+
+			WT.dashboard.loadData(WT.dashboard.series);
+			WT.dashboard.loadData(WT.dashboard.manga);
+		}
+	});
+	
 	WT.dashboard.loadData(WT.dashboard.series);
 	WT.dashboard.loadData(WT.dashboard.manga);
 };
@@ -675,15 +684,6 @@ WT.dashboard.loadData = function(collection,max = 20){
 $(document).ready(function(){
 
 	WT.dashboard.call();
+	
 
-	var win = $(window);
-
-	win.scroll(function(){
-
-        if($(document).height() - win.height() - win.scrollTop() <= 600){
-
-			WT.dashboard.loadData(WT.dashboard.series);
-			WT.dashboard.loadData(WT.dashboard.manga);
-		}
-	});
 });
