@@ -59,7 +59,7 @@ class Serie extends Model implements Resource{
 		
 
 		return array_merge($res,[
-			'type' => 'serie',
+			'type' => 'series',
 			'poster' => $this -> poster() -> thumb(540,780),
 			'episodes' => $episodes,
 			'container' => $this -> container -> toArray()
@@ -77,7 +77,7 @@ class Serie extends Model implements Resource{
 		$res = parent::toArray();
 		
 		return array_merge($res,[
-			'type' => 'serie',
+			'type' => 'series',
 			'poster' => $this -> poster() -> thumb(540,780),
 		]);
 	}
