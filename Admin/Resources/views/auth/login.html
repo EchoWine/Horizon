@@ -8,9 +8,11 @@
 @block('body')
 	<div class='auth-container'>
 
-		<h1 class='auth-title'>Horizon</h1>
-
-		<br>
+		<h1 class='auth-title'>
+			<img src='{{assets('src/Admin/assets/img/logo.png')}}' width='80'>
+			<br>
+			Horizon
+		</h1>
 
 		<form method='POST' action="{{route('auth.form.login')}}">
 			<div>
