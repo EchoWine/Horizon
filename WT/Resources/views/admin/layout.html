@@ -1,15 +1,10 @@
 @extends('Admin/admin/layout')
 
-@block('favicon')
-	<link rel='icon' type='image/x-icon' href='{{assets('src/WT/assets/img/chip.png')}}'>
-	<link rel='shortcut icon' type='image/x-icon' href='{{assets('src/WT/assets/img/chip.png')}}'>
-@endblock
-
 @block('nav_head')
 
-	<div class='ly-center nav-header-icon-container'>
-		<i class='fa fa-snowflake-o' aria-hidden='true' style='padding-top:1px;font-size:18px;max-width:23px'></i>
-	</div>
+	
+	<img src='{{assets('src/Admin/assets/img/logo_80x80.png')}}' width='80' style='margin-left:-32px'>
+	&nbsp;&nbsp;&nbsp;
 	<span class='nav-header-name'>Horizon</span>
 @endblock
 
