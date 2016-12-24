@@ -637,7 +637,7 @@ $(document).ready(function(){
 
 	win.scroll(function(){
 
-		if ($(document).height() - win.height() == win.scrollTop()){
+		if ($(document).height() - win.height() == win.scrollTop() - 400){
 
 			WT.dashboard.loadData(WT.dashboard.serie);
 			WT.dashboard.loadData(WT.dashboard.manga);
