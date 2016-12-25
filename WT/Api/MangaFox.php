@@ -175,7 +175,7 @@ class MangaFox extends Basic{
 					$chapter_next = basename(dirname($next));
 
 
-					if($chapter_next !== $chapter_n)
+					if($chapter_next == 'compressed' || $chapter_next !== $chapter_n)
 						$next = null;
 
 
@@ -186,7 +186,7 @@ class MangaFox extends Basic{
 			}while($next);
 
 			echo $chapter;
-			
+
 			$chapter -> save();
 		
 
