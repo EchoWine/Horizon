@@ -4,6 +4,8 @@ namespace WT\Model;
 
 use CoreWine\DataBase\ORM\Model;
 
+use WT\Model\Queue\Chapter as QueueChapter;
+
 class Manga extends Model implements Resource{
 
 	/**
@@ -132,8 +134,16 @@ class Manga extends Model implements Resource{
 			$chapter -> name = $r_chapter -> name;
 			$chapter -> scan = $r_chapter -> scan;
 			$chapter -> released_at = new \DateTime($r_chapter -> released_at);
+
+			$new = !$chapter -> id;
+
 			$chapter -> save();
 
+			# Download only if new
+			if($new)
+				QueueChapter::create([
+					'chapter_id' => $chapter -> id,
+				]);
 		}
 
 		Volume::where('manga_id',$this -> id) -> whereNotIn('id',$volumes_ids) -> delete();

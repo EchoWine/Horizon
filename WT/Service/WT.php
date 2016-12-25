@@ -430,6 +430,13 @@ class WT{
 
 		return null;
 	}
+
+	public static function queueDownload($database,$limit){
+
+		$manager = self::getManagerByDatabase($database);
+
+		$manager -> queueDownload($limit);
+	}
 }
 
 ?>

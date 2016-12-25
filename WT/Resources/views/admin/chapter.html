@@ -1,0 +1,30 @@
+@extends('WT/admin/layout')
+
+@block('page-content')
+
+@include('WT/admin/resource')
+
+{# Dashboard #}
+<div class='ly-row'>
+
+	<div class='page-section page-section-content section-inner'>
+
+		<div class='ly-row'>
+			<img class='wt-poster' src='{{$resource -> poster() -> thumb(540,780)}}'>
+			<div class='wt-get-manga-right-img'>
+				<h2>{{$resource -> name}}</h2>
+				<p>{{$resource -> overview}}</p>
+				<p><b>DataBase API</b>: {{$resource -> container -> database_name}} | {{$resource -> container -> id}}</p>
+				<p><b>Last update</b>: {{$resource -> container -> database_id}}</p>
+			</div>
+		</div>
+
+		<div>
+			@foreach((array)$chapter -> raw as $file)
+				<img src='{{$chapter -> raw() -> web($file)}}'>
+				<br>
+			@endforeach
+		</div>
+	</div>
+</div>
+@endblock

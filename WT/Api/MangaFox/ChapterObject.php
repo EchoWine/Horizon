@@ -124,4 +124,8 @@ class ChapterObject extends Object{
 
 	}
 
+
+	public static function scan($dom){
+		
+	}
 }

@@ -33,6 +33,8 @@ class Chapter extends Model{
 
 		$schema -> string('scan');
 
+		$schema -> files('raw');
+
 		$schema -> datetime('released_at');
 
 		$schema -> text('overview');

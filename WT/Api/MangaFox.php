@@ -9,8 +9,11 @@ use CoreWine\Component\DomDocument;
 use CoreWine\Http\Request;
 use Cache;
 use WT\Api\MangaFox\MangaObject;
+use WT\Api\MangaFox\ScanObject;
 use WT\Api\MangaFox\CollectionObject;
 use Cfg;
+
+use WT\Model\Queue\Chapter as QueueChapter;
 
 class MangaFox extends Basic{
 
@@ -129,6 +132,66 @@ class MangaFox extends Basic{
 		$response = $client -> request($this -> url."releases/");
 
 		return CollectionObject::releases($response);
+
+	}
+
+	public function queueDownload($limit){
+
+		# Download chapters
+		$queue = QueueChapter::take($limit) -> get();
+
+		$client = new Client();
+
+		foreach($queue as $queue_chapter){
+			$chapter = $queue_chapter -> chapter;
+
+
+			# Download all scans
+
+			$first = $chapter -> scan;
+			//http://m.mangafox.me/manga/one_piece/vTBD/c850/1.html
+
+			$chapter_n = basename(dirname($first)); #c850
+
+			# Clear all files
+			$chapter -> raw() -> clear();
+
+			$next = $first;
+
+
+			do{
+				try{
+					$response = $client -> request($next,'GET',[]);
+
+					$scan = ScanObject::create($response);
+					$scan -> next = dirname($first)."/".$scan -> next;
+
+					$next = $scan -> next;
+
+					$chapter -> raw() -> addByUrl($scan -> raw);
+
+
+					# Stop if next isn't current chapter
+					$chapter_next = basename(dirname($next));
+
+
+					if($chapter_next !== $chapter_n)
+						$next = null;
+
+
+				}catch(\Exception $e){
+					$next = null;
+				}
+
+			}while($next);
+
+			echo $chapter;
+			
+			$chapter -> save();
+		
+
+			$queue_chapter -> delete();
+		}
 
 	}
 
