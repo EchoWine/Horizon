@@ -16,34 +16,27 @@ class CollectionObject extends Object{
 	public static function create($response){
 
 		$dom = new DomDocument($response);
-		$rows = $dom -> getElementsByAttribute('id','listing') -> item(0);
+		$rows = $dom -> getElementsByAttribute('id','mangalist') -> item(0);
 
 		if(!$rows)
 			return [];
 
-		$rows = $rows -> getElementsByTagName('tr');
-		
+		$rows = $rows -> getElementsByTagName('ul') -> item(0) -> getElementsByTagName('li');
+
 
 		$collection = new Collection();
 
-		$i = 0;
 		foreach($rows as $row){
-			if($i == 0){
-
-			}else{
-
-				$o = MangaObject::basic($row);
-				$collection[$o -> id] = [
-					'database' => 'manga-fox',
-					'id' => $o -> id,
-					'name' => $o -> name,
-					'poster' => $o -> poster,
-				];
-			}
-
-			$i++;
+			$o = MangaObject::basic($row);
+			$collection[$o -> id] = [
+				'database' => 'manga-fox',
+				'id' => $o -> id,
+				'name' => $o -> name,
+				'poster' => $o -> poster,
+			];
+		
 		}
-
+		
 		return $collection;
 	}
 

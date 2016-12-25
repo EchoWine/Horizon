@@ -18,8 +18,6 @@ class MangaObject extends Object{
 
 		$o = new self();
 
-		$td = $response -> getElementsByTagName('td');
-
 		$id = $response -> getElementsByTagName('a') -> item(0) -> getAttribute('rel');
 		
 		# ID
@@ -28,18 +26,20 @@ class MangaObject extends Object{
 		$i = $i[count($i) - 2];
 		$o -> id = $i;
 
-		$o -> name = $response -> getElementsByTagName('a') -> item(0) -> nodeValue;
-
-
-
+		$o -> name = $response -> getElementsByTagName('a') -> item(1) -> nodeValue;
 		
 		try{
+			$o -> poster = $response -> getElementsByTagName('img') -> item(0) -> getAttribute('src');
+
+			/*
 			$client = new Client();
 			$response = $client -> request("http://mangafox.me/ajax/series.php",'POST',['sid' => $id]);
 			$response = json_decode($response);
 			$o -> poster = $response[10];
+			*/
 		}catch(\Exception $e){
 		}
+
 
 		return $o;
 	}
