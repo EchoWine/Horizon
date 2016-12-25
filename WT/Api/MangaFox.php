@@ -169,13 +169,13 @@ class MangaFox extends Basic{
 					$next = $scan -> next;
 
 					$chapter -> raw() -> addByUrl($scan -> raw);
-
+					$chapter -> save();
 
 					# Stop if next isn't current chapter
 					$chapter_next = basename(dirname($next));
 
 
-					if($chapter_next == 'compressed' || $chapter_next !== $chapter_n)
+					if($chapter_next !== $chapter_n)
 						$next = null;
 
 
@@ -184,10 +184,6 @@ class MangaFox extends Basic{
 				}
 
 			}while($next);
-
-			echo $chapter;
-
-			$chapter -> save();
 		
 
 			$queue_chapter -> delete();
