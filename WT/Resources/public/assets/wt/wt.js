@@ -176,6 +176,7 @@ WT.app.discovery = function(value){
 			});
 		});
 
+
 		WT.app.addResultSearch('.wt-search-library',data['library']);
 
 		WT.app.addResultSearch('.wt-search-thetvdb',data['thetvdb']);
@@ -201,9 +202,10 @@ WT.app.addResultSearch = function(selector,results){
 		$(this).hide();
 	});
 
+	$(selector).html(html);
+
 	WT.app.updateSearchCount();
 
-	$(selector).html(html);
 };
 
 WT.app.updateSearchCount = function(){
