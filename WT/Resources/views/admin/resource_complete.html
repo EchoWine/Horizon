@@ -70,7 +70,7 @@
 						@foreach($volume -> chapters -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']]) as $chapter)
 							<tr>
 								<td>
-									<a target='_blank' href='{{$chapter -> scan}}'>
+									<a target='_blank' href="{{route('admin.chapter',['manga_id' => $resource -> id,'chapter_id' => $chapter -> id])}}">
 										Chapter {{$chapter -> number}} - {{$chapter -> name}}
 									</a>
 								</td>

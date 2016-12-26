@@ -1,0 +1,17 @@
+body{
+    background:#1b1a1f;
+}
+
+
+.wt-manga-reader-container{
+    max-width:728px;
+    margin:10px auto;
+}
+
+.wt-manga-reader-container img{
+    max-width:100%;
+}
+
+.wt-manga-reader-title{
+    margin:0;
+}
