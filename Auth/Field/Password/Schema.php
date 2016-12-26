@@ -68,5 +68,14 @@ class Schema extends FieldSchema{
 	 * @var bool
 	 */
 	public $enable_to_array = false;
+	
+	/**
+	 * Edit if empty
+	 *
+	 * If this value is set to false and the value of field sent in update operation is empty,
+	 * then this field will be removed in edit/update operation
+	 */
+	public $edit_if_empty = false;
+	
 }
 ?>
