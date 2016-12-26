@@ -31,6 +31,9 @@ class SearchController extends BasicController{
 	 */
 	public function search(){
 
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
+		
 		return $this -> view('WT/admin/search',[]);
 	}
 }

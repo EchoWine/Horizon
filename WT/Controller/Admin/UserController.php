@@ -4,6 +4,8 @@ namespace WT\Controller\Admin;
 
 use Auth\Model\User;
 
+use CoreWine\Http\Request;
+
 class UserController extends AdminController{
 
 	/**
@@ -66,6 +68,20 @@ class UserController extends AdminController{
 			$view -> token();
 
 		});
+	}
+
+
+	/**
+	 * Index
+	 *
+	 * @return Response
+	 */
+	public function index(Request $request){
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_USERS))
+			return abort(404);
+		
+
+		return parent::index($request);
 	}
 
 }

@@ -9,6 +9,8 @@
 @endblock
 
 @block('nav')
+
+
 	<ul>
 		<li class='nav-link-container'>
 			<a class='nav-link' href='{{route('admin/dashboard')}}'>
@@ -17,6 +19,8 @@
 			</a>
 		</li>
 	</ul>
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
 	<ul>
 		<li class='nav-link-container'>
 			<a class='nav-link' href='{{route('admin/search')}}'>
@@ -41,6 +45,7 @@
 			</a>
 		</li>
 	</ul>
+	@endif
 	<!--
 	<ul>
 		<li class='nav-link-container'>
@@ -69,39 +74,52 @@
 		</li>
 	</ul>
 	-->
-	<h5 class='nav-title'>Music</h5>
-	<ul>
-		<li class='nav-link-container'>
-			<a class='nav-link' href='{{route('admin/music/player')}}'>
-				<i class='nav-link-icon fa fa-music'></i>
-				<span>Player</span>
-			</a>
-		</li>
-		<li class='nav-link-container'>
-			<a class='nav-link' href='{{route('admin/playlists')}}'>
-				<i class='nav-link-icon fa fa-music'></i>
-				<span>Playlists</span>
-			</a>
-		</li>
-	</ul>
-	<h5 class='nav-title'>Data</h5>
-	<ul>
-		<li class='nav-link-container'>
-			<a class='nav-link' href='{{route('admin/chess_matches')}}'>
-				<i class='nav-link-icon fa fa-user'></i>
-				<span>Chess matches</span>
-			</a>
-		</li>
-	</ul>
-	<h5 class='nav-title'>Administration</h5>
-	<ul>
-		<li class='nav-link-container'>
-			<a class='nav-link' href='{{route('admin/users')}}'>
-				<i class='nav-link-icon fa fa-user'></i>
-				<span>Users</span>
-			</a>
-		</li>
-	</ul>
+	
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_MUSIC))
+
+		<h5 class='nav-title'>Music</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/music/player')}}'>
+					<i class='nav-link-icon fa fa-music'></i>
+					<span>Player</span>
+				</a>
+			</li>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/playlists')}}'>
+					<i class='nav-link-icon fa fa-music'></i>
+					<span>Playlists</span>
+				</a>
+			</li>
+		</ul>
+
+	@endif
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_CHESS))
+		<h5 class='nav-title'>Data</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-user'></i>
+					<span>Chess matches</span>
+				</a>
+			</li>
+		</ul>
+	@endif
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_USERS))
+		
+		<h5 class='nav-title'>Administration</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/users')}}'>
+					<i class='nav-link-icon fa fa-user'></i>
+					<span>Users</span>
+				</a>
+			</li>
+		</ul>
+
+	@endif
 @endblock
 
 @block('stylesheet')

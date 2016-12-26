@@ -33,7 +33,7 @@ class IndexController extends Controller{
 	 * @return Response
 	 */
 	public function index(){
-
+		
 		return $this -> redirect('admin/dashboard');
 	}
 }

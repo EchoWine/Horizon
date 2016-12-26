@@ -93,15 +93,22 @@ class User extends Model{
 		return $return -> isEmpty() ? $return : Manga::whereIn('container_id',$return -> toArray()) -> get();
 	}	
 
+	const PEX_WT_BASIC = 'wt-basic';
+	const PEX_WT_ADVANCED = 'wt-advanced';
+	const PEX_MUSIC = 'music';
+	const PEX_CHESS = 'chess';
+	const PEX_USERS = 'users';
+
 	public static function getPermission(){
 		return [
-			'wt-basic' => "What's today - basic",
-			'wt-advanced' => "What's today - advanced",
-			'music-player' => "Music player",
-			'chess-manager' => 'Chess manager',
-			'user-manager' => 'User manager'
+			self::PEX_WT_BASIC => "What's today - basic",
+			self::PEX_WT_ADVANCED => "What's today - advanced",
+			self::PEX_MUSIC => "Music player",
+			self::PEX_CHESS => 'Chess manager',
+			self::PEX_USERS => 'User manager'
 		];
 	}
+
 }
 
 ?>

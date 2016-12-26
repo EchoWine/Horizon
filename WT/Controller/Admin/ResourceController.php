@@ -38,6 +38,9 @@ class ResourceController extends Controller{
 	 */
 	public function get($request,$resource_type,$resource_id){
 
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
+
 		$resource_class = WT::getClassByType($resource_type);
 		$resource = $resource_class::where('id',$resource_id) -> first();
 
@@ -51,6 +54,8 @@ class ResourceController extends Controller{
 	 */
 	public function chapter($request,$manga_id,$chapter_id){
 
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
 
 		$chapter = Chapter::where('id',$chapter_id) -> first();
 		$resource = $chapter -> manga;

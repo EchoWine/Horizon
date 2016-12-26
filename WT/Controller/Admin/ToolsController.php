@@ -31,6 +31,10 @@ class ToolsController extends BasicController{
 	 */
 	public function tools(){
 
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
+		
+
 		return $this -> view('WT/admin/tools',[]);
 	}
 }

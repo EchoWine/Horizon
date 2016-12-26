@@ -53,7 +53,7 @@ abstract class AdminController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function index(){
+	public function index(Request $request){
 		$views = new Views($this -> getSchema(),$this -> getApiUrl());
 
 		$this -> views($views);

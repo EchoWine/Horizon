@@ -3,6 +3,8 @@
 namespace Music\Controller\Admin;
 use Auth\Service\Auth;
 
+use CoreWine\Http\Request;
+
 class PlaylistsController extends AdminController{
 
 	public $view = 'Music/admin/item-playlist';
@@ -59,6 +61,19 @@ class PlaylistsController extends AdminController{
 	public function __insert($playlist){
 
 		$playlist -> user = Auth::user(); 
+	}
+
+	/**
+	 * Index
+	 *
+	 * @return Response
+	 */
+	public function index(Request $request){
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_MUSIC))
+			return abort(404);
+		
+
+		return parent::index($request);
 	}
 
 

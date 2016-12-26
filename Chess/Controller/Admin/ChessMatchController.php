@@ -2,6 +2,8 @@
 
 namespace Chess\Controller\Admin;
 
+use CoreWine\Http\Request;
+
 class ChessMatchController extends AdminController{
 
 	/**
@@ -72,6 +74,19 @@ class ChessMatchController extends AdminController{
 		});
 	}
 
+
+	/**
+	 * Index
+	 *
+	 * @return Response
+	 */
+	public function index(Request $request){
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_CHESS))
+			return abort(404);
+		
+
+		return parent::index($request);
+	}
 }
 
 ?>

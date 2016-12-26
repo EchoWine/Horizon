@@ -38,6 +38,10 @@ class CalendarController extends Controller{
 	 * @return Response
 	 */
 	public function monthly(Request $request){
+
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
+		
 		$datetime = new \DateTime();
 		$month = $request -> query -> get('month',$datetime -> format('m'));
 		$year = $request -> query -> get('year',$datetime -> format('Y'));
