@@ -12,6 +12,10 @@
 	justify-content:center;
 }
 
+.ly-right{
+	text-align:right;
+}
+
 .ly-fill{
 	flex-grow:1;
 }

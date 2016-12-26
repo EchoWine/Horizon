@@ -10,8 +10,30 @@ body{
 
 .wt-manga-reader-container img{
     max-width:100%;
+    display:block;
 }
 
 .wt-manga-reader-title{
     margin:0;
+}
+
+*[wt-manga-reader-container-mode='pag'] .wt-manga-reader-image{
+	display:none;
+}
+
+*[wt-manga-reader-container-mode='pag'] .wt-manga-reader-image:target{
+	display:block;
+}
+
+.wt-manga-reader{
+	
+    display:none;
+}
+
+#wt-manga-reader-all[wt-manga-reader-container-mode='all']{
+	display:block;
+}
+
+#wt-manga-reader-pag[wt-manga-reader-container-mode='pag']{
+	display:block;
 }

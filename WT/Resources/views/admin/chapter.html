@@ -7,34 +7,61 @@
 	<link rel='stylesheet' href='{{assets('src/WT/assets/wt/reader.css')}}'>
 @endblock
 
+@block('scripts')
+	@parent
+
+	<script src='{{assets('src/WT/assets/wt/reader.js')}}'></script>
+@endblock
+
 @block('body')
 
 
 <div class='ly-row'>
 
-		<div class='wt-manga-reader-container page-section page-section-content section-inner'>
-			<h2 class='wt-manga-reader-title'><a href="{{route('admin.resource',['resource_type' => $resource -> type,'resource_id' => $resource -> id])}}">{{$resource -> name}}</a> <i class='fa fa-angle-double-right'></i> {{$chapter -> number}}</h2>
+	<div class='wt-manga-reader-container page-section page-section-content section-inner ly-row'>
+
+		<div class='ly-xs-50'>
+			<h2 class='wt-manga-reader-title'>
+				<a href="{{route('admin.resource',['resource_type' => $resource -> type,'resource_id' => $resource -> id])}}">{{$resource -> name}}</a> 
+				<i class='fa fa-angle-double-right'></i> {{$chapter -> number}}
+			</h2>
 		</div>
+		<div class='ly-xs-50 ly-right'>
+			<select name='wt-reader-mode'>
+				<option value='all'>All in one</option>
+				<option value='pag'>Pagination</option>
+			</select>
+		</div>
+	</div>
 	
 </div>
 
 <div class='ly-row'>
 
 
-		<div class='wt-manga-reader-container page-section page-section-content section-inner'>
-			@foreach((array)$chapter -> raw as $file)
-				<img src='{{$chapter -> raw() -> web($file)}}'>
-				<br>
+		<div id='wt-manga-reader-pag' class='wt-manga-reader wt-manga-reader-container page-section page-section-content section-inner'>
+			@foreach((array)$chapter -> raw as $n => $file)
+				<a href='#{{$n+1}}'>
+					<img class='wt-manga-reader-image' id='{{$n}}' src='{{$chapter -> raw() -> web($file)}}'>
+				</a>
 			@endforeach
+
+			<h1 id='{{$n+1}}' class='wt-manga-reader-image wt-manga-reader-next-chapter'>
+				<div class='ly-center'>
+					<a href="{{route('admin.chapter.next',['manga_id' => $resource -> id,'chapter_id' => $chapter -> id])}}">Next</a>
+				</div>
+			</h1>
+		</div>
+
+		<div id='wt-manga-reader-all' class='wt-manga-reader wt-manga-reader-container page-section page-section-content section-inner'>
+			<a href="{{route('admin.chapter.next',['manga_id' => $resource -> id,'chapter_id' => $chapter -> id])}}">
+
+			@foreach((array)$chapter -> raw as $n => $file)
+				<img class='wt-manga-reader-image' id='{{$n}}' src='{{$chapter -> raw() -> web($file)}}'>
+			@endforeach
+			</a>
 		</div>
 	</div>
 </div>
 
-<div class='ly-row'>
-
-	<div class='wt-manga-reader-container page-section page-section-content section-inner'>
- 		Next
-	</div>
-	
-</div>
 @endblock

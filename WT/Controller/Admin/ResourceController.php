@@ -29,6 +29,8 @@ class ResourceController extends Controller{
 
 		$router -> any('admin/resource/{resource_type}/{resource_id}','get') -> as('admin.resource');
 		$router -> any('admin/resource/manga/{manga_id}/chapter/{chapter_id}','chapter') -> as('admin.chapter');
+		$router -> any('admin/resource/manga/{manga_id}/chapter/{chapter_id}/next','chapterNext') -> as('admin.chapter.next');
+
 	}
 	
 	/**
@@ -61,6 +63,27 @@ class ResourceController extends Controller{
 		$resource = $chapter -> manga;
 
 		return $this -> view('WT/admin/chapter',['chapter' => $chapter,'resource' => $resource]);
+	}
+	
+	/**
+	 * @ANY
+	 *
+	 * @return Response
+	 */
+	public function chapterNext($request,$manga_id,$chapter_id){
+
+		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+			return abort(404);
+
+		$chapter = Chapter::where('id',$chapter_id) -> first();
+		$manga = $chapter -> manga;
+
+		$chapter_next = Chapter::where('manga_id',$manga -> id) -> where('number','>',$chapter -> number) -> orderByAsc('number') -> first();
+
+		return $chapter_next 
+			? redirect(route('admin.chapter',['manga_id' => $manga -> id,'chapter_id' => $chapter_next -> id]))
+			: redirect(route('admin.resource',['resource_type' => $manga -> container -> type,'resource_id' => $manga -> id]));
+
 	}
 }
 
