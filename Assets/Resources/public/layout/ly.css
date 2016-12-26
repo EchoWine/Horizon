@@ -78,11 +78,12 @@
 	.ly-xs-10{ width:10%; }
 	.ly-xs-11{ width:11%; }
 	.ly-xs-12{ width:12%; }
-	[class~='ly-xs-12.5']{ width:12.5%; }
+	[class~='ly-xs-12.50']{ width:12.5%; }
 	.ly-xs-13{ width:13%; }
 	.ly-xs-14{ width:14%; }
 	.ly-xs-15{ width:15%; }
 	.ly-xs-16{ width:16%; }
+	[class~='ly-xs-16.66']{ width:16.66%; }
 	.ly-xs-17{ width:17%; }
 	.ly-xs-18{ width:18%; }
 	.ly-xs-19{ width:19%; }
@@ -183,11 +184,12 @@
 	.ly-sm-10{ width:10%; }
 	.ly-sm-11{ width:11%; }
 	.ly-sm-12{ width:12%; }
-	[class~='ly-sm-12.5']{ width:12.5%; }
+	[class~='ly-sm-12.50']{ width:12.5%; }
 	.ly-sm-13{ width:13%; }
 	.ly-sm-14{ width:14%; }
 	.ly-sm-15{ width:15%; }
 	.ly-sm-16{ width:16%; }
+	[class~='ly-sm-16.66']{ width:16.66%; }
 	.ly-sm-17{ width:17%; }
 	.ly-sm-18{ width:18%; }
 	.ly-sm-19{ width:19%; }
@@ -287,11 +289,12 @@
 	.ly-md-10{ width:10%; }
 	.ly-md-11{ width:11%; }
 	.ly-md-12{ width:12%; }
-	[class~='ly-md-12.5']{ width:12.5%; }
+	[class~='ly-md-12.50']{ width:12.5%; }
 	.ly-md-13{ width:13%; }
 	.ly-md-14{ width:14%; }
 	.ly-md-15{ width:15%; }
 	.ly-md-16{ width:16%; }
+	[class~='ly-md-16.66']{ width:16.66%; }
 	.ly-md-17{ width:17%; }
 	.ly-md-18{ width:18%; }
 	.ly-md-19{ width:19%; }
@@ -396,11 +399,12 @@
 	.ly-lg-10{ width:10%; }
 	.ly-lg-11{ width:11%; }
 	.ly-lg-12{ width:12%; }
-	[class~='ly-lg-12.5']{ width:12.5%; }
+	[class~='ly-lg-12.50']{ width:12.5%; }
 	.ly-lg-13{ width:13%; }
 	.ly-lg-14{ width:14%; }
 	.ly-lg-15{ width:15%; }
 	.ly-lg-16{ width:16%; }
+	[class~='ly-lg-16.66']{ width:16.66%; }
 	.ly-lg-17{ width:17%; }
 	.ly-lg-18{ width:18%; }
 	.ly-lg-19{ width:19%; }
@@ -502,11 +506,12 @@
 	.ly-xl-10{ width:10%; }
 	.ly-xl-11{ width:11%; }
 	.ly-xl-12{ width:12%; }
-	[class~='ly-xl-12.5']{ width:12.5%; }
+	[class~='ly-xl-12.50']{ width:12.5%; }
 	.ly-xl-13{ width:13%; }
 	.ly-xl-14{ width:14%; }
 	.ly-xl-15{ width:15%; }
 	.ly-xl-16{ width:16%; }
+	[class~='ly-xl-16.66']{ width:16.66%; }
 	.ly-xl-17{ width:17%; }
 	.ly-xl-18{ width:18%; }
 	.ly-xl-19{ width:19%; }
@@ -608,11 +613,12 @@
 	.ly-en-10{ width:10%; }
 	.ly-en-11{ width:11%; }
 	.ly-en-12{ width:12%; }
-	[class~='ly-en-12.5']{ width:12.5%; }
+	[class~='ly-en-12.50']{ width:12.5%; }
 	.ly-en-13{ width:13%; }
 	.ly-en-14{ width:14%; }
 	.ly-en-15{ width:15%; }
 	.ly-en-16{ width:16%; }
+	[class~='ly-en-16.66']{ width:16.66%; }
 	.ly-en-17{ width:17%; }
 	.ly-en-18{ width:18%; }
 	.ly-en-19{ width:19%; }
