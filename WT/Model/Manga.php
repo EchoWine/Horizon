@@ -155,7 +155,7 @@ class Manga extends Model implements Resource{
 		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> delete();
 
 		# Remove all queue chapters that have been deleted
-		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereIsNull('chapters.id') -> delete();
+		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereIsNull('chapters.id') -> delete('queue_chapters.*');
 	}
 }
 
