@@ -11,7 +11,7 @@ class QueueCommand extends Command{
 
 	public function handle(){
 
-		WT::queueDownload('manga-fox',200);
+		WT::queueDownload('manga-fox',10);
 
 	}
 }
