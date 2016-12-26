@@ -138,7 +138,7 @@ class MangaFox extends Basic{
 	public function queueDownload($limit){
 
 		# Download chapters
-		$queue = QueueChapter::take($limit) -> get();
+		$queue = QueueChapter::take($limit) -> orderBy('id','DESC') -> get();
 
 		$client = new Client();
 
