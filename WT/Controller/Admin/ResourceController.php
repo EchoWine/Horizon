@@ -78,7 +78,7 @@ class ResourceController extends Controller{
 		$chapter = Chapter::where('id',$chapter_id) -> first();
 		$manga = $chapter -> manga;
 
-		$chapter_next = Chapter::where('manga_id',$manga -> id) -> where('number','>',$chapter -> number) -> orderByAsc('number') -> first();
+		$chapter_next = Chapter::where('manga_id',$manga -> id) -> where('number','>',$chapter -> number) -> orderByAsc('number') -> where('id','!=',$chapter -> id) -> first();
 
 		return $chapter_next 
 			? redirect(route('admin.chapter',['manga_id' => $manga -> id,'chapter_id' => $chapter_next -> id]))
