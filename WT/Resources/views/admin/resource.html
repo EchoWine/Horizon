@@ -11,12 +11,12 @@
 
 {# Serie #}
 <div data-template='wt-get-serie'>
-	<img src='{banner}'>
-	<h2>{name} <span class='tag tag-action tag-{status_type}'>{status}</span></h2>
-	<p>{overview}</p>
-	<p><b>DataBase API</b>: {database_name} | {database_id}</p>
-	<p><b>Last update</b>: {updated_at}</p>
-	<p><b>Resource</b>: <a target='_blank' href='{{\Request::getDirUrl()}}admin/resource/series/{id}'>#{id}</a></p>
+	<img src='{resource.banner.original}'>
+	<h2>{resource.name} <span class='tag tag-action tag-{status_type}'>{resource.status}</span></h2>
+	<p>{resource.overview}</p>
+	<p><b>DataBase API</b>: {resource.database_name} | {resource.database_id}</p>
+	<p><b>Last update</b>: {resource.updated_at}</p>
+	<p><b>Resource</b>: <a target='_blank' href='{{\Request::getDirUrl()}}admin/resource/series/{resource.id}'>#{resource.id}</a></p>
 	<!--
 	<h3>Flag</h3>
 	<select class='select-data' name='flag'>
@@ -26,24 +26,26 @@
 	</select>
 	<button type='button' class='button button-action button-primary'><i class="fa fa-upload" aria-hidden="true"></i><span>Save changes</span></button>
 	-->
-	<button type='button' class='button button-action button-primary' wt-sync='{container_type},{id}'><i class="fa fa-refresh" aria-hidden="true"></i><span>Sync DataBase API</span></button>
+	<button type='button' class='button button-action button-primary' wt-sync='{resource.container_type},{resource.id}'><i class="fa fa-refresh" aria-hidden="true"></i><span>Sync DataBase API</span></button>
 	<!--
 		<button type='button' class='button button-action button-primary'><i class="fa fa-refresh" aria-hidden="true"></i><span>Check Updates</span></button>
 	-->
-	<button type='button' class='button button-action button-danger' wt-remove='{container_type},{id}'><i class="fa fa-trash" aria-hidden="true"></i><span>Remove</span></button>
+	<button type='button' class='button button-action button-danger' wt-remove='{resource.container_type},{resource.id}'><i class="fa fa-trash" aria-hidden="true"></i><span>Remove</span></button>
 
 </div>
 
 {# Manga #}
 <div data-template='wt-get-manga'>
-	<div class='ly-row'>
-		<img  class='wt-modal-resource-image' src='{poster}'>
-		<div class='wt-get-manga-right-img'>
-			<h2>{name} <span class='tag tag-action tag-{status_type}'>{status}</span></h2>
-			<p>{overview}</p>
-			<p><b>DataBase API</b>: {database_name} | {database_id}</p>
-			<p><b>Last update</b>: {updated_at}</p>
-			<p><b>Resource</b>: <a target='_blank' href='{{\Request::getDirUrl()}}admin/resource/manga/{id}'>#{id}</a></p>
+	<div class='ly-row ly-wrap'>
+		<div class='ly-xs-100 ly-sm-25'>
+			<img class='wt-modal-resource-image' src='{resource.poster}'>
+		</div>
+		<div class='wt-get-manga-right-img ly-xs-100 ly-sm-75'>
+			<h2>{resource.name} <span class='tag tag-action tag-{status_type}'>{resource.status}</span></h2>
+			<p>{resource.overview}</p>
+			<p><b>DataBase API</b>: {resource.container.database_name} | {resource.container.database_id}</p>
+			<p><b>Last update</b>: {resource.updated_at}</p>
+			<p><b>Resource</b>: <a target='_blank' href='{{\Request::getDirUrl()}}admin/resource/manga/{resource.id}'>#{resource.id}</a></p>
 		</div>
 	</div>
 	<!--
@@ -55,10 +57,10 @@
 	</select>
 	<button type='button' class='button button-action button-primary'><i class="fa fa-upload" aria-hidden="true"></i><span>Save changes</span></button>
 	-->
-	<button type='button' class='button button-action button-primary' wt-sync='{container_type},{id}'><i class="fa fa-refresh" aria-hidden="true"></i><span>Sync DataBase API</span></button>
+	<button type='button' class='button button-action button-primary' wt-sync='{resource.container_type},{resource.id}'><i class="fa fa-refresh" aria-hidden="true"></i><span>Sync DataBase API</span></button>
 
 	<!--
 	<button type='button' class='button button-action button-primary'><i class="fa fa-refresh" aria-hidden="true"></i><span>Check Updates</span></button>
 	-->
-	<button type='button' class='button button-action button-danger' wt-remove='{container_type},{id}'><i class="fa fa-trash" aria-hidden="true"></i><span>Remove</span></button>
+	<button type='button' class='button button-action button-danger' wt-remove='{resource.container_type},{resource.id}'><i class="fa fa-trash" aria-hidden="true"></i><span>Remove</span></button>
 </div>

@@ -359,32 +359,16 @@ WT.app.info = function(type,id){
 			if(response.container.type == 'series'){
 
 				content = template.get('wt-get-serie',{
-					id:response.id,
-					name:response.name,
-					banner:response.banner.original,
-					overview:response.overview,
-					updated_at:response.updated_at,
-					status:response.status,
+					resource:response,
 					status_type:status_type,
-					container_type:response.container.type,
-					database_id:response.container.database_id,
-					database_name:response.container.database_name
 				});
 			}
 
 			if(response.container.type == 'manga'){
 
 				content = template.get('wt-get-manga',{
-					id:response.id,
-					name:response.name,
-					poster:response.poster.original,
-					overview:response.overview,
-					updated_at:response.updated_at,
-					status:response.status,
+					resource:response,
 					status_type:status_type,
-					container_type:response.container.type,
-					database_id:response.container.database_id,
-					database_name:response.container.database_name
 				});
 			}
 

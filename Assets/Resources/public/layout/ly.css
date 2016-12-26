@@ -27,6 +27,10 @@
 	display:flex;
 }
 
+.ly-wrap{
+	flex-wrap:wrap;
+}
+
 .ly-center{
 	align-items:center;
 	justify-content:center;
@@ -61,49 +65,314 @@
 }
 
 @media(min-width:0px){
-	.ly-xs-1{
-		width:100%;
-	}
 
+	.ly-xs-1{ width:1%; }
+	.ly-xs-2{ width:2%; }
+	.ly-xs-3{ width:3%; }
+	.ly-xs-4{ width:4%; }
+	.ly-xs-5{ width:5%; }
+	.ly-xs-6{ width:6%; }
+	.ly-xs-7{ width:7%; }
+	.ly-xs-8{ width:8%; }
+	.ly-xs-9{ width:9%; }
+	.ly-xs-10{ width:10%; }
+	.ly-xs-11{ width:11%; }
+	.ly-xs-12{ width:12%; }
+	.ly-xs-13{ width:13%; }
+	.ly-xs-14{ width:14%; }
+	.ly-xs-15{ width:15%; }
+	.ly-xs-16{ width:16%; }
+	.ly-xs-17{ width:17%; }
+	.ly-xs-18{ width:18%; }
+	.ly-xs-19{ width:19%; }
+	.ly-xs-20{ width:20%; }
+	.ly-xs-21{ width:21%; }
+	.ly-xs-22{ width:22%; }
+	.ly-xs-23{ width:23%; }
+	.ly-xs-24{ width:24%; }
+	.ly-xs-25{ width:25%; }
+	.ly-xs-26{ width:26%; }
+	.ly-xs-27{ width:27%; }
+	.ly-xs-28{ width:28%; }
+	.ly-xs-29{ width:29%; }
+	.ly-xs-30{ width:30%; }
+	.ly-xs-31{ width:31%; }
+	.ly-xs-32{ width:32%; }
+	.ly-xs-33{ width:33%; }
+	.ly-xs-34{ width:34%; }
+	.ly-xs-35{ width:35%; }
+	.ly-xs-36{ width:36%; }
+	.ly-xs-37{ width:37%; }
+	.ly-xs-38{ width:38%; }
+	.ly-xs-39{ width:39%; }
+	.ly-xs-40{ width:40%; }
+	.ly-xs-41{ width:41%; }
+	.ly-xs-42{ width:42%; }
+	.ly-xs-43{ width:43%; }
+	.ly-xs-44{ width:44%; }
+	.ly-xs-45{ width:45%; }
+	.ly-xs-46{ width:46%; }
+	.ly-xs-47{ width:47%; }
+	.ly-xs-48{ width:48%; }
+	.ly-xs-49{ width:49%; }
+	.ly-xs-50{ width:50%; }
+	.ly-xs-51{ width:51%; }
+	.ly-xs-52{ width:52%; }
+	.ly-xs-53{ width:53%; }
+	.ly-xs-54{ width:54%; }
+	.ly-xs-55{ width:55%; }
+	.ly-xs-56{ width:56%; }
+	.ly-xs-57{ width:57%; }
+	.ly-xs-58{ width:58%; }
+	.ly-xs-59{ width:59%; }
+	.ly-xs-60{ width:60%; }
+	.ly-xs-61{ width:61%; }
+	.ly-xs-62{ width:62%; }
+	.ly-xs-63{ width:63%; }
+	.ly-xs-64{ width:64%; }
+	.ly-xs-65{ width:65%; }
+	.ly-xs-66{ width:66%; }
+	.ly-xs-67{ width:67%; }
+	.ly-xs-68{ width:68%; }
+	.ly-xs-69{ width:69%; }
+	.ly-xs-70{ width:70%; }
+	.ly-xs-71{ width:71%; }
+	.ly-xs-72{ width:72%; }
+	.ly-xs-73{ width:73%; }
+	.ly-xs-74{ width:74%; }
+	.ly-xs-75{ width:75%; }
+	.ly-xs-76{ width:76%; }
+	.ly-xs-77{ width:77%; }
+	.ly-xs-78{ width:78%; }
+	.ly-xs-79{ width:79%; }
+	.ly-xs-80{ width:80%; }
+	.ly-xs-81{ width:81%; }
+	.ly-xs-82{ width:82%; }
+	.ly-xs-83{ width:83%; }
+	.ly-xs-84{ width:84%; }
+	.ly-xs-85{ width:85%; }
+	.ly-xs-86{ width:86%; }
+	.ly-xs-87{ width:87%; }
+	.ly-xs-88{ width:88%; }
+	.ly-xs-89{ width:89%; }
+	.ly-xs-90{ width:90%; }
+	.ly-xs-91{ width:91%; }
+	.ly-xs-92{ width:92%; }
+	.ly-xs-93{ width:93%; }
+	.ly-xs-94{ width:94%; }
+	.ly-xs-95{ width:95%; }
+	.ly-xs-96{ width:96%; }
+	.ly-xs-97{ width:97%; }
+	.ly-xs-98{ width:98%; }
+	.ly-xs-99{ width:99%; }
+	.ly-xs-100{ width:100%; }
 }
 
 @media (min-width:576px){
 	
-	.ly-sm-1{
-		width:100%;
-	}
-	
-	.ly-sm-2{
-		width:50%;
-	}
-
-	.ly-sm-3{
-		width:33.33%;
-	}
-	
-	.ly-sm-4{
-		width:25%;
-	}
-
+	.ly-sm-1{ width:1%; }
+	.ly-sm-2{ width:2%; }
+	.ly-sm-3{ width:3%; }
+	.ly-sm-4{ width:4%; }
+	.ly-sm-5{ width:5%; }
+	.ly-sm-6{ width:6%; }
+	.ly-sm-7{ width:7%; }
+	.ly-sm-8{ width:8%; }
+	.ly-sm-9{ width:9%; }
+	.ly-sm-10{ width:10%; }
+	.ly-sm-11{ width:11%; }
+	.ly-sm-12{ width:12%; }
+	.ly-sm-13{ width:13%; }
+	.ly-sm-14{ width:14%; }
+	.ly-sm-15{ width:15%; }
+	.ly-sm-16{ width:16%; }
+	.ly-sm-17{ width:17%; }
+	.ly-sm-18{ width:18%; }
+	.ly-sm-19{ width:19%; }
+	.ly-sm-20{ width:20%; }
+	.ly-sm-21{ width:21%; }
+	.ly-sm-22{ width:22%; }
+	.ly-sm-23{ width:23%; }
+	.ly-sm-24{ width:24%; }
+	.ly-sm-25{ width:25%; }
+	.ly-sm-26{ width:26%; }
+	.ly-sm-27{ width:27%; }
+	.ly-sm-28{ width:28%; }
+	.ly-sm-29{ width:29%; }
+	.ly-sm-30{ width:30%; }
+	.ly-sm-31{ width:31%; }
+	.ly-sm-32{ width:32%; }
+	.ly-sm-33{ width:33%; }
+	.ly-sm-34{ width:34%; }
+	.ly-sm-35{ width:35%; }
+	.ly-sm-36{ width:36%; }
+	.ly-sm-37{ width:37%; }
+	.ly-sm-38{ width:38%; }
+	.ly-sm-39{ width:39%; }
+	.ly-sm-40{ width:40%; }
+	.ly-sm-41{ width:41%; }
+	.ly-sm-42{ width:42%; }
+	.ly-sm-43{ width:43%; }
+	.ly-sm-44{ width:44%; }
+	.ly-sm-45{ width:45%; }
+	.ly-sm-46{ width:46%; }
+	.ly-sm-47{ width:47%; }
+	.ly-sm-48{ width:48%; }
+	.ly-sm-49{ width:49%; }
+	.ly-sm-50{ width:50%; }
+	.ly-sm-51{ width:51%; }
+	.ly-sm-52{ width:52%; }
+	.ly-sm-53{ width:53%; }
+	.ly-sm-54{ width:54%; }
+	.ly-sm-55{ width:55%; }
+	.ly-sm-56{ width:56%; }
+	.ly-sm-57{ width:57%; }
+	.ly-sm-58{ width:58%; }
+	.ly-sm-59{ width:59%; }
+	.ly-sm-60{ width:60%; }
+	.ly-sm-61{ width:61%; }
+	.ly-sm-62{ width:62%; }
+	.ly-sm-63{ width:63%; }
+	.ly-sm-64{ width:64%; }
+	.ly-sm-65{ width:65%; }
+	.ly-sm-66{ width:66%; }
+	.ly-sm-67{ width:67%; }
+	.ly-sm-68{ width:68%; }
+	.ly-sm-69{ width:69%; }
+	.ly-sm-70{ width:70%; }
+	.ly-sm-71{ width:71%; }
+	.ly-sm-72{ width:72%; }
+	.ly-sm-73{ width:73%; }
+	.ly-sm-74{ width:74%; }
+	.ly-sm-75{ width:75%; }
+	.ly-sm-76{ width:76%; }
+	.ly-sm-77{ width:77%; }
+	.ly-sm-78{ width:78%; }
+	.ly-sm-79{ width:79%; }
+	.ly-sm-80{ width:80%; }
+	.ly-sm-81{ width:81%; }
+	.ly-sm-82{ width:82%; }
+	.ly-sm-83{ width:83%; }
+	.ly-sm-84{ width:84%; }
+	.ly-sm-85{ width:85%; }
+	.ly-sm-86{ width:86%; }
+	.ly-sm-87{ width:87%; }
+	.ly-sm-88{ width:88%; }
+	.ly-sm-89{ width:89%; }
+	.ly-sm-90{ width:90%; }
+	.ly-sm-91{ width:91%; }
+	.ly-sm-92{ width:92%; }
+	.ly-sm-93{ width:93%; }
+	.ly-sm-94{ width:94%; }
+	.ly-sm-95{ width:95%; }
+	.ly-sm-96{ width:96%; }
+	.ly-sm-97{ width:97%; }
+	.ly-sm-98{ width:98%; }
+	.ly-sm-99{ width:99%; }
+	.ly-sm-100{ width:100%; }
 }
 
 @media (min-width:768px){
-
-	.ly-md-1{
-		width:100%;
-	}
-	
-	.ly-md-2{
-		width:50%;
-	}
-
-	.ly-md-3{
-		width:33.33%;
-	}
-	
-	.ly-md-4{
-		width:25%;
-	}
+	.ly-md-1{ width:1%; }
+	.ly-md-2{ width:2%; }
+	.ly-md-3{ width:3%; }
+	.ly-md-4{ width:4%; }
+	.ly-md-5{ width:5%; }
+	.ly-md-6{ width:6%; }
+	.ly-md-7{ width:7%; }
+	.ly-md-8{ width:8%; }
+	.ly-md-9{ width:9%; }
+	.ly-md-10{ width:10%; }
+	.ly-md-11{ width:11%; }
+	.ly-md-12{ width:12%; }
+	.ly-md-13{ width:13%; }
+	.ly-md-14{ width:14%; }
+	.ly-md-15{ width:15%; }
+	.ly-md-16{ width:16%; }
+	.ly-md-17{ width:17%; }
+	.ly-md-18{ width:18%; }
+	.ly-md-19{ width:19%; }
+	.ly-md-20{ width:20%; }
+	.ly-md-21{ width:21%; }
+	.ly-md-22{ width:22%; }
+	.ly-md-23{ width:23%; }
+	.ly-md-24{ width:24%; }
+	.ly-md-25{ width:25%; }
+	.ly-md-26{ width:26%; }
+	.ly-md-27{ width:27%; }
+	.ly-md-28{ width:28%; }
+	.ly-md-29{ width:29%; }
+	.ly-md-30{ width:30%; }
+	.ly-md-31{ width:31%; }
+	.ly-md-32{ width:32%; }
+	.ly-md-33{ width:33%; }
+	.ly-md-34{ width:34%; }
+	.ly-md-35{ width:35%; }
+	.ly-md-36{ width:36%; }
+	.ly-md-37{ width:37%; }
+	.ly-md-38{ width:38%; }
+	.ly-md-39{ width:39%; }
+	.ly-md-40{ width:40%; }
+	.ly-md-41{ width:41%; }
+	.ly-md-42{ width:42%; }
+	.ly-md-43{ width:43%; }
+	.ly-md-44{ width:44%; }
+	.ly-md-45{ width:45%; }
+	.ly-md-46{ width:46%; }
+	.ly-md-47{ width:47%; }
+	.ly-md-48{ width:48%; }
+	.ly-md-49{ width:49%; }
+	.ly-md-50{ width:50%; }
+	.ly-md-51{ width:51%; }
+	.ly-md-52{ width:52%; }
+	.ly-md-53{ width:53%; }
+	.ly-md-54{ width:54%; }
+	.ly-md-55{ width:55%; }
+	.ly-md-56{ width:56%; }
+	.ly-md-57{ width:57%; }
+	.ly-md-58{ width:58%; }
+	.ly-md-59{ width:59%; }
+	.ly-md-60{ width:60%; }
+	.ly-md-61{ width:61%; }
+	.ly-md-62{ width:62%; }
+	.ly-md-63{ width:63%; }
+	.ly-md-64{ width:64%; }
+	.ly-md-65{ width:65%; }
+	.ly-md-66{ width:66%; }
+	.ly-md-67{ width:67%; }
+	.ly-md-68{ width:68%; }
+	.ly-md-69{ width:69%; }
+	.ly-md-70{ width:70%; }
+	.ly-md-71{ width:71%; }
+	.ly-md-72{ width:72%; }
+	.ly-md-73{ width:73%; }
+	.ly-md-74{ width:74%; }
+	.ly-md-75{ width:75%; }
+	.ly-md-76{ width:76%; }
+	.ly-md-77{ width:77%; }
+	.ly-md-78{ width:78%; }
+	.ly-md-79{ width:79%; }
+	.ly-md-80{ width:80%; }
+	.ly-md-81{ width:81%; }
+	.ly-md-82{ width:82%; }
+	.ly-md-83{ width:83%; }
+	.ly-md-84{ width:84%; }
+	.ly-md-85{ width:85%; }
+	.ly-md-86{ width:86%; }
+	.ly-md-87{ width:87%; }
+	.ly-md-88{ width:88%; }
+	.ly-md-89{ width:89%; }
+	.ly-md-90{ width:90%; }
+	.ly-md-91{ width:91%; }
+	.ly-md-92{ width:92%; }
+	.ly-md-93{ width:93%; }
+	.ly-md-94{ width:94%; }
+	.ly-md-95{ width:95%; }
+	.ly-md-96{ width:96%; }
+	.ly-md-97{ width:97%; }
+	.ly-md-98{ width:98%; }
+	.ly-md-99{ width:99%; }
+	.ly-md-100{ width:100%; }
 
 	.ly-show-sm{
 		display:none !important;
@@ -111,101 +380,318 @@
 
 }
 @media (min-width:992px){
-	.ly-lg-1{
-		width:100%;
-	}
 	
-	.ly-lg-2{
-		width:50%;
-	}
-
-	.ly-lg-3{
-		width:33.33%;
-	}
-	
-	.ly-lg-4{
-		width:25%;
-	}
-
-	.ly-lg-5{
-		width:20%;
-	}
-
-	.ly-lg-6{
-		width:16.66%;
-	}
-
-	.ly-lg-7{
-		width:14.28%;
-	}
+	.ly-lg-1{ width:1%; }
+	.ly-lg-2{ width:2%; }
+	.ly-lg-3{ width:3%; }
+	.ly-lg-4{ width:4%; }
+	.ly-lg-5{ width:5%; }
+	.ly-lg-6{ width:6%; }
+	.ly-lg-7{ width:7%; }
+	.ly-lg-8{ width:8%; }
+	.ly-lg-9{ width:9%; }
+	.ly-lg-10{ width:10%; }
+	.ly-lg-11{ width:11%; }
+	.ly-lg-12{ width:12%; }
+	.ly-lg-13{ width:13%; }
+	.ly-lg-14{ width:14%; }
+	.ly-lg-15{ width:15%; }
+	.ly-lg-16{ width:16%; }
+	.ly-lg-17{ width:17%; }
+	.ly-lg-18{ width:18%; }
+	.ly-lg-19{ width:19%; }
+	.ly-lg-20{ width:20%; }
+	.ly-lg-21{ width:21%; }
+	.ly-lg-22{ width:22%; }
+	.ly-lg-23{ width:23%; }
+	.ly-lg-24{ width:24%; }
+	.ly-lg-25{ width:25%; }
+	.ly-lg-26{ width:26%; }
+	.ly-lg-27{ width:27%; }
+	.ly-lg-28{ width:28%; }
+	.ly-lg-29{ width:29%; }
+	.ly-lg-30{ width:30%; }
+	.ly-lg-31{ width:31%; }
+	.ly-lg-32{ width:32%; }
+	.ly-lg-33{ width:33%; }
+	.ly-lg-34{ width:34%; }
+	.ly-lg-35{ width:35%; }
+	.ly-lg-36{ width:36%; }
+	.ly-lg-37{ width:37%; }
+	.ly-lg-38{ width:38%; }
+	.ly-lg-39{ width:39%; }
+	.ly-lg-40{ width:40%; }
+	.ly-lg-41{ width:41%; }
+	.ly-lg-42{ width:42%; }
+	.ly-lg-43{ width:43%; }
+	.ly-lg-44{ width:44%; }
+	.ly-lg-45{ width:45%; }
+	.ly-lg-46{ width:46%; }
+	.ly-lg-47{ width:47%; }
+	.ly-lg-48{ width:48%; }
+	.ly-lg-49{ width:49%; }
+	.ly-lg-50{ width:50%; }
+	.ly-lg-51{ width:51%; }
+	.ly-lg-52{ width:52%; }
+	.ly-lg-53{ width:53%; }
+	.ly-lg-54{ width:54%; }
+	.ly-lg-55{ width:55%; }
+	.ly-lg-56{ width:56%; }
+	.ly-lg-57{ width:57%; }
+	.ly-lg-58{ width:58%; }
+	.ly-lg-59{ width:59%; }
+	.ly-lg-60{ width:60%; }
+	.ly-lg-61{ width:61%; }
+	.ly-lg-62{ width:62%; }
+	.ly-lg-63{ width:63%; }
+	.ly-lg-64{ width:64%; }
+	.ly-lg-65{ width:65%; }
+	.ly-lg-66{ width:66%; }
+	.ly-lg-67{ width:67%; }
+	.ly-lg-68{ width:68%; }
+	.ly-lg-69{ width:69%; }
+	.ly-lg-70{ width:70%; }
+	.ly-lg-71{ width:71%; }
+	.ly-lg-72{ width:72%; }
+	.ly-lg-73{ width:73%; }
+	.ly-lg-74{ width:74%; }
+	.ly-lg-75{ width:75%; }
+	.ly-lg-76{ width:76%; }
+	.ly-lg-77{ width:77%; }
+	.ly-lg-78{ width:78%; }
+	.ly-lg-79{ width:79%; }
+	.ly-lg-80{ width:80%; }
+	.ly-lg-81{ width:81%; }
+	.ly-lg-82{ width:82%; }
+	.ly-lg-83{ width:83%; }
+	.ly-lg-84{ width:84%; }
+	.ly-lg-85{ width:85%; }
+	.ly-lg-86{ width:86%; }
+	.ly-lg-87{ width:87%; }
+	.ly-lg-88{ width:88%; }
+	.ly-lg-89{ width:89%; }
+	.ly-lg-90{ width:90%; }
+	.ly-lg-91{ width:91%; }
+	.ly-lg-92{ width:92%; }
+	.ly-lg-93{ width:93%; }
+	.ly-lg-94{ width:94%; }
+	.ly-lg-95{ width:95%; }
+	.ly-lg-96{ width:96%; }
+	.ly-lg-97{ width:97%; }
+	.ly-lg-98{ width:98%; }
+	.ly-lg-99{ width:99%; }
+	.ly-lg-100{ width:100%; }
 }
 
 
 @media (min-width:1200px){
 
-	.ly-xl-1{
-		width:100%;
-	}
-	
-	.ly-xl-2{
-		width:50%;
-	}
-
-	.ly-xl-3{
-		width:33.33%;
-	}
-	
-	.ly-xl-4{
-		width:25%;
-	}
-
-	.ly-xl-5{
-		width:20%;
-	}
-
-	.ly-xl-6{
-		width:16.66%;
-	}
-
-	.ly-xl-7{
-		width:14.28%;
-	}
+	.ly-xl-1{ width:1%; }
+	.ly-xl-2{ width:2%; }
+	.ly-xl-3{ width:3%; }
+	.ly-xl-4{ width:4%; }
+	.ly-xl-5{ width:5%; }
+	.ly-xl-6{ width:6%; }
+	.ly-xl-7{ width:7%; }
+	.ly-xl-8{ width:8%; }
+	.ly-xl-9{ width:9%; }
+	.ly-xl-10{ width:10%; }
+	.ly-xl-11{ width:11%; }
+	.ly-xl-12{ width:12%; }
+	.ly-xl-13{ width:13%; }
+	.ly-xl-14{ width:14%; }
+	.ly-xl-15{ width:15%; }
+	.ly-xl-16{ width:16%; }
+	.ly-xl-17{ width:17%; }
+	.ly-xl-18{ width:18%; }
+	.ly-xl-19{ width:19%; }
+	.ly-xl-20{ width:20%; }
+	.ly-xl-21{ width:21%; }
+	.ly-xl-22{ width:22%; }
+	.ly-xl-23{ width:23%; }
+	.ly-xl-24{ width:24%; }
+	.ly-xl-25{ width:25%; }
+	.ly-xl-26{ width:26%; }
+	.ly-xl-27{ width:27%; }
+	.ly-xl-28{ width:28%; }
+	.ly-xl-29{ width:29%; }
+	.ly-xl-30{ width:30%; }
+	.ly-xl-31{ width:31%; }
+	.ly-xl-32{ width:32%; }
+	.ly-xl-33{ width:33%; }
+	.ly-xl-34{ width:34%; }
+	.ly-xl-35{ width:35%; }
+	.ly-xl-36{ width:36%; }
+	.ly-xl-37{ width:37%; }
+	.ly-xl-38{ width:38%; }
+	.ly-xl-39{ width:39%; }
+	.ly-xl-40{ width:40%; }
+	.ly-xl-41{ width:41%; }
+	.ly-xl-42{ width:42%; }
+	.ly-xl-43{ width:43%; }
+	.ly-xl-44{ width:44%; }
+	.ly-xl-45{ width:45%; }
+	.ly-xl-46{ width:46%; }
+	.ly-xl-47{ width:47%; }
+	.ly-xl-48{ width:48%; }
+	.ly-xl-49{ width:49%; }
+	.ly-xl-50{ width:50%; }
+	.ly-xl-51{ width:51%; }
+	.ly-xl-52{ width:52%; }
+	.ly-xl-53{ width:53%; }
+	.ly-xl-54{ width:54%; }
+	.ly-xl-55{ width:55%; }
+	.ly-xl-56{ width:56%; }
+	.ly-xl-57{ width:57%; }
+	.ly-xl-58{ width:58%; }
+	.ly-xl-59{ width:59%; }
+	.ly-xl-60{ width:60%; }
+	.ly-xl-61{ width:61%; }
+	.ly-xl-62{ width:62%; }
+	.ly-xl-63{ width:63%; }
+	.ly-xl-64{ width:64%; }
+	.ly-xl-65{ width:65%; }
+	.ly-xl-66{ width:66%; }
+	.ly-xl-67{ width:67%; }
+	.ly-xl-68{ width:68%; }
+	.ly-xl-69{ width:69%; }
+	.ly-xl-70{ width:70%; }
+	.ly-xl-71{ width:71%; }
+	.ly-xl-72{ width:72%; }
+	.ly-xl-73{ width:73%; }
+	.ly-xl-74{ width:74%; }
+	.ly-xl-75{ width:75%; }
+	.ly-xl-76{ width:76%; }
+	.ly-xl-77{ width:77%; }
+	.ly-xl-78{ width:78%; }
+	.ly-xl-79{ width:79%; }
+	.ly-xl-80{ width:80%; }
+	.ly-xl-81{ width:81%; }
+	.ly-xl-82{ width:82%; }
+	.ly-xl-83{ width:83%; }
+	.ly-xl-84{ width:84%; }
+	.ly-xl-85{ width:85%; }
+	.ly-xl-86{ width:86%; }
+	.ly-xl-87{ width:87%; }
+	.ly-xl-88{ width:88%; }
+	.ly-xl-89{ width:89%; }
+	.ly-xl-90{ width:90%; }
+	.ly-xl-91{ width:91%; }
+	.ly-xl-92{ width:92%; }
+	.ly-xl-93{ width:93%; }
+	.ly-xl-94{ width:94%; }
+	.ly-xl-95{ width:95%; }
+	.ly-xl-96{ width:96%; }
+	.ly-xl-97{ width:97%; }
+	.ly-xl-98{ width:98%; }
+	.ly-xl-99{ width:99%; }
+	.ly-xl-100{ width:100%; }
 
 }
 
 
 @media (min-width:1600px){
+	.ly-en-1{ width:1%; }
+	.ly-en-2{ width:2%; }
+	.ly-en-3{ width:3%; }
+	.ly-en-4{ width:4%; }
+	.ly-en-5{ width:5%; }
+	.ly-en-6{ width:6%; }
+	.ly-en-7{ width:7%; }
+	.ly-en-8{ width:8%; }
+	.ly-en-9{ width:9%; }
+	.ly-en-10{ width:10%; }
+	.ly-en-11{ width:11%; }
+	.ly-en-12{ width:12%; }
+	.ly-en-13{ width:13%; }
+	.ly-en-14{ width:14%; }
+	.ly-en-15{ width:15%; }
+	.ly-en-16{ width:16%; }
+	.ly-en-17{ width:17%; }
+	.ly-en-18{ width:18%; }
+	.ly-en-19{ width:19%; }
+	.ly-en-20{ width:20%; }
+	.ly-en-21{ width:21%; }
+	.ly-en-22{ width:22%; }
+	.ly-en-23{ width:23%; }
+	.ly-en-24{ width:24%; }
+	.ly-en-25{ width:25%; }
+	.ly-en-26{ width:26%; }
+	.ly-en-27{ width:27%; }
+	.ly-en-28{ width:28%; }
+	.ly-en-29{ width:29%; }
+	.ly-en-30{ width:30%; }
+	.ly-en-31{ width:31%; }
+	.ly-en-32{ width:32%; }
+	.ly-en-33{ width:33%; }
+	.ly-en-34{ width:34%; }
+	.ly-en-35{ width:35%; }
+	.ly-en-36{ width:36%; }
+	.ly-en-37{ width:37%; }
+	.ly-en-38{ width:38%; }
+	.ly-en-39{ width:39%; }
+	.ly-en-40{ width:40%; }
+	.ly-en-41{ width:41%; }
+	.ly-en-42{ width:42%; }
+	.ly-en-43{ width:43%; }
+	.ly-en-44{ width:44%; }
+	.ly-en-45{ width:45%; }
+	.ly-en-46{ width:46%; }
+	.ly-en-47{ width:47%; }
+	.ly-en-48{ width:48%; }
+	.ly-en-49{ width:49%; }
+	.ly-en-50{ width:50%; }
+	.ly-en-51{ width:51%; }
+	.ly-en-52{ width:52%; }
+	.ly-en-53{ width:53%; }
+	.ly-en-54{ width:54%; }
+	.ly-en-55{ width:55%; }
+	.ly-en-56{ width:56%; }
+	.ly-en-57{ width:57%; }
+	.ly-en-58{ width:58%; }
+	.ly-en-59{ width:59%; }
+	.ly-en-60{ width:60%; }
+	.ly-en-61{ width:61%; }
+	.ly-en-62{ width:62%; }
+	.ly-en-63{ width:63%; }
+	.ly-en-64{ width:64%; }
+	.ly-en-65{ width:65%; }
+	.ly-en-66{ width:66%; }
+	.ly-en-67{ width:67%; }
+	.ly-en-68{ width:68%; }
+	.ly-en-69{ width:69%; }
+	.ly-en-70{ width:70%; }
+	.ly-en-71{ width:71%; }
+	.ly-en-72{ width:72%; }
+	.ly-en-73{ width:73%; }
+	.ly-en-74{ width:74%; }
+	.ly-en-75{ width:75%; }
+	.ly-en-76{ width:76%; }
+	.ly-en-77{ width:77%; }
+	.ly-en-78{ width:78%; }
+	.ly-en-79{ width:79%; }
+	.ly-en-80{ width:80%; }
+	.ly-en-81{ width:81%; }
+	.ly-en-82{ width:82%; }
+	.ly-en-83{ width:83%; }
+	.ly-en-84{ width:84%; }
+	.ly-en-85{ width:85%; }
+	.ly-en-86{ width:86%; }
+	.ly-en-87{ width:87%; }
+	.ly-en-88{ width:88%; }
+	.ly-en-89{ width:89%; }
+	.ly-en-90{ width:90%; }
+	.ly-en-91{ width:91%; }
+	.ly-en-92{ width:92%; }
+	.ly-en-93{ width:93%; }
+	.ly-en-94{ width:94%; }
+	.ly-en-95{ width:95%; }
+	.ly-en-96{ width:96%; }
+	.ly-en-97{ width:97%; }
+	.ly-en-98{ width:98%; }
+	.ly-en-99{ width:99%; }
+	.ly-en-100{ width:100%; }
 
-	.ly-en-1{
-		width:100%;
-	}
-	
-	.ly-en-2{
-		width:50%;
-	}
-
-	.ly-en-3{
-		width:33.33%;
-	}
-	
-	.ly-en-4{
-		width:25%;
-	}
-
-	.ly-en-5{
-		width:20%;
-	}
-
-	.ly-en-6{
-		width:16.66%;
-	}
-
-	.ly-en-7{
-		width:14.28%;
-	}
-	.ly-en-8{
-		width:12.50%;
-	}
 }
 
 
