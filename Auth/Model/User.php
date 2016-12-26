@@ -48,6 +48,8 @@ class User extends Model{
 
 		$schema -> toMany('playlists',Playlist::class,'user');
 
+		$schema -> collection('permission');
+
 	}
 
 	/**
@@ -91,6 +93,15 @@ class User extends Model{
 		return $return -> isEmpty() ? $return : Manga::whereIn('container_id',$return -> toArray()) -> get();
 	}	
 
+	public static function getPermission(){
+		return [
+			'wt-basic' => "What's today - basic",
+			'wt-advanced' => "What's today - advanced",
+			'music-player' => "Music player",
+			'chess-manager' => 'Chess manager',
+			'user-manager' => 'User manager'
+		];
+	}
 }
 
 ?>

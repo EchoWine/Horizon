@@ -246,6 +246,8 @@
 						@foreach($views -> fields('edit') as $field)
 							var field = $('#modal-item-edit').find('[name={{$field -> getColumn()}}]');
 
+							console.log(data);
+							
 							field.val(data['{{$field -> getColumn()}}']);
 
 							@if($field -> getSchema() -> getType() == 'to_one' && $field -> isSelect())

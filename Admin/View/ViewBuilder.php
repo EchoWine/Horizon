@@ -21,6 +21,14 @@ class ViewBuilder{
 	public $select = null;
 
 	/**
+	 * Display a multi select
+	 *
+	 * @var bool
+	 */
+	public $select_multiple = null;
+
+
+	/**
 	 * Display a input
 	 *
 	 * @var Component\Select
@@ -124,12 +132,32 @@ class ViewBuilder{
 		return $this -> select !== null;
 	}
 
-	public function isInput(){
-		return $this -> input;
-	}
-
 	public function getSelect(){
 		return $this -> select;
+	}
+
+	/**
+	 * Display a select
+	 */
+	public function selectMultiple($options){
+		$this -> select_multiple = new Component\SelectMultiple($options);
+		return $this;
+	}
+
+
+	public function getSelectMultiple(){
+		return $this -> select_multiple;
+	}
+
+
+
+	public function isSelectMultiple(){
+		return $this -> select_multiple !== null;
+	}
+
+
+	public function isInput(){
+		return $this -> input;
 	}
 
 	/**

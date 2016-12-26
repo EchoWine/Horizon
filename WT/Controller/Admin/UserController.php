@@ -2,6 +2,8 @@
 
 namespace WT\Controller\Admin;
 
+use Auth\Model\User;
+
 class UserController extends AdminController{
 
 	/**
@@ -36,6 +38,7 @@ class UserController extends AdminController{
 			$view -> email();
 			$view -> token();
 			$view -> password();
+			$view -> permission() -> selectMultiple(User::getPermission());
 
 		});
 
@@ -44,6 +47,7 @@ class UserController extends AdminController{
 			$view -> email();
 			$view -> token();
 			$view -> password();
+			$view -> permission() -> selectMultiple(User::getPermission());
 		});
 
 		$views -> get(function($view){
@@ -51,6 +55,7 @@ class UserController extends AdminController{
 			$view -> username();
 			$view -> email();
 			$view -> token();
+			$view -> permission() -> selectMultiple(User::getPermission());
 
 		});
 

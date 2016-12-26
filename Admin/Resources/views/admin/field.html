@@ -5,7 +5,15 @@
 		<textarea class='text-data {{$extra_class}}' name='{{$field -> getSchema() -> getName()}}'></textarea>
 	@endcase
 
+	@case('collection')
+		<select multiple='multiple' class='input-data {{$extra_class}} ' name='{{$field -> getName()}}' style='height:90px'>
+			@foreach($field -> getSelectMultiple() -> getOptions() as $value => $label)
+				<option value='{{$value}}'>{{$label}}</option>
+			@endforeach
+		</select>
+	@endcase
 	@case('to_one')
+
 		@if($field -> isSelect())
 			<input type='text' class='input-data {{$extra_class}} autocomplete-input'
 				autocomplete='off'
@@ -16,9 +24,10 @@
 				data-autocomplete-search="{{($field -> getSelect() -> getSearch())}}"
 				data-autocomplete-url='{{$field -> getSelect() -> getUrl()}}' 
 			>
-		@elseif($field -> isInput())
+				@elseif($field -> isInput())
 
 			<input type='text' class='input-data {{$extra_class}} ' name='{{$field -> getName()}}' >
+
 		@endif
 	@endcase
 
