@@ -4,7 +4,7 @@ WT.reader.page = 1;
 
 WT.reader.reset = function(){
 
-	$("meta[name='viewport']").attr('content','width=device-width, initial-scale=1, maximum-scale=1');
+	// $("meta[name='viewport']").attr('content','width=device-width, initial-scale=1, maximum-scale=1');
 
 };
 
@@ -14,43 +14,40 @@ WT.reader.mode = function(mode){
 	WT.reader.reset();
 };
 
+WT.reader.setPage = function(page){
 
-WT.reader.first = function(){
-	if(!window.location.hash || window.location.hash == '#'){
-		window.location.hash = "#0";
-		WT.reader.page = 0;
-	}
-};
 
-WT.reader.updateSelect = function(){
-	$('.wt-manga-reader-select').val(parseInt(window.location.hash.replace("#","")));
+	if(page < 1 || page > $('.wt-manga-reader-pag.wt-manga-reader').find('[wt-manga-reader-raw]').length)
+		return;
+
+	WT.reader.page = page;
+	$("[wt-manga-reader-raw]").hide();
+	$("[wt-manga-reader-raw='"+page+"']").show();
+
+	$('.wt-manga-reader-select').val(WT.reader.page);
 	WT.reader.reset();
+
+	url.query("Horizon",{page:page});
+	
 };
+
 
 WT.reader.prev = function(){
-
-	var page = parseInt(window.location.hash.replace("#","")) - 1;
-
-	if(page >= 0)
-		window.location.hash = '#'+page;
-
-	WT.reader.updateSelect();
-
+	WT.reader.setPage(WT.reader.page - 1);
 };
 
 $('.wt-manga-reader-select').on('change',function(){
-	window.location.hash = '#'+$(this).val();
-	WT.reader.reset();
+	WT.reader.setPage($(this).val());
+});
+
+$('.wt-manga-reader-move').on('click',function(){
+	WT.reader.setPage($(this).attr('value'));
 });
 
 WT.reader.next = function(){
 
-	var page = parseInt(window.location.hash.replace("#","")) + 1;
+	WT.reader.setPage(WT.reader.page + 1);
 
-	if(page <= $('.wt-manga-reader-all.wt-manga-reader').find('img').length)
-		window.location.hash = '#'+page;
-
-	WT.reader.updateSelect();
 };
 
 
@@ -91,11 +88,7 @@ $(document).ready(function(){
 
 	$("[name='wt-reader-mode']").val(mode);
 	WT.reader.mode(mode);
-	WT.reader.first();
-
-	$(window).bind('hashchange', function(e){ 
-		window.scrollTo(0,0);
-	});
+	WT.reader.setPage(url.getParam('page',1));
 
 
 });
