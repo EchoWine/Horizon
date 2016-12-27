@@ -122,7 +122,6 @@ class Manga extends Model implements Resource{
 
 			$chapter = Chapter::firstOrNew([
 				'number' => $r_chapter -> number,
-				'volume_n' => $r_chapter -> volume_n,
 				'manga_id' => $this -> id,
 			]);	
 
@@ -146,7 +145,6 @@ class Manga extends Model implements Resource{
 			$chapter -> scan = $r_chapter -> scan;
 			$chapter -> released_at = new \DateTime($r_chapter -> released_at);
 
-
 			$chapter -> save();
 
 		}
@@ -155,7 +153,8 @@ class Manga extends Model implements Resource{
 		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> delete();
 
 		# Remove all queue chapters that have been deleted
-		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereIsNull('chapters.id') -> delete('queue_chapters.*');
+		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereNull('chapters.id') -> delete('queue_chapters.*');
+	
 	}
 }
 
