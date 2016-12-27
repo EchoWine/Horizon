@@ -16,30 +16,68 @@
 @block('body')
 
 
-<div class='ly-row'>
+<div class=' wt-manga-reader-container page-section page-section-content section-inner'>
 
-	<div class='wt-manga-reader-container page-section page-section-content section-inner ly-row'>
+	<div>
 
-		<div class='ly-xs-50'>
-			<h2 class='wt-manga-reader-title'>
+		<div class='ly-row'>
+			<h2 class='wt-manga-reader-title ly-row ly-v-center'>
 				<a href="{{route('admin.resource',['resource_type' => $resource -> type,'resource_id' => $resource -> id])}}">{{$resource -> name}}</a> 
-				<i class='fa fa-angle-double-right'></i> {{$chapter -> number}}
+				&nbsp;
+				<i class='fa fa-angle-double-right'></i> 
+				&nbsp;
+			
+				<select class='select-data ly-fill wt-reader-chapters'>
+					@foreach($resource -> chapters -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']]) as $chapter_select)
+					<option value="{{route('admin.chapter',['manga_id' => $resource -> id,'chapter_id' => $chapter_select -> id])}}" {{$chapter_select -> id == $chapter -> id ? "selected" : ""}}>
+						Vol {{$chapter_select -> volume -> number}}
+						Ch {{$chapter_select -> number}}:
+						{{$chapter_select -> name}}
+					</option>
+					@endforeach
+				</select>
+			
+
 			</h2>
 		</div>
-		<div class='ly-xs-50 ly-right'>
-			<select name='wt-reader-mode'>
+		<br>
+		<div class='ly-right ly-row'>
+
+			<div class='wt-reader-pagination-navigation wt-manga-reader-mode wt-manga-reader-pag'>
+				<button type='button' class='button-action primary wt-manga-reader-prev'>
+					Prev
+				</button>
+				<select class='select-data wt-manga-reader-select'>
+					@foreach((array)$chapter -> raw as $n => $file)
+						<option value='{{$n}}'>{{$n}}</option>
+					@endforeach
+					
+				</select>
+				<button type='button' class='button-action wt-manga-reader-next'>
+					Next
+				</button>
+			</div>
+			&nbsp;
+			&nbsp;
+			<select name='wt-reader-mode' class='select-data'>
 				<option value='all'>All in one</option>
 				<option value='pag'>Pagination</option>
 			</select>
 		</div>
 	</div>
+
+	<div class=' ly-row'>
+
+	</div>
+	
+
 	
 </div>
 
-<div class='ly-row'>
+<div class='ly-row '>
 
 
-		<div id='wt-manga-reader-pag' class='wt-manga-reader wt-manga-reader-container page-section page-section-content section-inner'>
+		<div class='wt-manga-reader-pag wt-manga-reader wt-manga-reader-container wt-manga-reader-mode page-section page-section-content'>
 			@foreach((array)$chapter -> raw as $n => $file)
 				<a href='#{{$n+1}}'>
 					<img class='wt-manga-reader-image' id='{{$n}}' src='{{$chapter -> raw() -> web($file)}}'>
@@ -53,7 +91,7 @@
 			</h1>
 		</div>
 
-		<div id='wt-manga-reader-all' class='wt-manga-reader wt-manga-reader-container page-section page-section-content section-inner'>
+		<div class='wt-manga-reader-all wt-manga-reader wt-manga-reader-container wt-manga-reader-mode page-section page-section-content'>
 			<a href="{{route('admin.chapter.next',['manga_id' => $resource -> id,'chapter_id' => $chapter -> id])}}">
 
 			@foreach((array)$chapter -> raw as $n => $file)

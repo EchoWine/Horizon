@@ -1,6 +1,7 @@
 .ly-container{
 	display:flex;
 	min-height:100%;
+	width:100%;
 }
 
 .ly-container-layout{
@@ -14,6 +15,8 @@
 
 .ly-right{
 	text-align:right;
+	justify-content:flex-end;
+
 }
 
 .ly-fill{
@@ -38,6 +41,10 @@
 .ly-center{
 	align-items:center;
 	justify-content:center;
+}
+
+.ly-v-center{
+	align-items:center;
 }
 
 .ly-fill{

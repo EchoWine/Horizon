@@ -5,7 +5,7 @@
 	display:inline-flex;
   	align-items: center;
   	height: 29px;
-  	border:1px solid #ccc;
+  	border:1px solid rgb(229, 229, 229);
   	background-color: #FFF;
   	text-decoration:none !important;
 	flex-wrap: nowrap;
