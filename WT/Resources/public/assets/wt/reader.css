@@ -20,6 +20,7 @@ body{
 
 *[wt-manga-reader-container-mode='pag'] .wt-manga-reader-image{
 	display:none;
+    
 }
 
 *[wt-manga-reader-container-mode='pag'] .wt-manga-reader-image:target{

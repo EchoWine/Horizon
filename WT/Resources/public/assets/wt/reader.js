@@ -92,8 +92,15 @@ $(document).ready(function(){
 	$("[name='wt-reader-mode']").val(mode);
 	WT.reader.mode(mode);
 	WT.reader.first();
+
+	$(window).bind('hashchange', function(e){ 
+		window.scrollTo(0,0);
+	});
+
+
 });
 
 $('.wt-reader-chapters').on('change',function(){
 	window.location.href = $(this).val();
-})
+
+});
