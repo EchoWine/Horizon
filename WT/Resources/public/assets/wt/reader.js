@@ -2,9 +2,16 @@ WT.reader = {};
 
 WT.reader.page = 1;
 
+WT.reader.reset = function(){
+
+	$("meta[name='viewport']").attr('content','width=device-width, initial-scale=1, maximum-scale=1');
+
+};
+
 WT.reader.mode = function(mode){
 	$.cookie("wt.reader.mode",mode);
 	$('.wt-manga-reader-mode').attr('wt-manga-reader-container-mode',mode);
+	WT.reader.reset();
 };
 
 
@@ -17,6 +24,7 @@ WT.reader.first = function(){
 
 WT.reader.updateSelect = function(){
 	$('.wt-manga-reader-select').val(parseInt(window.location.hash.replace("#","")));
+	WT.reader.reset();
 };
 
 WT.reader.prev = function(){
@@ -32,6 +40,7 @@ WT.reader.prev = function(){
 
 $('.wt-manga-reader-select').on('change',function(){
 	window.location.hash = '#'+$(this).val();
+	WT.reader.reset();
 });
 
 WT.reader.next = function(){
@@ -48,6 +57,7 @@ WT.reader.next = function(){
 
 $("[name='wt-reader-mode']").on('change',function(){
 	WT.reader.mode($(this).val());
+	WT.reader.reset();
 });
 
 $('.wt-manga-reader-prev').on('click',function(){
