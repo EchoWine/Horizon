@@ -19,6 +19,9 @@ WT.reader.first = function(){
 
 $(document).ready(function(){
 	var mode = $.cookie('wt.reader.mode');
+
+	mode = mode ? mode : 'all';
+	
 	$("[name='wt-reader-mode']").val(mode);
 	WT.reader.mode(mode);
 	WT.reader.first();
