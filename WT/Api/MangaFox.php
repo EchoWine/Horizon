@@ -164,6 +164,7 @@ class MangaFox extends Basic{
 					$response = $client -> request($next,'GET',[]);
 
 					$scan = ScanObject::create($response);
+
 					$scan -> next = dirname($first)."/".$scan -> next;
 
 					$next = $scan -> next;
