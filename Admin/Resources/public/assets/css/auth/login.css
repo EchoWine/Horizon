@@ -11,9 +11,9 @@ body{
 }
 
 .auth-container{
-	padding:40px 30px;
-	max-width:350px;
-	margin:50px auto;
+	padding: 50px 30px;
+    max-width: 350px;
+    margin: 0 auto;
 }
 
 .auth-container form > div{
