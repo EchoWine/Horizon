@@ -1,0 +1,134 @@
+@embed('Admin/admin/item',['item' => $item],'item-table')
+	
+	@block('item.content')
+
+		
+	<div data-template='spinner-table'>
+
+		<div class='table-row'>
+			<div class='table-col'>
+				@include('Admin/admin/__spinner')
+			</div>
+		</div>
+
+	</div>
+	
+	<div data-template='autocomplete-container'>
+		<div class='autocomplete-container' data-autocomplete-container='{name}'>
+			<div class='autocomplete-results'>
+				{results}
+			</div>
+		</div>
+	</div>
+
+	<div data-template='autocomplete-result'>
+		<div class='autocomplete-result' 
+			data-autocomplete-insert='{name}'
+			data-autocomplete-hidden='{column}'
+			data-autocomplete-label='{label}'
+			data-autocomplete-value='{value}'>
+			{label}
+		</div>
+	</div>
+
+
+	@block('item.content.row')
+		@include('Admin/admin/item/structure/table/row',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
+	@endblock
+
+	@block('item.content.modal.add')
+		@include('Admin/admin/item/modal/add',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('add')])
+	@endblock
+
+	@block('item.content.modal.get')
+		@include('Admin/admin/item/modal/get',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('get')])
+	@endblock 
+
+
+	@block('item.content.modal.edit')
+		@include('Admin/admin/item/modal/edit',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('edit')])
+	@endblock 
+
+	@include('Admin/admin/item/modal/delete')
+	@include('Admin/admin/item/modal/delete_multiple')
+
+	<div data-item-table-container='{{$item -> getName()}}'>
+
+
+			<div class='section-header ly-center'>
+				<h3 class='section-title'>@block('item.content.title')Some content here...@endblock</h3>
+
+				<div class='ly-fill'></div>
+				
+				<div class='section-actions'>
+
+
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
+						<i class='fa fa-plus'></i>
+						<span>New</span>
+					</button>
+
+					<!--
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
+						<i class='fa fa-upload'></i>
+						<span>Import</span>
+					</button>
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
+						<i class='fa fa-download'></i>
+						<span>Export</span>
+					</button>
+					-->
+
+				</div>
+			</div>
+				@block('item.content.head')
+
+					<div class='section-pagination ly-center'>
+						<div>If selected: &nbsp;</div>
+						<select class='select-data' data-item-multiple data-item-table='{{$item -> getName()}}'> 
+							<option value='none'>Select action...</option>
+							<option value='delete'>Delete</option>
+							<option>Edit</option>
+							<option value='copy'>Copy</option>
+						</select>
+
+						<div class='ly-fill'></div>
+
+						@include('Admin/admin/item/structure/table/pagination',['table' => $item -> getName()])
+					</div>
+
+				@endblock
+				<div class='table'>
+
+					@block('item.content.table.head')
+						@include('Admin/admin/item/structure/table/head',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
+						@include('Admin/admin/item/structure/table/search',['table' => $item -> getName(),'views' => $item -> getViews()])
+					@endblock
+					<div class='item-rows'>
+						<div class='table-row'>
+							<div class='table-col'>
+								@include('Admin/admin/__spinner')
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class='section-pagination ly-center'>
+					<div>
+						<select class='select select-data' data-item-show data-item-table='{{$item -> getName()}}'>
+							<option value='10'>10</option>
+							<option value='25'>25</option>
+							<option value='50'>50</option>
+							<option value='100'>100</option>
+						</select>
+					</div>
+					<div class='ly-fill'></div>
+					@include('Admin/admin/item/structure/table/pagination',['table' => $item -> getName()])
+				</div>
+
+		</div>
+
+
+	@endblock
+
+@endembed

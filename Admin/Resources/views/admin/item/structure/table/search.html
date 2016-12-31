@@ -5,7 +5,7 @@
 		@if(!$field -> getForm() -> isHidden())
 			@if($views -> isField('search',$field))
 			<div class='table-col table-col-head table-col-search  @if($field -> getForm() -> is('number'))table-col-number@endif'>
-				@include('Admin/admin/field-search',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])
+				@include('Admin/admin/item/field/field-search',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])
 			</div>
 			@else
 			<div class='table-col table-col-head table-col-search'>

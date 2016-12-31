@@ -1,0 +1,190 @@
+<script>
+	window.onload = function(){
+		item.addTable({
+			name:'{{$item -> getName()}}',
+			url:'{{$item -> getUrl()}}',
+			list:{
+				show:10,
+				page:1,
+				sort:{field:null,direction:null},
+				relations:{
+					columns:{},
+					ids:{},
+					values:{},
+					schema:{{json_encode($item -> getViews() -> view('all') -> getMinimalRelation())}}
+				},
+				relations_ids:{},
+					
+				get: function(container,table,results,columns){
+					
+					var rows = '';
+
+					// Build the rows
+					$.map(results,function(row){
+
+						var record = {};
+
+						@foreach($item -> getViews() -> fields('all') as $field)
+
+							var data = row;
+							var name = '{{$field -> getName()}}';
+							var value = null;
+
+							@if($field -> is('to_one'))
+
+								@foreach($field -> getRelations() as $n => $relation)
+
+									// -- Relation: {{$field -> getName()}}:{{$relation -> getName()}}
+
+
+									@if($field -> is('to_one'))
+										@if($url = $field -> getUrl($n))
+
+											var relation = table.list.relations.values["{{$url}}"];
+											if(data && data["{{$relation -> getColumn()}}"]){
+												$.map(relation,function(value){
+													if(value.{{$relation -> getObjectSchema() -> getPrimaryField() -> getName()}} == data["{{$relation -> getColumn()}}"]){
+														data = value;
+														return;
+													}
+												});
+											}
+											else
+												data = null;
+
+
+										@endif
+									@endif
+								@endforeach
+
+								if(typeof data == "undefined" || !data)
+									var value = 'undefined';
+								
+
+
+							@else
+
+								var value = data.{{$field -> getColumn()}};
+
+							@endif
+
+							record[name] = value;
+						@endforeach
+
+
+						record.table = table.name;
+						rows += template.get('item-row',record);
+					});
+
+					template.html(rows,'.item-rows');
+					
+				}
+			},
+			get:{
+				get: function(container,table,row){
+					@foreach($item -> getViews() -> fields('get') as $field)
+
+						var data = row;
+						var name = '{{$field -> getName()}}';
+
+
+						@if($field -> getForm() -> is('to_one'))
+
+							@foreach($field -> getRelations() as $n => $relation)
+
+							// -- Relation: {{$field -> getName()}}:{{$relation -> getName()}}
+
+								@if($url = $field -> getUrl($n))
+
+									var relation = table.list.relations.values["{{$url}}"];
+									if(data && data["{{$relation -> getColumn()}}"]){
+										$.map(relation,function(value){
+											if(value.{{$relation -> getObjectSchema() -> getPrimaryField() -> getName()}} == data["{{$relation -> getColumn()}}"]){
+												data = value;
+												return;
+											}
+										});
+									}
+									else
+										data = null;
+
+
+								@endif
+							@endforeach
+
+							if(typeof data == "undefined" || !data)
+								var value = 'undefined';
+							else
+								var value = data.{{$field -> getLastRelation() -> getName()}};
+
+						@endif
+
+
+						$('#modal-item-get').find("[data-name='"+name+"']").html(value);
+					@endforeach
+				},
+			},
+			add:{
+				form: '#item-data-form-add',
+				action: function(form){
+					var values = {};
+
+					@foreach($item -> getViews() -> fields('add') as $field)
+						values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
+					@endforeach
+					return values;
+				}
+			},
+			delete:{
+				form: '#item-data-form-add',
+			},
+			copy:{
+
+			},
+			edit:{
+				get: function(container,data){
+					@foreach($item -> getViews() -> fields('edit') as $field)
+						var field = $('#modal-item-edit').find('[name={{$field -> getColumn()}}]');
+
+						
+						field.val(data['{{$field -> getColumn()}}']);
+
+
+						@if($field -> is('to_one'))
+
+							@if($field -> getSchema() -> getType() == 'to_one' && $field -> isSelect())
+								item.autocomplete.load(field,"{{$item -> getName()}}.{{$field -> getName()}}");
+							@endif
+
+						@endif
+					@endforeach
+				},
+				action: function(form){
+					var values = {};
+
+					@foreach($item -> getViews() -> fields('edit') as $field)
+						values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
+					@endforeach
+
+					return values;
+				}
+			},
+			search:{
+				data: {},
+				action: function(form){
+					var values = {};
+
+					@foreach($item -> getViews() -> fields('search') as $field)
+						if(form.find("[name='{{$field -> getName()}}']").val() !== '')
+							values["{{$field -> getName()}}"] = form.find("[name='{{$field -> getName()}}']").val();
+					@endforeach
+					return values;
+				}
+			}
+
+		});
+
+
+	item.ini();
+};
+</script>
