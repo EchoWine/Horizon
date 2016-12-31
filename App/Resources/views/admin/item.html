@@ -2,6 +2,8 @@
 
 @block('page-content')
 	
-	@include('Admin/admin/item',['item' => $item])
+	@embed('Admin/admin/item-table',['item' => $item])
 
+	@endembed
+	
 @endblock

@@ -1,19 +1,55 @@
 @embed('Admin/admin/item',['item' => $item])
 	
-	@block('item.content.head')
+	@block('item.content')
 
+		<div data-template='spinner-table'>
+
+			<div class='table-row'>
+				<div class='table-col'>
+					@include('Admin/admin/__spinner')
+				</div>
+			</div>
+
+		</div>
+
+		@block('item.content.table.row')
+			@include('Admin/admin/item/structure/list/row',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
+		@endblock
+
+		@block('item.content.modal.add')
+			@include('Admin/admin/item/modal/add',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('add')])
+		@endblock
+
+		@include('Admin/admin/item/modal/delete')
+
+		<div data-item-table-container='{{$item -> getName()}}'>
+			<div class='section-header ly-center'>
+				<h3 class='section-title'>@block('item.content.title')Some content here...@endblock</h3>
+
+				<div class='ly-fill'></div>
+				
+				<div class='section-actions'>
+
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
+						<i class='fa fa-plus'></i>
+						<span>New</span>
+					</button>
+
+				</div>
+			</div>
+				
+			<div class='table'>
+
+				<div class='item-rows'>
+					<div class='table-row'>
+						<div class='table-col'>
+							@include('Admin/admin/__spinner')
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	@endblock
 
-	@block('item.content.table.head')
-
-	@endblock
-	
-	@block('item-row-actions')
-			
-		{# Delete Button #}
-		<button type='button' class='button-action button-action-icon button-danger' data-modal='modal-item-delete' data-modal-item-id='{id}' data-modal-item-table='{table}'>
-			<i class='fa fa-trash'></i>
-		</button>
-
-	@endblock
 @endembed

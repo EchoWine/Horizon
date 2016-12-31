@@ -2,24 +2,27 @@
 
 @block('page-content')
 	
-	@embed('Admin/admin/item',['item' => $item],'extended-playlist')
-		@block('item-row-actions')
+	<div class='page-section page-section-content'>
+		@embed('Admin/admin/item-table',['item' => $item])
+			@block('item-row-actions')
 
-			{# Add to stack #}
-			<a 
-				class='button-action button-action-icon button-primary' 
-				href="{{\Cfg::get('app.web')}}admin/music/player/{id}">
-				<i class="fa fa-play"></i>
-			</a>
+				{# Add to stack #}
+				<a 
+					class='button-action button-action-icon button-primary' 
+					href="{{\Cfg::get('app.web')}}admin/music/player/{id}">
+					<i class="fa fa-play"></i>
+				</a>
 
-			@parent
+				@parent
 
-		@endblock
+			@endblock
 
-		
-	@endembed
+			@block('item.content.title')
+				Playlists
+			@endblock
 
+		@endembed
 
+	</div>
 
 @endblock
-
