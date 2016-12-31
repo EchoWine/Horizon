@@ -8,7 +8,7 @@ use Auth\Service\Auth;
 
 use CoreWine\Http\Controller as Controller;
 
-class DashboardController extends Controller{
+class LibraryController extends Controller{
 
 	/**
 	 * Middleware
@@ -24,7 +24,7 @@ class DashboardController extends Controller{
 	 */
 	public function __routes($router){
 
-		$router -> any('admin','dashboard') -> as('admin/dashboard');
+		$router -> any('admin/wt','library') -> as('wt:admin.library');
 	}
 	
 	/**
@@ -32,9 +32,9 @@ class DashboardController extends Controller{
 	 *
 	 * @return Response
 	 */
-	public function dashboard(){
+	public function library(){
 
-		return $this -> view('WT/admin/dashboard');
+		return $this -> view('WT/admin/library');
 	}
 }
 

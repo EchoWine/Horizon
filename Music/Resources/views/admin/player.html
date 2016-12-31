@@ -3,64 +3,104 @@
 
 @block('page-content')
 
-{# Player #}
-<div class='ly-row'>
+	{# Player #}
+	<div class='ly-row'>
 
-	<div class='page-section page-section-content section-inner'>
-		<div class='ly-row'>
-			<div class='music-player-container'>
-				<video id='music-player' width="100%" height="100%" controls>
-					Your browser does not support the video tag.
-				</video>
+		<div class='page-section page-section-content section-inner'>
+			<div class='ly-row'>
+				<h3 class='section-title'>Player</h3>
+
+				<div class='ly-element-fill'></div>
 			</div>
-			<div class='music-pl-item-container'>
-			@foreach(Auth::user() -> playlists as $playlist)
-				<h3>{{$playlist -> name}}
-				<span class='music-playlist-video-button-add' data-modal='music-modal-source-add' data-modal-id='{{$playlist -> id}}'>
-					<i class='fa fa-plus'></i> add video
-				</span>
-				</h3>
-				@foreach($playlist -> videos as $n => $video)
-					<div class='music-pl-item ly-row' music-n='{{$video -> id}}' music-play='{{$video -> file() -> original()}}'>
-						<span class='ly-center music-pl-item-n music-pl-item-default-n'>
-							{{$n + 1}}
+
+			<hr>
+			<div class='ly-row'>
+				<div class='music-player-container'>
+					<video id='music-player' width="100%" height="100%" controls>
+						Your browser does not support the video tag.
+					</video>
+				</div>
+				<div class='music-pl-item-container'>
+
+					<h3>
+
+						@foreach(Auth::user() -> playlists as $playlist_select)
+							<select class='select-data'>
+								<option val="{{route('music.player',['id' => $playlist_select -> id])}}">{{$playlist_select -> name}}</option>
+							</select>
+							
+						@endforeach
+						<span class='button-action button-primary' data-modal='music-modal-source-add' data-modal-id='{{$playlist -> id}}'>
+							<i class='fa fa-video-camera'></i> <span>Add video</span>
 						</span>
-						<span class='ly-center music-pl-item-n music-pl-item-active-n'>
-							<i class='fa fa-play'></i>
+						<span class='button-action button-primary' 
+							data-modal-id='{{$playlist -> id}}'
+							data-modal='modal-item-playlist-sync'
+			                data-modal-url-add="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync"
+			                data-modal-url-remove="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync/"
+	                	>
+							<i class='fa fa-refresh'></i> <span>Sync playlist</span>
 						</span>
-						<div class='ly-center'>
-							<img class='music-pl-thumb' src='{{$video -> thumb() -> original()}}'>
+					</h3>
+					@foreach($playlist -> videos as $n => $video)
+						<div class='music-pl-item ly-row' music-n='{{$video -> id}}' music-play='{{$video -> file() -> original()}}'>
+							<span class='ly-center music-pl-item-n music-pl-item-default-n'>
+								{{$n + 1}}
+							</span>
+							<span class='ly-center music-pl-item-n music-pl-item-active-n'>
+								<i class='fa fa-play'></i>
+							</span>
+							<div class='ly-center'>
+								<img class='music-pl-thumb' src='{{$video -> thumb() -> original()}}'>
+							</div>
+							<div class='ly-center'>
+								<span>{{$video -> name}}</span>
+							</div>
 						</div>
-						<div class='ly-center'>
-							<span>{{$video -> name}}</span>
-						</div>
-					</div>
-				@endforeach
-			@endforeach
+					@endforeach
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	{# Add new video to current playlist #}
+	@embed('Admin/admin/__modal')
+		@block('__class')modal-body-small@endblock
+		@block('id')music-modal-source-add@endblock
+		@block('title')Video@endblock
+		@block('content')
+			<div class='alert-modal'></div>
+			<form id='music-playlist-source-add' data-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/video/retrieve">
+				<div class="item-form-label">Youtube URL:</div>
+				<div class="item-form-input">
+					<input type="text" class="input-data item-form-element" name="youtube_url" autocomplete="off">
+				</div>
+				<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
+				<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
+			</form>
+		@endblock
+	@endembed
+
+	<div class='ly-row'>
+		<div class='ly-xs-100 ly-md-50'>
+			<div class='page-section page-section-content'>
+				@embed('Admin/admin/item-list',['item' => $item_playlist_sync])
+					@block('item.content.title')
+						Sync Youtube List
+					@endblock
+				@endembed
 			</div>
 		</div>
-
 	</div>
-</div>
 
-{# Add new video to current playlist #}
-@embed('Admin/admin/__modal')
-	@block('__class')modal-body-small@endblock
-	@block('id')music-modal-source-add@endblock
-	@block('title')Video@endblock
-	@block('content')
-		<div class='alert-modal'></div>
-		<form id='music-playlist-source-add' data-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/video/retrieve">
-			<div class="item-form-label">Youtube URL:</div>
-			<div class="item-form-input">
-				<input type="text" class="input-data item-form-element" name="youtube_url" autocomplete="off">
-			</div>
-			<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
-			<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
-		</form>
-	@endblock
-@endembed
+@endblock
 
+@block('stylesheet')
+	@parent
+	<link rel='stylesheet' href="{{assets('src/Music/assets/player/player.css')}}">
 @endblock
 
 

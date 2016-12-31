@@ -1,34 +1,30 @@
 <?php if(!isset($extra_class)) $extra_class = ''; ?>
-@switch($field -> getSchema() -> getType())
+@switch($field -> getAlias())
 
 	@case('text')
-		<textarea class='text-data {{$extra_class}}' name='{{$field -> getSchema() -> getName()}}'></textarea>
+		<textarea class='text-data {{$extra_class}}' name='{{$field -> getName()}}'></textarea>
 	@endcase
 
-	@case('collection')
+	@case('selectMultiple')
 		<select multiple='multiple' class='input-data {{$extra_class}} ' name='{{$field -> getName()}}' style='height:90px'>
-			@foreach($field -> getSelectMultiple() -> getOptions() as $value => $label)
+			@foreach($field -> getForm() -> getOptions() as $value => $label)
 				<option value='{{$value}}'>{{$label}}</option>
 			@endforeach
 		</select>
 	@endcase
-	@case('to_one')
 
-		@if($field -> isSelect())
-			<input type='text' class='input-data {{$extra_class}} autocomplete-input'
-				autocomplete='off'
-				data-autocomplete-name='{{$table}}.{{$field -> getName()}}'
-				data-autocomplete-column='{{$field -> getColumn()}}'
-				data-autocomplete-label='{{$field -> getSelect() -> getLabel()}}'
-				data-autocomplete-value='{{$field -> getSelect() -> getValue()}}'
-				data-autocomplete-search="{{($field -> getSelect() -> getSearch())}}"
-				data-autocomplete-url='{{$field -> getSelect() -> getUrl()}}' 
-			>
-				@elseif($field -> isInput())
+	@case('toOne')
 
-			<input type='text' class='input-data {{$extra_class}} ' name='{{$field -> getName()}}' >
-
-		@endif
+		<input type='text' class='input-data {{$extra_class}} autocomplete-input'
+			autocomplete='off'
+			data-autocomplete-name='{{$table}}.{{$field -> getName()}}'
+			data-autocomplete-column='{{$field -> getColumn()}}'
+			data-autocomplete-label='{{$field -> getSelect() -> getLabel()}}'
+			data-autocomplete-value='{{$field -> getSelect() -> getValue()}}'
+			data-autocomplete-search="{{($field -> getSelect() -> getSearch())}}"
+			data-autocomplete-url='{{$field -> getSelect() -> getUrl()}}' 
+		>
+		
 	@endcase
 
 	@default

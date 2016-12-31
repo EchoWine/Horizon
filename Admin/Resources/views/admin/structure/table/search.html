@@ -2,9 +2,9 @@
 	<div class='table-col-select table-col table-col-head'></div>
 	@foreach($views -> fields('all') as $field)
 
-		@if(!$field -> isHidden())
+		@if(!$field -> getForm() -> isHidden())
 			@if($views -> isField('search',$field))
-			<div class='table-col table-col-head table-col-search  @if($field -> getSchema() -> isType('integer'))table-col-number@endif'>
+			<div class='table-col table-col-head table-col-search  @if($field -> getForm() -> is('number'))table-col-number@endif'>
 				@include('Admin/admin/field-search',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])
 			</div>
 			@else

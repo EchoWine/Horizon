@@ -26,40 +26,36 @@ class DownloadStackController extends AdminController{
 	public function views($views){
 		
 		$views -> all(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
 		});
 
 		$views -> add(function($view){
-			$view -> username();
-			$view -> email();
-			$view -> token();
-			$view -> password();
-
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
+			$view -> password('password');
 		});
 
 		$views -> edit(function($view){
-			$view -> username();
-			$view -> email();
-			$view -> token();
-			$view -> password();
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
+			$view -> password('password');
 		});
 
 		$views -> get(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
-			$view -> token();
-
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
 		});
 
 		$views -> search(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
-			$view -> token();
-
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
 		});
 	}
 

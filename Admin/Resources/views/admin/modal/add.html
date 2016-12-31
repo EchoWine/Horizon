@@ -6,7 +6,7 @@
 		<div class='alert-modal-add'></div>
 		<form method='POST' item-data-form-add  data-item-table='{table}'>
 			@foreach($fields as $field)
-				<div class='item-form-label'>{{$field -> getLabel()}}:</div>
+				<div class='item-form-label'>{{$field -> getForm() -> getLabel()}}:</div>
 				<div class='item-form-input'>@include('Admin/admin/field',['table' => $table,'field' => $field,'extra_class' => 'item-form-element'])</div>
 			@endforeach
 

@@ -1,4 +1,5 @@
-
+@block('item.content')
+	
 	<div data-template='spinner-table'>
 
 		<div class='table-row'>
@@ -28,39 +29,49 @@
 	</div>
 
 
-	@include('Admin/admin/tmpl/row',['table' => $table,'fields' => $views -> fields('all')])
+	@block('item.content.row')
+		@include('Admin/admin/tmpl/row',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
+	@endblock
+
+	@block('item.content.modal.add')
+		@include('Admin/admin/modal/add',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('add')])
+	@endblock
+
+	@block('item.content.modal.get')
+		@include('Admin/admin/modal/get',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('get')])
+	@endblock 
 
 
-	@include('Admin/admin/modal/add',['table' => $table,'fields' => $views -> fields('add')])
-	@include('Admin/admin/modal/get',['table' => $table,'fields' => $views -> fields('get')])
-	@include('Admin/admin/modal/edit',['table' => $table,'fields' => $views -> fields('edit')])
+	@block('item.content.modal.edit')
+		@include('Admin/admin/modal/edit',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('edit')])
+	@endblock 
+
 	@include('Admin/admin/modal/delete')
 	@include('Admin/admin/modal/delete_multiple')
 
-	<div class='ly-row' data-item-table-container='{{$table}}'>
-		<div class='page-section page-section-content'>
+	<div data-item-table-container='{{$item -> getName()}}'>
 
 
 			<div class='section-header ly-center'>
-				<h3 class='section-title'>Some content here...</h3>
+				<h3 class='section-title'>@block('item.content.title')Some content here...@endblock</h3>
 
 				<div class='ly-fill'></div>
 				
 				<div class='section-actions'>
 
 
-					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$table}}'>
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
 						<i class='fa fa-plus'></i>
 						<span>New</span>
 					</button>
 
 					<!--
-					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$table}}'>
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
 						<i class='fa fa-upload'></i>
 						<span>Import</span>
 					</button>
 
-					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$table}}'>
+					<button type='button' class='button-action button-primary' data-modal='modal-item-add' data-modal-item-table='{{$item -> getName()}}'>
 						<i class='fa fa-download'></i>
 						<span>Export</span>
 					</button>
@@ -68,67 +79,68 @@
 
 				</div>
 			</div>
-			
+				@block('item.content.head')
 
-			<div class='section-pagination ly-center'>
-				<div>If selected: &nbsp;</div>
-				<select class='select-data' data-item-multiple data-item-table='{{$table}}'> 
-					<option value='none'>Select action...</option>
-					<option value='delete'>Delete</option>
-					<option>Edit</option>
-					<option value='copy'>Copy</option>
-				</select>
+					<div class='section-pagination ly-center'>
+						<div>If selected: &nbsp;</div>
+						<select class='select-data' data-item-multiple data-item-table='{{$item -> getName()}}'> 
+							<option value='none'>Select action...</option>
+							<option value='delete'>Delete</option>
+							<option>Edit</option>
+							<option value='copy'>Copy</option>
+						</select>
 
-				<div class='ly-fill'></div>
+						<div class='ly-fill'></div>
 
-				@include('Admin/admin/structure/table/pagination',['table' => $table])
-			</div>
+						@include('Admin/admin/structure/table/pagination',['table' => $item -> getName()])
+					</div>
 
-			<div class='table'>
+				@endblock
+				<div class='table'>
 
-				@include('Admin/admin/structure/table/head',['table' => $table,'fields' => $views -> fields('all')])
-				@include('Admin/admin/structure/table/search',['table' => $table,'views' => $views])
-
-				<div class='item-rows'>
-					<div class='table-row'>
-						<div class='table-col'>
-							@include('Admin/admin/__spinner')
+					@block('item.content.table.head')
+						@include('Admin/admin/structure/table/head',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
+						@include('Admin/admin/structure/table/search',['table' => $item -> getName(),'views' => $item -> getViews()])
+					@endblock
+					<div class='item-rows'>
+						<div class='table-row'>
+							<div class='table-col'>
+								@include('Admin/admin/__spinner')
+							</div>
 						</div>
 					</div>
+
+				</div>
+				<div class='section-pagination ly-center'>
+					<div>
+						<select class='select select-data' data-item-show data-item-table='{{$item -> getName()}}'>
+							<option value='10'>10</option>
+							<option value='25'>25</option>
+							<option value='50'>50</option>
+							<option value='100'>100</option>
+						</select>
+					</div>
+					<div class='ly-fill'></div>
+					@include('Admin/admin/structure/table/pagination',['table' => $item -> getName()])
 				</div>
 
-			</div>
-			<div class='section-pagination ly-center'>
-				<div>
-					<select class='select select-data' data-item-show data-item-table='{{$table}}'>
-						<option value='10'>10</option>
-						<option value='25'>25</option>
-						<option value='50'>50</option>
-						<option value='100'>100</option>
-					</select>
-				</div>
-				<div class='ly-fill'></div>
-				@include('Admin/admin/structure/table/pagination',['table' => $table])
-			</div>
 		</div>
-	</div>
+@endblock
+@block('item:script')
 	<script>
 		window.onload = function(){
-			item.url = '{{$api_url}}';
 			item.addTable({
-				name:'{{$table}}',
-				url:'{{$api}}',
-				basic_url:'{{$api_url}}',
+				name:'{{$item -> getName()}}',
+				url:'{{$item -> getUrl()}}',
 				list:{
-					sort_by_field:'{{$sort_by_field}}',
-					sort_by_direction:'{{$sort_by_direction}}',
 					show:10,
 					page:1,
+					sort:{field:null,direction:null},
 					relations:{
 						columns:{},
 						ids:{},
 						values:{},
-						schema:{{json_encode($views -> view('all') -> getMinimalRelation())}}
+						schema:{{json_encode($item -> getViews() -> view('all') -> getMinimalRelation())}}
 					},
 					relations_ids:{},
 						
@@ -141,10 +153,71 @@
 
 							var record = {};
 
-							@foreach($views -> fields('all') as $field)
+							@foreach($item -> getViews() -> fields('all') as $field)
 
 								var data = row;
 								var name = '{{$field -> getName()}}';
+								var value = null;
+
+								@if($field -> is('to_one'))
+
+									@foreach($field -> getRelations() as $n => $relation)
+
+										// -- Relation: {{$field -> getName()}}:{{$relation -> getName()}}
+
+
+										@if($field -> is('to_one'))
+											@if($url = $field -> getUrl($n))
+
+												var relation = table.list.relations.values["{{$url}}"];
+												if(data && data["{{$relation -> getColumn()}}"]){
+													$.map(relation,function(value){
+														if(value.{{$relation -> getObjectSchema() -> getPrimaryField() -> getName()}} == data["{{$relation -> getColumn()}}"]){
+															data = value;
+															return;
+														}
+													});
+												}
+												else
+													data = null;
+
+
+											@endif
+										@endif
+									@endforeach
+
+									if(typeof data == "undefined" || !data)
+										var value = 'undefined';
+									
+
+
+								@else
+
+									var value = data.{{$field -> getColumn()}};
+
+								@endif
+
+								record[name] = value;
+							@endforeach
+
+
+							record.table = table.name;
+							rows += template.get('item-row',record);
+						});
+
+						template.html(rows,'.item-rows');
+						
+					}
+				},
+				get:{
+					get: function(container,table,row){
+						@foreach($item -> getViews() -> fields('get') as $field)
+
+							var data = row;
+							var name = '{{$field -> getName()}}';
+
+
+							@if($field -> getForm() -> is('to_one'))
 
 								@foreach($field -> getRelations() as $n => $relation)
 
@@ -173,51 +246,7 @@
 								else
 									var value = data.{{$field -> getLastRelation() -> getName()}};
 
-								record[name] = value;
-							@endforeach
-
-
-							record.table = table.name;
-							rows += template.get('item-row',record);
-						});
-
-						template.html(rows,'.item-rows');
-						
-					}
-				},
-				get:{
-					get: function(container,table,row){
-						@foreach($views -> fields('get') as $field)
-
-							var data = row;
-							var name = '{{$field -> getName()}}';
-
-							@foreach($field -> getRelations() as $n => $relation)
-
-							// -- Relation: {{$field -> getName()}}:{{$relation -> getName()}}
-
-								@if($url = $field -> getUrl($n))
-
-									var relation = table.list.relations.values["{{$url}}"];
-									if(data && data["{{$relation -> getColumn()}}"]){
-										$.map(relation,function(value){
-											if(value.{{$relation -> getObjectSchema() -> getPrimaryField() -> getName()}} == data["{{$relation -> getColumn()}}"]){
-												data = value;
-												return;
-											}
-										});
-									}
-									else
-										data = null;
-
-
-								@endif
-							@endforeach
-
-							if(typeof data == "undefined" || !data)
-								var value = 'undefined';
-							else
-								var value = data.{{$field -> getLastRelation() -> getName()}};
+							@endif
 
 
 							$('#modal-item-get').find("[data-name='"+name+"']").html(value);
@@ -229,7 +258,7 @@
 					action: function(form){
 						var values = {};
 
-						@foreach($views -> fields('add') as $field)
+						@foreach($item -> getViews() -> fields('add') as $field)
 							values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
 						@endforeach
 						return values;
@@ -243,22 +272,26 @@
 				},
 				edit:{
 					get: function(container,data){
-						@foreach($views -> fields('edit') as $field)
+						@foreach($item -> getViews() -> fields('edit') as $field)
 							var field = $('#modal-item-edit').find('[name={{$field -> getColumn()}}]');
 
-							console.log(data);
 							
 							field.val(data['{{$field -> getColumn()}}']);
 
-							@if($field -> getSchema() -> getType() == 'to_one' && $field -> isSelect())
-								item.autocomplete.load(field,"{{$table}}.{{$field -> getName()}}");
+
+							@if($field -> is('to_one'))
+
+								@if($field -> getSchema() -> getType() == 'to_one' && $field -> isSelect())
+									item.autocomplete.load(field,"{{$item -> getName()}}.{{$field -> getName()}}");
+								@endif
+
 							@endif
 						@endforeach
 					},
 					action: function(form){
 						var values = {};
 
-						@foreach($views -> fields('edit') as $field)
+						@foreach($item -> getViews() -> fields('edit') as $field)
 							values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
 						@endforeach
 
@@ -270,7 +303,7 @@
 					action: function(form){
 						var values = {};
 
-						@foreach($views -> fields('search') as $field)
+						@foreach($item -> getViews() -> fields('search') as $field)
 							if(form.find("[name='{{$field -> getName()}}']").val() !== '')
 								values["{{$field -> getName()}}"] = form.find("[name='{{$field -> getName()}}']").val();
 						@endforeach
@@ -284,3 +317,5 @@
 		item.ini();
 	};
 	</script>
+
+@endblock

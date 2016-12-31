@@ -1,6 +1,6 @@
 <?php
-
 namespace Api;
+
 
 use CoreWine\Http\Controller as HttpController;
 use Api\Response;
@@ -130,11 +130,14 @@ abstract class Controller extends HttpController{
 			# Request
 			$page = $request -> query -> get('page',1);
 			$show = $request -> query -> get('show',100);
-			$sort = $request -> query -> get('desc',null);
+			$sort = $request -> query -> get('desc','id');
 			$sort = $request -> query -> get('asc',$sort);
 			$search = $request -> query -> get('search',[]);
 
 			$direction = $sort == $request -> query -> get('desc') ? 'desc' : 'asc';
+
+			if(empty($sort))
+				$sort = 'id';
 
 			# SORTING
 			if($sort){
@@ -161,7 +164,8 @@ abstract class Controller extends HttpController{
 
 			return new Response\ApiAllSuccess([
 				'results' => $results -> toArray(),
-				'pagination' => $results -> getPagination() -> toArray()
+				'pagination' => $results -> getPagination() -> toArray(),
+				'sort' => ['field' => $sort,'direction' => $direction]
 			]);
 
 		}catch(\Exception $e){

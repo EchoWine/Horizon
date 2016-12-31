@@ -19,7 +19,7 @@ item.ini = function(){
 	for(i in item.tables){
 		table = item.tables[i];
 		
-		item.updateSortHTML(table,table.list.sort_by_field,table.list.sort_by_direction);
+		//item.updateSortHTML(table,table.list.sort_by_field,table.list.sort_by_direction);
 		item.getListWithParams(table);
 
 	};
@@ -164,6 +164,8 @@ item.updateListHTML = function(table){
 	container.find('[data-item-list-end]').html(table.list.to);
 	container.find('[data-item-show]').val(table.list.show);
 
+	item.updateSortHTML(table,table.list.sort.field,table.list.sort.direction);
+
 	if(table.list.page == 1)
 		container.find('[data-item-list-prev]').addClass('disable');
 	else
@@ -213,6 +215,7 @@ item.listNext = function(table){
  * @param {string} direction
  */
 item.updateSortHTML = function(table,field,direction){
+
 	var container = item.getContainerByTable(table);
 
 	container.find('[data-item-sort-none]').removeClass('hide');

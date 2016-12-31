@@ -31,29 +31,28 @@ class PlaylistsController extends AdminController{
 	public function views($views){
 		
 		$views -> all(function($view){
-			$view -> id();
-			$view -> name();
+			$view -> id('id');
+			$view -> text('name');
 		});
 
 		$views -> add(function($view){
-			$view -> name();
+			$view -> text('name');
 
 		});
 
 		$views -> edit(function($view){
-			$view -> name();
+			$view -> text('name');
 		});
 
 		$views -> get(function($view){
-			$view -> id();
-			$view -> name();
+			$view -> id('id');
+			$view -> text('name');
 
 		});
 
 		$views -> search(function($view){
-			$view -> id();
-			$view -> name();
-
+			$view -> id('id');
+			$view -> text('name');
 		});
 	}
 
@@ -63,18 +62,6 @@ class PlaylistsController extends AdminController{
 		$playlist -> user = Auth::user(); 
 	}
 
-	/**
-	 * Index
-	 *
-	 * @return Response
-	 */
-	public function index(Request $request){
-		if(!\Auth::user() -> permission -> has(\Auth\Model\User::PEX_MUSIC))
-			return abort(404);
-		
-
-		return parent::index($request);
-	}
 
 
 }

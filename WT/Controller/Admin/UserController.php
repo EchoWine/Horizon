@@ -30,42 +30,42 @@ class UserController extends AdminController{
 	public function views($views){
 		
 		$views -> all(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
 		});
 
 		$views -> add(function($view){
-			$view -> username();
-			$view -> email();
-			$view -> token();
-			$view -> password();
-			$view -> permission() -> selectMultiple(User::getPermission());
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
+			$view -> password('password');
+			$view -> selectMultiple('permission') -> options(User::getPermission());
 
 		});
 
 		$views -> edit(function($view){
-			$view -> username();
-			$view -> email();
-			$view -> token();
-			$view -> password();
-			$view -> permission() -> selectMultiple(User::getPermission());
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
+			$view -> password('password');
+			$view -> selectMultiple('permission') -> options(User::getPermission());
 		});
 
 		$views -> get(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
-			$view -> token();
-			$view -> permission() -> selectMultiple(User::getPermission());
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
+			$view -> selectMultiple('permission') -> options(User::getPermission());
 
 		});
 
 		$views -> search(function($view){
-			$view -> id();
-			$view -> username();
-			$view -> email();
-			$view -> token();
+			$view -> id('id');
+			$view -> text('username');
+			$view -> email('email');
+			$view -> text('token');
 
 		});
 	}

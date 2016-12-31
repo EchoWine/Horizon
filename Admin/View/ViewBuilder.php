@@ -12,71 +12,14 @@ class ViewBuilder{
 	 * @var ORM\Schema
 	 */
 	public $schema;
-
+	
 	/**
-	 * Display a select
+	 * Form
 	 *
-	 * @var bool
+	 * @var Admin\View\Form\Base
 	 */
-	public $select = null;
+	public $form;
 
-	/**
-	 * Display a multi select
-	 *
-	 * @var bool
-	 */
-	public $select_multiple = null;
-
-
-	/**
-	 * Display a input
-	 *
-	 * @var Component\Select
-	 */
-	public $input = true;
-
-	/**
-	 * Don't display the field
-	 *
-	 * @var bool
-	 */
-	public $hidden = false;
-
-	/**
-	 * Label
-	 *
-	 * @var string
-	 */
-	public $label;
-
-	/**
-	 * Relations
-	 *
-	 * @var array
-	 */
-	public $relations = [];
-
-	/**
-	 * urls
-	 *
-	 * @var array
-	 */
-	public $urls = [];
-
-	/**
-	 * Construct
-	 */
-	public function __construct($schema,$arguments){
-		$this -> schema = $schema;
-
-		$this -> relations[] = $schema;
-		$this -> label($this -> getName());	
-
-		if($this -> getSchema() -> getType() == "to_one" || $this -> getSchema() -> getType() == "to_many"){
-			if(isset($arguments[0]))
-				$this -> urls[] = $arguments[0];
-		}
-	}
 
 	/**
 	 * Get schema
@@ -88,147 +31,61 @@ class ViewBuilder{
 	}
 
 	/**
-	 * Call
+	 * Get schema
 	 *
-	 * @param string $method
-	 * @param array $arguments
+	 * @return ORM\Schema
 	 */
-	public function __call($method,$arguments){
-		$last_relation = $this -> getLastRelation();
-
-		if($last_relation -> getType() == "to_one" || $last_relation -> getType() == "to_many"){
-				
-			if($last_relation -> getRelation()::schema() -> isField($method)){
-
-				$field = $last_relation -> getRelation()::schema() -> getField($method);
-				//$this -> schema = $field;
-				$this -> relations[] = $field;
-
-				$this -> label($this -> getName());	
-
-				if($field -> getType() == "to_one" || $field -> getType() == "to_many"){
-					if(isset($arguments[0]))
-						$this -> urls[] = $arguments[0];
-				}
-
-				return $this;
-			}
-		}
-
-		$this -> label($this -> getName());	
-		
-		throw new Exceptions\UndefinedMethodException(static::class,$method);
+	public function getForm(){
+		return $this -> form;
 	}
 
 	/**
-	 * Display a select
+	 * Construct
 	 */
-	public function select($url,$value,$label = null,$search = null){
-		$this -> select = new Component\Select($url,$value,$label,$search);
-		return $this;
-	}
+	public function __construct($schema,$form){
+		$this -> schema = $schema;
+		$this -> form = $form;
 
-	public function isSelect(){
-		return $this -> select !== null;
-	}
-
-	public function getSelect(){
-		return $this -> select;
 	}
 
 	/**
-	 * Display a select
-	 */
-	public function selectMultiple($options){
-		$this -> select_multiple = new Component\SelectMultiple($options);
-		return $this;
-	}
-
-
-	public function getSelectMultiple(){
-		return $this -> select_multiple;
-	}
-
-
-
-	public function isSelectMultiple(){
-		return $this -> select_multiple !== null;
-	}
-
-
-	public function isInput(){
-		return $this -> input;
-	}
-
-	/**
-	 * Display a input
-	 */
-	public function input(){
-		$this -> input = true;
-		return $this;
-	}
-
-	/**
-	 * Set label
-	 */
-	public function label($label){
-		$this -> label = $label;
-		return $this;
-	}
-
-	/**
-	 * Get relations
+	 * Get name
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getRelations(){
-		return $this -> relations;
-	}
-
-	public function getUrl($n){
-		return isset($this -> urls[$n]) ? $this -> urls[$n] : null;
-	}
-
-	/**
-	 * Get relations
-	 *
-	 * @return array
-	 */
-	public function getLastRelation(){
-		return $this -> relations[count($this -> relations) - 1];
-	}
-
-	/**
-	 * Get relations
-	 *
-	 * @return array
-	 */
-	public function getLastColumnRelation(){
-		return $this -> relations[count($this -> relations) - 2];
-	}
-
-	public function countRelations(){
-		return count($this -> relations);
-	}
-
-	public function getLabel(){
-		return $this -> label;
-	}
-
 	public function getName(){
-		return implode(".",array_map(function($item){ return $item -> getName(); },$this -> getRelations()));
+		return $this -> getSchema() -> getName();
 	}
 
+	/**
+	 * Get column
+	 *
+	 * @return string
+	 */
 	public function getColumn(){
 		return $this -> getSchema() -> getColumn();
 	}
 
-	public function hidden($hidden = true){
-		$this -> hidden = $hidden;
+	/**
+	 * Get alias
+	 *
+	 * @return string
+	 */
+	public function getAlias(){
+		return $this -> getForm() -> getAlias();
 	}
 
-	public function isHidden(){
-		return $this -> hidden;
+	/**
+	 * Is alias
+	 *
+	 * @param string $alias
+	 *
+	 * @return bool
+	 */
+	public function is($alias){
+		return $this -> getForm() -> is($alias);
 	}
+
+
 }
 ?>

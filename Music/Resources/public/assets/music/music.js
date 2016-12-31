@@ -62,3 +62,17 @@ $('body').on('submit','#music-playlist-source-add',function(e){
 
 	});	
 });
+
+
+// Update playlist sync
+
+modal.on('modal-item-playlist-sync',function(container,data){
+
+	// Get all playlist sync
+
+	http.get();
+	tmpl = template.get('music-player-playlist-sync',{
+		n:n,
+		playlist:playlist,
+	})
+});

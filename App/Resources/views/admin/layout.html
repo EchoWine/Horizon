@@ -1,0 +1,159 @@
+@extends('Admin/admin/layout')
+
+@block('nav_head')
+
+	
+	<img src='{{assets('src/Admin/assets/img/logo_80x80.png')}}' width='80' style='margin-left:-32px'>
+	&nbsp;&nbsp;&nbsp;
+	<span class='nav-header-name'>Horizon</span>
+@endblock
+
+@block('nav')
+
+	<ul>
+
+		
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('admin.dashboard')}}'>
+				<i class='nav-link-icon fa fa-home'></i>
+				<span>Dashboard</span>
+			</a>
+		</li>
+	<ul>
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_BASIC))
+
+		
+		<h5 class='nav-title'>What's Today</h5>
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('wt:admin.library')}}'>
+				<i class='nav-link-icon fa fa-database'></i>
+				<span>Library</span>
+			</a>
+		</li>
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('wt:admin.search')}}'>
+				<i class='nav-link-icon fa fa-search'></i>
+				<span>Search</span>
+			</a>
+		</li>	
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('wt:admin.calendar.monthly')}}'>
+				<i class='nav-link-icon fa fa-calendar'></i>
+				<span>Calendar</span>
+			</a>
+		</li>
+		<li class='nav-link-container'>
+			<a class='nav-link' href='{{route('wt:admin.tools')}}'>
+				<i class='nav-link-icon fa fa-wrench'></i>
+				<span>Tools</span>
+			</a>
+		</li>
+	</ul>
+	@endif
+	
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_MUSIC))
+
+		<h5 class='nav-title'>Music/Video</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/playlists')}}'>
+					<i class='nav-link-icon fa fa-music'></i>
+					<span>Playlists</span>
+				</a>
+			</li>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/playlists')}}'>
+					<i class='nav-link-icon fa fa-tv'></i>
+					<span>Subscription</span>
+				</a>
+			</li>
+		</ul>
+
+
+	@endif
+	
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_CHESS))
+		<h5 class='nav-title'>Work</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-vcard'></i>
+					<span>Customers</span>
+				</a>
+			</li>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-file-o'></i>
+					<span>Invoices</span>
+				</a>
+			</li>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-area-chart'></i>
+					<span>Stats</span>
+				</a>
+			</li>
+		</ul>
+	@endif
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_CHESS))
+		<h5 class='nav-title'>Data</h5>
+		<ul>
+
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-address-book'></i>
+					<span>Contacts</span>
+				</a>
+			</li>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon nav-link-unicode'>♔</i>
+					<span>Chess matches</span>
+				</a>
+			</li>
+
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/chess_matches')}}'>
+					<i class='nav-link-icon fa fa-file-o'></i>
+					<span>PDF</span>
+				</a>
+			</li>
+		</ul>
+	@endif
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_USERS))
+		
+		<h5 class='nav-title'>Administration</h5>
+		<ul>
+			<li class='nav-link-container'>
+				<a class='nav-link' href='{{route('admin/users')}}'>
+					<i class='nav-link-icon fa fa-user'></i>
+					<span>Users</span>
+				</a>
+			</li>
+		</ul>
+
+	@endif
+@endblock
+
+@block('stylesheet')
+	@parent
+	<link rel='stylesheet' href='{{assets('src/WT/assets/wt/wt.css')}}'>
+	<link rel='stylesheet' href='{{assets('src/Music/assets/music/music.css')}}'>
+@endblock
+@block('scripts')
+	@parent
+
+	<script src='{{assets('src/WT/assets/wt/wt.js')}}'></script>
+	<script src='{{assets('src/Music/assets/music/music.js')}}'></script>
+	<script>
+
+		WT.url = "{{WT\Service\WT::url()}}";
+		WT.token = '{{Auth::user() -> session -> sid}}';
+
+		User = {};
+		User.token = "{{Auth::user() -> session -> sid}}";
+	</script>
+@endblock

@@ -55,7 +55,7 @@ class AuthController extends Controller{
 
 
 
-		Request::redirect(Router::url('admin/dashboard'));
+		Request::redirect(Router::url('admin.dashboard'));
 
 	}
 

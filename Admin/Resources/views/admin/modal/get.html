@@ -5,7 +5,7 @@
 	@block('content')
 
 		@foreach($fields as $field)
-			<div class='item-form-label'>{{$field -> getLabel()}}</div>
+			<div class='item-form-label'>{{$field -> getForm() -> getLabel()}}</div>
 			<div class='item-form-input'><span data-name='{{$field -> getName()}}'></span></div>
 		@endforeach
 

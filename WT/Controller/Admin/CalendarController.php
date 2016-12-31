@@ -29,7 +29,7 @@ class CalendarController extends Controller{
 	 */
 	public function __routes($router){
 
-		$router -> any('admin/calendar/monthly','monthly');
+		$router -> any('admin/wt/calendar/monthly','monthly') -> as('wt:admin.calendar.monthly');
 	}
 	
 	/**

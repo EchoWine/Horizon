@@ -34,7 +34,7 @@ class IndexController extends Controller{
 	 */
 	public function index(){
 		
-		return $this -> redirect('admin/dashboard');
+		return $this -> redirect('admin.dashboard');
 	}
 }
 

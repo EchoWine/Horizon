@@ -28,49 +28,48 @@ class ChessMatchController extends AdminController{
 	public function views($views){
 		
 		$views -> all(function($view){
-			$view -> id() -> hidden();
-			$view -> player();
-			$view -> opponent();
-			$view -> date();
-			$view -> score();
-			$view -> description();
+			$view -> id('id') -> hidden();
+			$view -> text('player');
+			$view -> text('opponent');
+			$view -> dateTime('date');
+			$view -> number('score');
+			$view -> textarea('description');
 		});
 
 		$views -> add(function($view){
-			$view -> player();
-			$view -> opponent();
-			$view -> date();
-			$view -> score();
-			$view -> description();
-			$view -> url();
+			$view -> text('player');
+			$view -> text('opponent');
+			$view -> dateTime('date');
+			$view -> number('score');
+			$view -> textarea('description');
+			$view -> url('url');
 		});
 
 		$views -> edit(function($view){
-			$view -> player();
-			$view -> opponent();
-			$view -> date();
-			$view -> score();
-			$view -> description();
-			$view -> url();
+			$view -> text('player');
+			$view -> text('opponent');
+			$view -> dateTime('date');
+			$view -> number('score');
+			$view -> textarea('description');
+			$view -> url('url');
 		});
 
 		$views -> get(function($view){
-			$view -> player();
-			$view -> opponent();
-			$view -> date();
-			$view -> score();
-			$view -> description();
-			$view -> url();
-
+			$view -> text('player');
+			$view -> text('opponent');
+			$view -> dateTime('date');
+			$view -> number('score');
+			$view -> textarea('description');
+			$view -> url('url');
 		});
-
+		
 		$views -> search(function($view){
-			$view -> id();
-			$view -> player();
-			$view -> opponent();
-			$view -> date();
-			$view -> description();
-			$view -> score();
+			$view -> text('player');
+			$view -> text('opponent');
+			$view -> dateTime('date');
+			$view -> number('score');
+			$view -> textarea('description');
+			$view -> url('url');
 		});
 	}
 
