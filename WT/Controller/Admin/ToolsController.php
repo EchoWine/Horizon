@@ -21,7 +21,7 @@ class ToolsController extends BasicController{
 	 */
 	public function __routes($router){
 
-		$router -> any('admin/tools','tools');
+		$router -> any('admin/wt/tools','tools') -> as('wt:admin.tools');
 	}
 
 	/**

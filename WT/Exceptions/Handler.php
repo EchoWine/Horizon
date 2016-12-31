@@ -4,7 +4,7 @@ namespace WT\Exceptions;
 
 use Kernel\Exceptions\ExceptionHandler;
 
-use CoreWine\Http\Exceptions\RouteException;
+use CoreWine\Http\Exceptions\RouteNotFoundException;
 
 class Handler extends ExceptionHandler{
 
@@ -14,7 +14,7 @@ class Handler extends ExceptionHandler{
 
 	public function render($exception){
 
-		if($exception instanceof RouteException){
+		if($exception instanceof RouteNotFoundException){
 			return $this -> view("WT/errors/404");
 		}
 	}

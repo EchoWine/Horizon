@@ -21,7 +21,7 @@ class SearchController extends BasicController{
 	 */
 	public function __routes($router){
 
-		$router -> any('admin/search','search');
+		$router -> any('admin/wt/search','search') -> as('wt:admin.search');
 	}
 
 	/**

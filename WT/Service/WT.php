@@ -49,7 +49,7 @@ class WT{
 	 */
 	public static function url(){
 
-		return Request::getDirUrl()."api/v1/";
+		return Request::getDirUrl()."api/v1/wt/";
 	}
 
 	/**
@@ -435,7 +435,15 @@ class WT{
 
 		$manager = self::getManagerByDatabase($database);
 
-		$manager -> queueDownload($limit);
+		$manager -> queueDownloadByLimit($limit);
+	}
+
+
+	public static function queueDownloadById($database,$id){
+
+		$manager = self::getManagerByDatabase($database);
+
+		$manager -> queueDownloadById($id);
 	}
 }
 

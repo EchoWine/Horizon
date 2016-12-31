@@ -39,6 +39,7 @@ item.request.handle.list = function(table,response){
 	var container = item.getContainerByTable(table);
 
 	if(response.status == 'success'){
+
 		var data = response.data;
 		table.list.page = data.pagination.page;
 		table.list.pages = data.pagination.pages;
@@ -46,6 +47,8 @@ item.request.handle.list = function(table,response){
 		table.list.from = data.pagination.from;
 		table.list.to = data.pagination.to;
 		table.list.show = data.pagination.show;
+		table.list.sort.field = data.sort.field;
+		table.list.sort.direction = data.sort.direction;
 
 		var columns = item.rowsToColumns(data.results);
 

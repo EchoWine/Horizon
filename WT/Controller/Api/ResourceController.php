@@ -25,14 +25,14 @@ class ResourceController extends Controller{
 	public function __routes($router){
 		
 		# Discovery and add new resource
-		$router -> get('/api/v1/discovery/{database}/{key}','discovery','wt.discovery.get');
-		$router -> post('/api/v1/discovery/{database}/{id}','add','wt.discovery.add');
+		$router -> get('/api/v1/wt/discovery/{database}/{key}','discovery','wt.discovery.get');
+		$router -> post('/api/v1/wt/discovery/{database}/{id}','add','wt.discovery.add');
 
 		# Manipulate/Retrieve resoure
-		$router -> get('/api/v1/{resource}','all','wt.resource.all');
-		$router -> get('/api/v1/{resource}/{id}','get','wt.resource.get');
-		$router -> post('/api/v1/{resource}/update/{id}','sync','wt.resource.update');
-		$router -> delete('/api/v1/{resource}/{id}','remove','wt.resource.delete');
+		$router -> get('/api/v1/wt/{resource}','all','wt.resource.all');
+		$router -> get('/api/v1/wt/{resource}/{id}','get','wt.resource.get');
+		$router -> post('/api/v1/wt/{resource}/update/{id}','sync','wt.resource.update');
+		$router -> delete('/api/v1/wt/{resource}/{id}','remove','wt.resource.delete');
 
 
 		//$router -> get("/api/v1/{resource}/discovery/{key}","index")

@@ -5,9 +5,9 @@
 			<label for='select-{table}-{id}' class='checkbox'></label>
 		</div>
 		@foreach($fields as $field)
-			@if(!$field -> isHidden())
+			@if(!$field -> getForm() -> isHidden())
 				<div class='table-col 
-					@if($field -> getSchema() -> isType('integer'))
+					@if($field -> getForm() -> is('number'))
 						table-col-number
 					@endif
 					'>

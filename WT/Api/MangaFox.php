@@ -135,61 +135,79 @@ class MangaFox extends Basic{
 
 	}
 
-	public function queueDownload($limit){
+	public function queueDownloadByLimit($limit){
 
 		# Download chapters
 		$queue = QueueChapter::take($limit) -> orderByDesc('id') -> get();
 
-		$client = new Client();
-
 		foreach($queue as $queue_chapter){
-			$chapter = $queue_chapter -> chapter;
 
-
-			# Download all scans
-
-			$first = $chapter -> scan;
-			//http://m.mangafox.me/manga/one_piece/vTBD/c850/1.html
-
-			$chapter_n = basename(dirname($first)); #c850
-
-			# Clear all files
-			$chapter -> raw() -> clear();
-
-			$next = $first;
-
-
-			do{
-				try{
-					$response = $client -> request($next,'GET',[]);
-
-					$scan = ScanObject::create($response);
-
-					$scan -> next = dirname($first)."/".$scan -> next;
-
-					$next = $scan -> next;
-
-					$chapter -> raw() -> addByUrl($scan -> raw);
-					$chapter -> save();
-
-					# Stop if next isn't current chapter
-					$chapter_next = basename(dirname($next));
-
-
-					if($chapter_next !== $chapter_n)
-						$next = null;
-
-
-				}catch(\Exception $e){
-					$next = null;
-				}
-
-			}while($next);
-		
-
-			$queue_chapter -> delete();
+			$this -> queueDownload($queue_chapter);
 		}
 
 	}
 
+
+	public function queueDownloadById($id){
+
+		# Download chapters
+		$queue_chapter = QueueChapter::where('id',$id) -> first();
+
+		$this -> queueDownload($queue_chapter);
+			
+		
+
+	}
+
+	public function queueDownload($queue_chapter){
+		
+		$client = new Client();
+
+		$chapter = $queue_chapter -> chapter;
+
+
+		# Download all scans
+
+		$first = $chapter -> scan;
+		//http://m.mangafox.me/manga/one_piece/vTBD/c850/1.html
+
+		$chapter_n = basename(dirname($first)); #c850
+
+		# Clear all files
+		$chapter -> raw() -> clear();
+
+		$next = $first;
+
+
+		do{
+			try{
+				$response = $client -> request($next,'GET',[]);
+
+				$scan = ScanObject::create($response);
+
+				$scan -> next = dirname($first)."/".$scan -> next;
+
+				$next = $scan -> next;
+
+				$chapter -> raw() -> addByUrl($scan -> raw);
+				$chapter -> save();
+
+				# Stop if next isn't current chapter
+				$chapter_next = basename(dirname($next));
+
+
+				if($chapter_next !== $chapter_n)
+					$next = null;
+
+
+			}catch(\Exception $e){
+				$next = null;
+			}
+
+		}while($next);
+	
+
+		$queue_chapter -> delete();
+		
+	}
 }

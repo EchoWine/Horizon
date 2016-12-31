@@ -2,88 +2,23 @@
 
 @block('page-content')
 	
-	@embed('Admin/admin/item',[
-		'table' => $table,
-		'api_url' => $api_url,
-		'api' => $api,
-		'views' => $views,
-		'sort_by_field' => $sort_by_field,
-		'sort_by_direction' => $sort_by_direction
-	])
+	@embed('Admin/admin/item',['item' => $item],'extended-playlist')
 		@block('item-row-actions')
 
 			{# Add to stack #}
-			<button 
-				type='button' 
+			<a 
 				class='button-action button-action-icon button-primary' 
-				data-modal='modal-item-playlist-video-add'
-				data-modal-url="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/video/retrieve"
-			>
-				<i class="fa fa-tv"></i>
-			</button>
+				href="{{\Cfg::get('app.web')}}admin/music/player/{id}">
+				<i class="fa fa-play"></i>
+			</a>
 
-			<button 
-				type='button' 
-				class='button-action button-action-icon button-primary' 
-				data-modal='modal-item-playlist-sync'
-				data-modal-url-add="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync"
-				data-modal-url-remove="{{\Cfg::get('app.web')}}api/v1/music/playlist/{id}/sync/"
-			>
-				<i class="fa fa-list"></i>
-			</button>
 			@parent
+
 		@endblock
+
+		
 	@endembed
 
-	@embed('Admin/admin/__modal')
-		@block('__class')modal-body-small@endblock
-		@block('id')modal-item-playlist-video-add@endblock
-		@block('title')Video@endblock
-		@block('content')
-			<div class='alert-modal'></div>
-			<div class='ly-hs-small'></div>
-			<hr>
-			<form action-modal-api='POST|{url}'>
-				<div class="item-form-label">Youtube URL:</div>
-				<div class="item-form-input">
-					<input type="text" class="input-data item-form-element" name="youtube_url">
-				</div>
-				<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
-				<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
-			</form>
-		@endblock
-	@endembed
-
-	@embed('Admin/admin/__modal')
-		@block('__class')modal-body-small@endblock
-		@block('id')modal-item-playlist-sync@endblock
-		@block('title')Sync playlist manager@endblock
-		@block('content')
-			<div class='alert-modal'></div>
-
-			<form action-modal-api='POST|{url}'>
-				
-				<div>
-				<div class='ly-hs-small'></div>
-				<div class='ly-row'>
-					<div class='ly-center'>#1 Playlist: PL5DoIRbZev5-6PI5MceGzn9aaTVLlzMs8</div>
-					<div class='ly-fill'></div>
-					<button class='button button-action button-danger'><i class='fa fa-trash'></i></button>
-				</div>
-				</div>
-			</form>
-			<div class='ly-hs-small'></div>
-			<hr>
-			<form action-modal-api='POST|{url-add}'>
-				<div class="item-form-label">Youtube URL:</div>
-				<div class="item-form-input">
-					<input type="text" class="input-data item-form-element" name="youtube_url">
-				</div>
-				<input type='hidden' name='token' value='{{Auth::user() -> token}}'>
-				<div class='item-form-actions'><button type='submit' class='button-action button-primary'>Add</button></div>
-			</form>
-		@endblock
-	@endembed
 
 
 @endblock

@@ -7,6 +7,7 @@ use CoreWine\Http\Request as Request;
 use Auth\Service\Auth;
 use Admin\View\Views;
 use Api\Controller;
+use Admin\Item;
 
 abstract class AdminController extends Controller{
 
@@ -58,14 +59,12 @@ abstract class AdminController extends Controller{
 
 		$this -> views($views);
 
-		return $this -> view($this -> view,[
-			'table' => $this -> url,
-			'api_url' => $this -> getApiUrl(),
-			'api' => $this -> getFullApiURL(),
-			'views' => $views,
-			'sort_by_field' => $this -> getSchema() -> getSortDefaultField() -> getName(),
-			'sort_by_direction' => $this -> getSchema() -> getSortDefaultDirection(),
-		]);
+		$item = new Item();
+		$item -> setUrl($this -> getFullApiURL());
+		$item -> setViews($views);
+		$item -> setName($this -> url);
+
+		return $this -> view($this -> view,['item' => $item]);
 	}
 
 

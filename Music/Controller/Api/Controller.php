@@ -21,9 +21,7 @@ class Controller extends HttpController{
 	 * @param $router
 	 */
 	public function __routes($router){
-		$router -> post('/api/v1/music/playlist/{id}/video/retrieve','retrieveVideoToPlaylist','music.playlist.retrieve');
-		$router -> post('/api/v1/music/playlist/{id}/sync','addSyncPlaylist','music.playlist.sync.add');
-		$router -> delete('/api/v1/music/playlist/{playlist_id}/sync/{sync_id}','removeSyncPlaylist','music.playlist.sync.remove');
+
 	}
 
 	/**
