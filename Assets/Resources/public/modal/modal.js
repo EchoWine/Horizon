@@ -17,7 +17,6 @@ modal.open = function(id,data,events){
 	modal.opening = true;
 
 
-
 	if(!events){
 		events = {};
 	}

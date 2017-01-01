@@ -4,7 +4,7 @@
 	
 	<div class='page-section page-section-content'>
 		@embed('Admin/admin/item-table',['item' => $item])
-			@block('item-row-actions')
+			@block('item-table.item-row-actions')
 
 				{# Add to stack #}
 				<a 
@@ -17,7 +17,7 @@
 
 			@endblock
 
-			@block('item.content.title')
+			@block('item-table.item.content.title')
 				Playlists
 			@endblock
 

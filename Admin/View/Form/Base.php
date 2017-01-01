@@ -72,7 +72,10 @@ class Base{
 	 * @return bool
 	 */
 	public function is($alias){
-		return static::isAlias($alias);
+		if(!is_array($alias))
+			$alias = [$alias];
+
+		return in_array(static::getStaticAlias(),$alias);
 	}
 
 	/**

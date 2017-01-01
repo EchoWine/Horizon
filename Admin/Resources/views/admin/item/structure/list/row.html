@@ -7,7 +7,7 @@
 		@foreach($fields as $field)
 			@if(!$field -> getForm() -> isHidden())
 				<div class='table-col 
-					@if($field -> getForm() -> is('number'))
+					@if($field -> getForm() -> is(['number','id']))
 						table-col-number
 					@endif
 					'>
@@ -15,30 +15,15 @@
 				</div>
 			@endif
 		@endforeach
-		<div class='table-col table-col-action'>
+		<div class='table-col table-col-action-small'>
 
-
-			@block('item-row-actions')
-				{# View Button #}
-				<button type='button' class='button-action button-action-icon button-info' data-modal='modal-item-get' data-modal-item-id='{id}' data-modal-item-table='{table}'>
-					<i class="fa fa-file-text"></i>
-				</button>
-
-				{# Copy Button #}
-				<button type='button' class='button-action button-action-icon button-primary' data-item-copy data-item-id='{id}' data-item-table='{table}'>
-					<i class="fa fa-copy"></i>
-				</button>
-
-				{# Edit Button #}
-				<button type='button' class='button-action button-action-icon button-warning' data-modal='modal-item-edit' data-modal-item-id='{id}' data-modal-item-table='{table}'>
-					<i class='fa fa-pencil'></i>
-				</button>
-					
+			@block('item-row-actions')			
 				{# Delete Button #}
 				<button type='button' class='button-action button-action-icon button-danger' data-modal='modal-item-delete' data-modal-item-id='{id}' data-modal-item-table='{table}'>
 					<i class='fa fa-trash'></i>
 				</button>
 			@endblock
+			
 		</div>
 
 	</div>

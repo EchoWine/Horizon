@@ -20,7 +20,9 @@
 			@include('Admin/admin/item/modal/add',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('add')])
 		@endblock
 
-		@include('Admin/admin/item/modal/delete')
+		@block('item.content.modal.delete')
+			@include('Admin/admin/item/modal/delete')
+		@endblock
 
 		<div data-item-table-container='{{$item -> getName()}}'>
 			<div class='section-header ly-center'>
