@@ -78,7 +78,7 @@ class TheTVDB extends Basic{
 			return ['error' => $e -> getMessage()];
 
 		}
-
+		
 
 		if(!isset($resources -> Series))
 			return $return;

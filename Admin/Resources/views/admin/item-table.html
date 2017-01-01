@@ -32,7 +32,7 @@
 	</div>
 
 
-	@block('item.content.row')
+	@block('item.content.structure.row')
 		@include('Admin/admin/item/structure/table/row',['table' => $item -> getName(),'fields' => $item -> getViews() -> fields('all')])
 	@endblock
 

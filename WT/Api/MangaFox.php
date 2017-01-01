@@ -65,7 +65,6 @@ class MangaFox extends Basic{
 			
 
 		$client = new Client();
-		
 
 		$params = [
 			'name_method' => 'bw',
@@ -84,7 +83,11 @@ class MangaFox extends Basic{
 		];
 
 
-		$response = $client -> request($this -> url."search.php",'GET',$params);
+		try{
+			$response = $client -> request($this -> url."search.php",'GET',$params);
+		}catch(\Exception $e){
+			return [];
+		}
 
 		$collection = CollectionObject::create($response);
 
