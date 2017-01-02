@@ -1,78 +1,112 @@
 var music = {};
-music.actual = null;
 music.interval = null;
+music.current = null;
 
 $('body').on('click','[music-play]',function(){
 
 	var url = $(this).attr('music-play');
-	music.play(url,$(this).attr('music-n'));
+	music.play($(this).attr('music-n'));
 });
 
 
-music.play = function(url,n){
+music.getVolume = function(){
+	return $.cookie('horizon_music_player_volume') ? $.cookie('horizon_music_player_volume') : 0.50;
+}
+
+$('body').on('click','#music-player',function(){
+	console.log('click');
+	music.isPaused() ? music.resume() : music.pause();
+});
+
+music.isPaused = function(){
+	return music.player.paused;
+};
+
+music.resume = function(){
+	music.player.play();
+};
+
+music.pause = function(){
+	music.player.pause();
+};
+
+music.play = function(n){
+
+	if(!(video = music.videos[n]))
+		return;
 
 	var actual = $("[music-n='"+n+"']");
 	
 	$('.music-pl-item-active').removeClass('music-pl-item-active');
 	actual.addClass('music-pl-item-active');
 
-	music.actual = n;
+	music.current = n;
+
+	url.query("Horizon - Music - Player",{video:n});
+
 	clearInterval(music.interval);
-	var player = $('#music-player');
-	player.get(0).load();
-	player.html($("<source src='"+url+"' type='video/mp4'>"));
-	player.get(0).volume = $.cookie('horizon_music_player_volume');
-	player.get(0).play();
+
+	music.player.load();
+	$('#music-player').html($('<source src="'+video.file.original+'" type="video/mp4">'));
+	music.player.volume = music.getVolume();
+	music.player.play();
 
 
+
+    $('.music-pl-item-container').animate({scrollTop: $("[music-n='"+n+"']").get(0).offsetTop - 200}, 0);
+	$('[music-player-title]').html(video.name);
 };
 
 
 music.next = function(){
 
-	var actual = $("[music-n='"+(parseInt(music.actual))+"']");
-	next = actual.closest('.music-pl-item').next().find('[music-n]');
-	if(next.length == 0)
-		return;
+	// Next
+	key = music.videos[music.current + 1] ? music.current : 0;
+	
+	// Random
+	key = Math.floor((Math.random() * music.videos.length));
 
-	music.play(next.attr('music-play'),next.attr('music-n'));
+	Notify.prompt('Horizon - Music',{
+		'body': music.videos[key].name, 
+		'icon': music.videos[key].thumb.original
+	},function(){
+		alert('Oh yeah');
+	},2000);
+
+
+	music.play(key);
+
+};
+
+music.load = function(videos){
+	var html = '';
+
+	$.map(videos,function(video,key){
+
+		html += template.get('music-playlist-item',{
+			'video': video,
+			'key': key,
+		});
+	});
+
+	$('.music-pl-item-container').html(html);
 };
 
 $('#music-player').on('ended',function(){
-	console.log('end');
-	music.interval = setTimeout(function(){music.next();},10);
+	music.interval = setTimeout(function(){music.next();},1000);
 });
 
 $('#music-player').on('volumechange', function(){
     $.cookie('horizon_music_player_volume',$(this).get(0).volume);
 });
 
-/**
- * Manipulate DATA
- */
-$('body').on('submit','#music-playlist-source-add',function(e){
-	e.preventDefault();
 
-	var url = $(this).attr('data-url');
+$(document).ready(function(){
 
-	http.post(url,{token:User.token,youtube_url:$(this).find("[name='youtube_url']").val()},function(response){
-		modal.close("music-modal-source-add");
-
-		item.addAlert('alert-'+response.status,'.alert-global',response);
-
-	});	
-});
+	music.player = $('#music-player').get(0);
+	music.load(music.videos);
 
 
-// Update playlist sync
+	music.play(url.getParam('video',-1));
 
-modal.on('modal-item-playlist-sync',function(container,data){
-
-	// Get all playlist sync
-
-	http.get();
-	tmpl = template.get('music-player-playlist-sync',{
-		n:n,
-		playlist:playlist,
-	})
 });

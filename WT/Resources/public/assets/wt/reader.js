@@ -27,7 +27,7 @@ WT.reader.setPage = function(page){
 	$('.wt-manga-reader-select').val(WT.reader.page);
 	WT.reader.reset();
 
-	url.query("Horizon",{page:page});
+	url.query("Horizon - What's Today - Reader",{page:page});
 	
 };
 

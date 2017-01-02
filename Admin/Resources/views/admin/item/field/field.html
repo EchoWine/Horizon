@@ -27,6 +27,10 @@
 		
 	@endcase
 
+	@case('hidden')
+		<input type='hidden' name='{{$field -> getName()}}' value='{{$field -> getForm() -> getValue()}}'>
+	@endcase
+
 	@default
 		<input type='text' class='input-data {{$extra_class}}' name='{{$field -> getName()}}'>
 	@endcase
