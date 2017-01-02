@@ -64,7 +64,7 @@
 
 							@else
 
-								var value = data.{{$field -> getColumn()}};
+								var value = data.{{$field -> getForm() -> getName()}};
 
 							@endif
 
@@ -130,7 +130,7 @@
 					var values = {};
 
 					@foreach($item -> getViews() -> fields('add') as $field)
-						values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
+						values.{{$field -> getForm() -> getColumn()}} = form.find('[name={{$field -> getForm() -> getColumn()}}]').val();
 					@endforeach
 					return values;
 				}
@@ -144,10 +144,10 @@
 			edit:{
 				get: function(container,data){
 					@foreach($item -> getViews() -> fields('edit') as $field)
-						var field = $('#modal-item-edit').find('[name={{$field -> getColumn()}}]');
+						var field = $('#modal-item-edit').find('[name={{$field -> getForm() -> getColumn()}}]');
 
 						
-						field.val(data['{{$field -> getColumn()}}']);
+						field.val(data['{{$field -> getForm() -> getColumn()}}']);
 
 
 						@if($field -> is('to_one'))
@@ -163,7 +163,7 @@
 					var values = {};
 
 					@foreach($item -> getViews() -> fields('edit') as $field)
-						values.{{$field -> getSchema() -> getColumn()}} = form.find('[name={{$field -> getSchema() -> getColumn()}}]').val();
+						values.{{$field -> getForm() -> getColumn()}} = form.find('[name={{$field -> getForm() -> getColumn()}}]').val();
 					@endforeach
 
 					return values;

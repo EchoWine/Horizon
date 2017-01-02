@@ -54,7 +54,17 @@ class ViewBuilder{
 	 * @return string
 	 */
 	public function getName(){
-		return $this -> getSchema() -> getName();
+		return $this -> getForm() -> getName();
+	}
+
+
+	/**
+	 * Get Schema if not null, otherwise form
+	 *
+	 * @return object
+	 */
+	public function getSchemaOrForm(){
+		return $this -> getSchema() ? $this -> getSchema() : $this -> getForm();
 	}
 
 	/**
@@ -63,7 +73,7 @@ class ViewBuilder{
 	 * @return string
 	 */
 	public function getColumn(){
-		return $this -> getSchema() -> getColumn();
+		return $this -> getSchemaOrForm() -> getColumn();
 	}
 
 	/**

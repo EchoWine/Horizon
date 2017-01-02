@@ -151,6 +151,7 @@
 		<script src='{{assets('src/Assets/template/template.js')}}'></script>
 		<script src='{{assets('src/Assets/cw/cw.js')}}'></script>
 		<script src='{{assets('src/Assets/form/action.js')}}'></script>
+		<script src='{{assets('src/Assets/notification/notify.js')}}'></script>
 		<!--<script src='{{assets('src/Assets/alert/alert.js')}}'></script>-->
 
 
@@ -165,6 +166,9 @@
 
 		<script>
 			nav.set('{{route()}}');
+
+			var App = {};
+			App.logo = "{{web('src/Admin/assets/img/logo_80x80.png')}}";
 		</script>
 	@endblock
 </body>

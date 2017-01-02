@@ -65,6 +65,24 @@ class Base{
 	}
 
 	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName(){
+		return $this -> name;
+	}
+
+	/**
+	 * Get column
+	 *
+	 * @return string
+	 */
+	public function getColumn(){
+		return $this -> name;
+	}
+
+	/**
 	 * Compare alias
 	 *
 	 * @param string $alias
@@ -87,7 +105,6 @@ class Base{
 		return static::getStaticAlias();
 	}
 
-
 	/**
 	 * Set value
 	 *
@@ -95,7 +112,7 @@ class Base{
 	 * 
 	 * @return this
 	 */
-	public static function value($value){
+	public function value($value){
 		$this -> value = $value;
 		return $this;
 	}

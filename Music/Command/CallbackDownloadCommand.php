@@ -7,6 +7,7 @@ use Cfg;
 use CoreWine\Http\Client;
 use Music\Model\DownloadStack;
 use Music\Model\Video;
+use CoreWine\Component\File;
 
 class CallbackDownloadCommand extends Command{
 
@@ -14,22 +15,32 @@ class CallbackDownloadCommand extends Command{
 
 	public function handle(){
 
-		echo "Initialization...\n\n";
+		$progress = File::get(media('music.download.log'));
 		
 		# Is a download in progress?
-		$ds = DownloadStack::where('progress',1) -> first();
+		$ds = DownloadStack::where('id',$progress) -> first();
 
 		$playlist = $ds -> playlist;
 		
-		$path = Cfg::get('app.path.drive.public')."uploads/videos/";
+		$path = media("videos/");
 
 		$dirs = [];
 
 		foreach(glob("{$path}*") as $dir){
-			if(filemtime($dir) > $ds -> started_at -> getTimestamp()){
-				$dirs[] = $dir;
+
+			try{
+
+				# Check the thumb in order to detect if is a video of playlist
+
+				$file = glob($dir."/*.jpg")[0];
+				if(filemtime($file) > $ds -> started_at -> getTimestamp()){
+					$dirs[] = $dir;
+				}
+			}catch(\Exception $e){
+
 			}
 		}
+
 
 		foreach($dirs as $dir){
 
@@ -65,7 +76,7 @@ class CallbackDownloadCommand extends Command{
 		$playlist -> videos -> save();
 		$ds -> delete();
 
-		echo "\nCompleted";
+		$this -> call('music:download');
 	}
 }
 
