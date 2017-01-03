@@ -179,10 +179,10 @@ class Auth implements Service{
 		$q = User::where('password',$password);
 		
 		if(Cfg::get('Auth.login_user'))
-			$q = $q -> orWhere('username',$usernameOrEmail);
+			$q = $q -> orWhere('username','= BINARY',$usernameOrEmail);
 
 		if(Cfg::get('Auth.login_mail'))
-			$q = $q -> orWhere('email',$usernameOrEmail);
+			$q = $q -> orWhere('email','= BINARY',$usernameOrEmail);
 
 		# Execute query
 		$q = $q -> get();
