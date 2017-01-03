@@ -21,7 +21,7 @@ class DownloadCommand extends Command{
 		if(!$ds){
 			
 			# remove progress
-			//File::remove(media('music.download.log'));
+			File::remove(media('music.download.log'));
 			return;
 		}
 
