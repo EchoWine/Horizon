@@ -61,16 +61,22 @@ class CallbackDownloadCommand extends Command{
 			}
 
 			# Create a new video model with merged file
-			$video = new Video();
-			$video -> uid = basename($dir."/");
-			$video -> name = basename($files['video'],".".$files['video_ext']);
-			$video -> thumb() -> link($files['thumb']);
-			$video -> file() -> link($files['video']);
-			$video -> source = "Youtube";
-			$video -> save();
+
+			$uid = basename($dir."/");
+
+			if(!($video = Video::where('uid',$uid) -> first())){
+				$video = new Video();
+				$video -> uid = $uid;
+				$video -> name = basename($files['video'],".".$files['video_ext']);
+				$video -> thumb() -> link($files['thumb']);
+				$video -> file() -> link($files['video']);
+				$video -> source = "Youtube";
+				$video -> save();
+			}
 
 			# Add video to playlist
-			$playlist -> videos -> add($video);
+			if(!$playlist -> videos -> has($video))
+				$playlist -> videos -> add($video);
 		}
 
 		$playlist -> videos -> save();
