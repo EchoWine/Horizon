@@ -43,6 +43,10 @@
 				<span>Calendar</span>
 			</a>
 		</li>
+
+	@endif
+
+	@if(Auth::user() -> permission -> has(\Auth\Model\User::PEX_WT_ADVANCED))
 		<li class='nav-link-container'>
 			<a class='nav-link' href='{{route('wt:admin.tools')}}'>
 				<i class='nav-link-icon fa fa-wrench'></i>
