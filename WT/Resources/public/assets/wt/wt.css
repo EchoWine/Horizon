@@ -165,3 +165,12 @@
     color:white;
 }
 
+@media(max-width:1199px){
+    .wt-calendar-table .head{
+        display:none;
+    }
+    .wt-calendar-table,.wt-calendar-table tbody,.wt-calendar-table tr,.wt-calendar-table td{
+        display:block;
+        width:100%;
+    }
+}

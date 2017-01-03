@@ -1,3 +1,7 @@
+.ly-hide{
+	display:none;
+}
+
 .ly-container{
 	display:flex;
 	min-height:100%;
@@ -395,6 +399,8 @@
 		display:none !important;
 	}
 
+
+
 }
 @media (min-width:992px){
 	
@@ -500,9 +506,16 @@
 	.ly-lg-98{ width:98%; }
 	.ly-lg-99{ width:99%; }
 	.ly-lg-100{ width:100%; }
+
 }
 
+@media (max-width:1199px){
 
+	.ly-lg-down-show{
+		display:block;
+	}
+
+}
 @media (min-width:1200px){
 
 	.ly-xl-1{ width:1%; }

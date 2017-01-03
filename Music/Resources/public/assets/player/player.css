@@ -75,13 +75,20 @@
 }
 
 .music-pl-thumb{
-	max-width:72px;
-	margin-right:5px;
+	max-width:100%;
+	max-height:100%;
+}
+
+.music-pl-name{
+	height: 100%;
+    padding: 10px;
 }
 
 .music-pl-thumb-container{
 	background:black;
-	height:54px;
+	height:44px;
+	width:72px;
+	text-align:center;
 }
 
 .music-player-title{

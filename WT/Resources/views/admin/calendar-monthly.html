@@ -25,7 +25,7 @@
 					</form>
 				</div>
 				<div class='wt-calendar-title ly-fill'>
-					<h2 class='text-center'>{{$datetime -> format('F')}}</h2>
+					<h2 class='text-center'>{{$datetime -> format('F - Y')}}</h2>
 				</div>
 				<div class='wt-calendar-move wt-calendar-prev'>
 					<form method='GET'>
@@ -56,6 +56,10 @@
 							<div class="wt-calendar-day-container @if($day['datetime'] == $today)wt-current-day@endif">
 								<div class='wt-calendar-day'>
 									{{$day['datetime'] -> getDay()}}
+
+									<span class='ly-hide ly-lg-down-show'>
+										{{$day['datetime'] -> format('l')}}
+									</span>
 								</div>
 								@foreach($day['data'] as $record)
 									<div class='wt-calendar-record'>

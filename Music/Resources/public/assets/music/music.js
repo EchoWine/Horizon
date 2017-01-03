@@ -70,7 +70,7 @@ music.next = function(){
 		'body': music.videos[key].name, 
 		'icon': music.videos[key].thumb.original
 	},function(){
-		alert('Oh yeah');
+		
 	},2000);
 
 
