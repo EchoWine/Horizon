@@ -298,7 +298,7 @@ class WT{
 			$container = $resource -> container;
 
 			if(!$container -> users -> has($user))
-				throw new \Exception("The resource #{$resource_id} insn't in library");
+				throw new \Exception("The resource #{$resource_id} isn't in library");
 
 
 			$container -> users -> remove($user);
