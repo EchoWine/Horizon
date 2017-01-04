@@ -86,7 +86,9 @@ class ResourceController extends Controller{
 			Auth::user(),
 			$database,
 			[
-				'sort' => $request -> query -> get('sort','name'), 
+				'sort_field' => $request -> query -> get('sort_field','name'), 
+				'sort_direction' => $request -> query -> get('sort_direction','asc'), 
+				'filter' => $request -> query -> get('filter',''), 
 			]
 		));
 

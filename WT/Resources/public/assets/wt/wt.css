@@ -27,6 +27,7 @@
 .wt-search-img{
     margin-top: 5px;
     background: black;
+    position:relative;
 }
 
 .wt-search-img img{
@@ -196,4 +197,21 @@ body:not([wt-resource-seen='show']) .wt-resource-seen-show{
 
 #wt-resource-button-apply-changes{
 
+}
+
+.wt-search-new{
+    background: #039BE5;
+    color:white;
+    padding:0px 4px;
+    margin-right:3px;
+    font-size:12px;
+    border-radius:5px;
+}
+
+[wt-search-new='0']{
+    display:none;
+}
+
+[wt-library-sort] .wt-library-sort{
+    display:none;
 }

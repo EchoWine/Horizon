@@ -81,6 +81,7 @@ class Manga extends Model implements Resource{
 		return array_merge($res,[
 			'type' => 'manga',
 			'poster' => $this -> poster() -> thumb(540,780),
+			'new' => ChapterUser::where(['manga_id' => $this -> id,'consumed' => 0]) -> count()
 		]);
 	}
 
@@ -109,6 +110,9 @@ class Manga extends Model implements Resource{
 
 		$volumes_ids = [];
 		$chapters_ids = [];
+
+
+		$users = $this -> container -> users;
 
 		foreach($response -> chapters as $r_chapter){
 
@@ -146,6 +150,17 @@ class Manga extends Model implements Resource{
 			$chapter -> released_at = new \DateTime($r_chapter -> released_at);
 
 			$chapter -> save();
+
+
+			# Create if doesn't exists for every user that have access to this resource
+			foreach($users as $user){
+				$eu = ChapterUser::firstOrCreate([
+					'container_id' => $this -> container_id,
+					'manga_id' => $this -> id,
+					'chapter_id' => $episode -> id,
+					'user_id' => $user -> id
+				]);
+			}
 
 		}
 
