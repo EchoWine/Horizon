@@ -319,13 +319,16 @@ class WT{
 	/**
 	 * Retrieve all
 	 */
-	public static function all($user){
+	public static function all($user,$database,$params){
 		$collection = new Collection();
 
+		$params['sort_field'];
+		$params['sort_direction'];
 
 		$series = Serie::leftJoin('resource_containers','resource_containers.id','series.container_id')
 			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
 			-> where('resource_containers_users.user_id',$user -> id)
+			-> whereLike('series.name','%'.$params['filter'].'%')
 			-> select('series.*')
 			-> get() 
 			-> toArray(false);
@@ -333,11 +336,19 @@ class WT{
 		$manga = Manga::leftJoin('resource_containers','resource_containers.id','manga.container_id')
 			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
 			-> where('resource_containers_users.user_id',$user -> id)
+			-> whereLike('manga.name','%'.$params['filter'].'%')
 			-> select('manga.*')
 			-> get() 
 			-> toArray(false);
 
-		return $collection -> merge($series) -> merge($manga);
+
+		$collection = $collection -> merge($series) -> merge($manga);
+
+		$type = in_array($params['sort_field'],['new']) ? 'number' : 'string';
+
+		$collection = $collection -> sortBy([$params['sort_field'] => ['direction' => $params['sort_direction'],'type' => $type]]);
+
+		return $collection;
 	}
 
 	/**

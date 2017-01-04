@@ -79,6 +79,7 @@ class Serie extends Model implements Resource{
 		return array_merge($res,[
 			'type' => 'series',
 			'poster' => $this -> poster() -> thumb(540,780),
+			'new' => EpisodeUser::where(['serie_id' => $this -> id,'consumed' => 0]) -> count()
 		]);
 	}
 
@@ -104,6 +105,7 @@ class Serie extends Model implements Resource{
 
 		$this -> save();
 
+		$users = $this -> container -> users;
 
 		foreach($response -> episodes as $r_episode){
 
@@ -127,6 +129,18 @@ class Serie extends Model implements Resource{
 				$episode -> aired_at = $r_episode -> aired_at." 00:00:00";
 
 			$episode -> save();
+
+			# Create EpisodeUser if doesn't exists for every user that have access to this resource
+			foreach($users as $user){
+				$eu = EpisodeUser::firstOrCreate([
+					'container_id' => $this -> container_id,
+					'serie_id' => $this -> id,
+					'episode_id' => $episode -> id,
+					'user_id' => $user -> id
+				]);
+			}
+
+
 
 		}
 	}
