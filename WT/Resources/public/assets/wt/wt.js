@@ -621,9 +621,10 @@ WT.dashboard.call = function(){
 	params.sort_direction = WT.dashboard.params.sort.direction;
 	params.filter = WT.dashboard.params.filter;
 
-	console.log(params);
+	if(WT.dashboard.request)
+		WT.dashboard.request.abort();
 
-	http.get(WT.url+'all',params,function(response){
+	WT.dashboard.request = http.get(WT.url+'all',params,function(response){
 
 		$("[cw-container='dashboard']").html('');
 
