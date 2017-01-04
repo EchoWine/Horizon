@@ -174,3 +174,26 @@
         width:100%;
     }
 }
+
+
+body:not([wt-resource-seen='hide']) .wt-resource-seen-hide{
+    display:none;
+}
+body:not([wt-resource-seen='show']) .wt-resource-seen-show{
+    display:none;
+}
+
+
+.wt-resource-table td{
+    vertical-align: middle;
+    height:25px;
+}
+
+.wt-resource-seen-checkbox-container .checkbox{
+    margin-top:2px;
+}
+
+
+#wt-resource-button-apply-changes{
+
+}

@@ -4,7 +4,7 @@ namespace WT\Model;
 
 use CoreWine\DataBase\ORM\Model;
 use CoreWine\DataBase\ORM\Field\Schema as Field;
-
+use Auth\Model\User;
 
 class Episode extends Model{
 
@@ -40,8 +40,20 @@ class Episode extends Model{
 		$schema -> toOne(Episode::class,'serie','serie_id');
 
 		$schema -> updated_at();
+
+        $schema -> throughMany('users',User::class) -> resolver(EpisodeUser::class,'episode','user');
 	}
 
+	/**
+	 * Consumed By
+	 *
+	 * @param User $user
+	 *
+	 * @return bool
+	 */
+	public function consumedBy($user){
+		return $this -> users -> get($user) ? $this -> users -> get($user) -> pivot -> consumed == 1 : 0;
+	}
 }
 
 ?>

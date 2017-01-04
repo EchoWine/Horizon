@@ -62,6 +62,18 @@
 	flex-basis: auto;
 }
 
+.ly-spacing-micro{
+	width:3px;
+	height:3px;
+}
+
+.ly-spacing-small{
+	width:7px;
+	height:7px;
+}
+
+
+
 @media (max-width:768px){
 
 
