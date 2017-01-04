@@ -13,7 +13,6 @@ $('body').on('click','[wt-resource-seen]',function(){
 
 WT.Resource.checkPrevious = function(n,checked){
 
-	console.log('a');
 	for(;n>0;n--){
 
 		$('.wt-resource-table').find("[wt-resource-ep-n='"+n+"']").prop('checked',checked);
