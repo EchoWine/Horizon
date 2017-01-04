@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="robots" content="noindex,nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
@@ -33,7 +34,7 @@
 	@endblock
 
 </head>
-<body>
+<body @block('body_attributes')@endblock>
 
 	@block('body')
 		<div class='ly-row ly-row-desktop'>

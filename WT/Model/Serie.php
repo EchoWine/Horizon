@@ -130,6 +130,32 @@ class Serie extends Model implements Resource{
 
 		}
 	}
+
+	/**
+	 * Update consumed episode
+	 *
+	 * @param user $user
+	 * @param array $ids
+	 *
+	 * @return void
+	 */
+	public function updateConsumed($user,$ids){
+
+		foreach($this -> episodes as $episode){
+
+			$eu = EpisodeUser::firstOrCreate([
+				'container_id' => $this -> container_id,
+				'serie_id' => $this -> id,
+				'episode_id' => $episode -> id,
+				'user_id' => $user -> id
+			]);
+			
+			$eu -> consumed = in_array($episode -> id,$ids) ? 1 : 0;
+			$eu -> save();
+
+		}
+	}
+
 }
 
 ?>

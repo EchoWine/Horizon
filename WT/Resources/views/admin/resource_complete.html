@@ -16,6 +16,32 @@
 				<p>{{$resource -> overview}}</p>
 				<p><b>DataBase API</b>: {{$resource -> container -> database_name}} | {{$resource -> container -> id}}</p>
 				<p><b>Last update</b>: {{$resource -> container -> database_id}}</p>
+
+
+				<div class='ly-row'>
+
+					<div class='wt-resource-seen-hide'>
+						<button type='button' class='button button-action button-primary' wt-resource-seen='show'><i class='fa fa-eye-slash'></i> <span>Edit consumed</span></button>
+					</div>
+
+					<div class='wt-resource-seen-show ly-row'>
+						<button type='button' class='button button-action button-primary' wt-resource-seen='hide'><i class='fa fa-eye'></i> <span>Edit consumed</span></button>
+					</div>
+
+					<div class='ly-spacing-small'></div>
+				</div>
+
+				<div class='ly-spacing-small'></div>
+				<div class='ly-row'>
+					<div class='wt-resource-seen-show ly-row'>
+						<select class='select-data' name='wt-resource-seen-type'>
+							<option value='selected'>Only selected</option>
+							<option value='previous'>Selected + Previous</option>
+						</select>
+						<div class='ly-spacing-small'></div>
+						<button type='button' id='wt-resource-btn-apply-changes' wt-resource-container-id='{{$resource -> container -> id}}' class='button button-action button-primary'><i class='fa fa-check'></i> <span>Apply changes</span></button>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -24,15 +50,19 @@
 			@if($resource -> container -> type == 'series')
 
 				<h2>Episodi</h2>
-				<table width='600'>
+				<table class='wt-resource-table' width='600'>
 					<tr>
 						<td>Nome dell'episodio</td>
 						<td>Source</td>
+						<td></td>
 						<td>Day released</td>
 					</tr>
+
+					@set($n,$resource -> episodes -> count())
+
 					@foreach($resource -> seasons -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']]) as $season)
 						<tr>
-							<td colspan='3'>
+							<td colspan='4'>
 								<b>Season {{$season -> number}}</b>
 							</td>
 						</tr>
@@ -41,6 +71,12 @@
 								<td>{{$episode -> number}}. {{$episode -> name}}</td>
 								<td><a href='#'><i class='fa fa-external-link'></i>&nbsp;Watch</a></td>
 								<td>
+									<div class='wt-resource-seen-checkbox-container wt-resource-seen-show'>
+										<input id='wt_resource_ep_{{$n}}' wt-resource-ep-n='{{$n}}' name='wt-resource-checkbox[]' value='{{$episode -> id}}' type="checkbox" class="check check-data check-small wt-resource-seen-checkbox" {{$episode -> consumedBy(Auth::user()) ? 'checked' : ''}}>
+										<label for='wt_resource_ep_{{$n}}' wt-resource-ep-n='{{$n}}' class="checkbox"></label>
+									</div>
+								</td>
+								<td>
 									@if($episode -> aired_at)
 										{{$episode -> aired_at -> format('d-m-Y')}}
 									@else
@@ -48,7 +84,9 @@
 									@endif
 								</td>
 							</tr>
+							@php($n--)
 						@endforeach
+
 					@endforeach
 				</table>
 			@endif
@@ -56,11 +94,14 @@
 			@if($resource -> container -> type == 'manga')
 
 				<h2>Chapters</h2>
-				<table width='600'>
+				<table class='wt-resource-table' width='600'>
 					<tr>
 						<td>Chapter name</td>
+						<td></td>
 						<td  style='text-align:right'>Day released</td>
 					</tr>
+
+					@set($n,$resource -> chapters -> count())
 					@foreach($resource -> volumes -> where('number','TBD') -> merge($resource -> volumes -> whereNot('number','TBD') -> sortBy(['number' => ['direction' => 'ASC','type' => 'number']])) as $volume)
 						<tr>
 							<td colspan='2'>
@@ -74,6 +115,12 @@
 										Chapter {{$chapter -> number}} - {{$chapter -> name}}
 									</a>
 								</td>
+								<td>
+									<div class='wt-resource-seen-checkbox-container wt-resource-seen-show'>
+										<input id='wt_resource_ep_{{$n}}' wt-resource-ep-n='{{$n}}' name='wt-resource-checkbox[]' value='{{$chapter -> id}}' type="checkbox" class="check check-data check-small wt-resource-seen-checkbox" {{$chapter -> consumedBy(Auth::user()) ? 'checked' : ''}}>
+										<label for='wt_resource_ep_{{$n}}' wt-resource-ep-n='{{$n}}' class="checkbox"></label>
+									</div>
+								</td>
 								<td style='text-align:right'>
 									@if($chapter -> released_at)
 										{{$chapter -> released_at -> format('M d, Y')}}
@@ -82,6 +129,7 @@
 									@endif
 								</td>
 							</tr>
+							@php($n--)
 						@endforeach
 					@endforeach
 
@@ -95,4 +143,16 @@
 		</div>
 	</div>
 </div>
+@endblock
+
+@block('scripts')
+	
+	@parent
+
+	<script src="{{assets('src/WT/assets/wt/resource.js')}}"></script>
+@endblock
+
+@block('body_attributes')
+	@parent
+	wt-resource-seen='hide'
 @endblock

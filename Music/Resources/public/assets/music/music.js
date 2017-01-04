@@ -32,8 +32,10 @@ music.pause = function(){
 
 music.play = function(n){
 
-	if(!(video = music.videos[n]))
+	if(typeof music.videos[n] == 'undefined')
 		return;
+
+	var video = music.videos[n];
 
 	var actual = $("[music-n='"+n+"']");
 	
@@ -104,9 +106,13 @@ $('#music-player').on('volumechange', function(){
 $(document).ready(function(){
 
 	music.player = $('#music-player').get(0);
-	music.load(music.videos);
 
+	if(music.videos){
 
-	music.play(url.getParam('video',-1));
+		music.load(music.videos);
+
+		music.play(url.getParam('video',-1));
+	}
+
 
 });

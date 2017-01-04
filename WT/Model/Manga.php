@@ -156,6 +156,31 @@ class Manga extends Model implements Resource{
 		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereNull('chapters.id') -> delete('queue_chapters.*');
 	
 	}
+
+	/**
+	 * Update consumed chapters
+	 *
+	 * @param user $user
+	 * @param array $ids
+	 *
+	 * @return void
+	 */
+	public function updateConsumed($user,$ids){
+
+		foreach($this -> chapters as $chapter){
+
+			$eu = ChapterUser::firstOrCreate([
+				'container_id' => $this -> container_id,
+				'manga_id' => $this -> id,
+				'chapter_id' => $chapter -> id,
+				'user_id' => $user -> id
+			]);
+
+			$eu -> consumed = in_array($chapter -> id,$ids) ? 1 : 0;
+			$eu -> save();
+
+		}
+	}
 }
 
 ?>

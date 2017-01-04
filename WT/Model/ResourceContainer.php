@@ -37,6 +37,24 @@ class ResourceContainer extends Model{
         $schema -> throughMany('users',User::class) -> resolver(ResourceContainerUser::class,'container','user');
 
 	}
+
+	/**
+	 * Get resource by container
+	 *
+	 * @return Serie|Manga
+	 */
+	public function getResource(){
+
+		
+		if($this -> type == 'series'){
+			return Serie::where('container_id',$this -> id) -> first();
+		}
+
+		if($this -> type == 'manga'){
+			return Manga::where('container_id',$this -> id) -> first();
+		}
+
+	}
 }
 
 ?>

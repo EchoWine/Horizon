@@ -4,7 +4,7 @@ namespace WT\Model;
 
 use CoreWine\DataBase\ORM\Model;
 use CoreWine\DataBase\ORM\Field\Schema as Field;
-
+use Auth\Model\User;
 
 class Chapter extends Model{
 
@@ -44,8 +44,20 @@ class Chapter extends Model{
 		$schema -> toOne(Manga::class,'manga','manga_id');
 
 		$schema -> updated_at();
+
+        $schema -> throughMany('users',User::class) -> resolver(ChapterUser::class,'chapter','user');
 	}
 
+	/**
+	 * Consumed by
+	 *
+	 * @param User $user
+	 *
+	 * @return bool
+	 */
+	public function consumedBy($user){
+		return $this -> users -> get($user) ? $this -> users -> get($user) -> pivot -> consumed == 1 : 0;
+	}
 }
 
 ?>
