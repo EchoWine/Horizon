@@ -8,6 +8,7 @@ use Api\Exceptions;
 use CoreWine\Http\Request;
 use Api\Service\Api;
 use CoreWine\DataBase\DB;
+use Auth\Service\Auth;
 
 abstract class Controller extends HttpController{
 
@@ -26,6 +27,13 @@ abstract class Controller extends HttpController{
 	public $model = null;
 
 	/**
+	 * User data
+	 *
+	 * @var bool
+	 */
+	public $user_data = false;
+
+	/**
 	 * Defining routes
 	 */
 	public function __routes($router){
@@ -40,6 +48,7 @@ abstract class Controller extends HttpController{
 		$router -> delete("/api/v1/crud/{$url}/{id}",'delete');
 
 	}
+
 
 	/**
 	 * Get basic path api 
@@ -76,6 +85,15 @@ abstract class Controller extends HttpController{
 			throw new Exceptions\ModelNotExistsException(static::class,$this -> getModel());
 		
 	
+	}
+
+	/**
+	 * Get user data attribute
+	 *
+	 * @return bool
+	 */
+	public function getUserData(){
+		return $this -> user_data;
 	}
 
 	/**
@@ -126,6 +144,8 @@ abstract class Controller extends HttpController{
 			# This will prevent error with joins between same table
 			$repository = $this -> getRepository('_d0');
 
+			if($this -> getUserData())
+				$repository = $repository -> where('_d0.user_id',Auth::user() -> id);
 
 			# Request
 			$page = $request -> query -> get('page',1);
@@ -214,7 +234,14 @@ abstract class Controller extends HttpController{
 			# Create and retrieve a new model
 			$model_class = $this -> getModel();
 			$model = new $model_class;
-			$model -> fill($request -> request -> all());
+
+
+			$values = $request -> request -> all();
+
+			if($this -> getUserData())
+				$values = array_merge($values,['user_id' => Auth::user() -> id]);
+
+			$model -> fill($values);
 
 			$this -> __insert($model);
 			$this -> __save($model);
@@ -239,7 +266,7 @@ abstract class Controller extends HttpController{
 		}
 
 	}	
-	
+
 	/**
 	 * Edit record
 	 *
