@@ -2,6 +2,10 @@
 @switch($field -> getAlias())
 
 	@case('text')
+		<input type='text' class='input-data {{$extra_class}}' name='{{$field -> getName()}}'>
+	@endcase
+
+	@case('textarea')
 		<textarea class='text-data {{$extra_class}}' name='{{$field -> getName()}}'></textarea>
 	@endcase
 

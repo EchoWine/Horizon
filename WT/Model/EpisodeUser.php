@@ -25,7 +25,7 @@ class EpisodeUser extends Model{
         
         $schema -> toOne(User::class,'user') -> required();
 
-        $schema -> integer('consumed');
+        $schema -> integer('consumed') -> default(0);
 
         $schema -> toOne(ResourceContainer::class,'container') -> required();
         $schema -> toOne(Serie::class,'serie') -> required();
