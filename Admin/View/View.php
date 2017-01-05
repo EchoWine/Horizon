@@ -80,7 +80,7 @@ class View{
 				$form = new $class($name);
 				$builder = new ViewBuilder($this -> getSchema() -> getField($name),$form);
 
-				$this -> fields[$method] = $builder;
+				$this -> fields[$name] = $builder;
 				return $form;
 			}
 		}
