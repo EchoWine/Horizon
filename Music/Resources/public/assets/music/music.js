@@ -73,7 +73,7 @@ music.next = function(){
 		'icon': music.videos[key].thumb.original
 	},function(){
 		
-	},2000);
+	},200);
 
 
 	music.play(key);

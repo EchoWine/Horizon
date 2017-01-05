@@ -79,7 +79,7 @@ class Serie extends Model implements Resource{
 		return array_merge($res,[
 			'type' => 'series',
 			'poster' => $this -> poster() -> thumb(540,780),
-			'new' => EpisodeUser::where(['serie_id' => $this -> id,'consumed' => 0]) -> count()
+			'new' => EpisodeUser::where(['user_id' => \Auth::user() -> id,'serie_id' => $this -> id,'consumed' => 0]) -> count()
 		]);
 	}
 

@@ -163,7 +163,7 @@ class ResourceController extends Controller{
 		return $this -> json(WT::consume(
 			Auth::user(),
 			$container_id,
-			$request -> request -> get('consume')
+			$request -> request -> get('consume',[])
 		));
 
 	}
