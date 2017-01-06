@@ -30,11 +30,9 @@
 							var name = '{{$field -> getName()}}';
 							var value = null;
 
-							@if($field -> is('to_one'))
+							@if($field -> is('toOne'))
 
-								@foreach($field -> getRelations() as $n => $relation)
-
-									// -- Relation: {{$field -> getName()}}:{{$relation -> getName()}}
+								@foreach($field -> getUrls() as $n => $url)
 
 
 									@if($field -> is('to_one'))
@@ -150,12 +148,10 @@
 						field.val(data['{{$field -> getForm() -> getColumn()}}']);
 
 
-						@if($field -> is('to_one'))
+						@if($field -> getForm() -> is('toOne'))
 
-							@if($field -> getSchema() -> getType() == 'to_one' && $field -> isSelect())
-								item.autocomplete.load(field,"{{$item -> getName()}}.{{$field -> getName()}}");
-							@endif
-
+							item.autocomplete.load(field,"{{$field -> getName()}}");
+							
 						@endif
 					@endforeach
 				},

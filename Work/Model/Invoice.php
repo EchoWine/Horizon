@@ -1,17 +1,17 @@
 <?php
 
-namespace Chess\Model;
+namespace Work\Model;
 
 use CoreWine\DataBase\ORM\Model;
 
-class ChessMatch extends Model{
+class Invoice extends Model{
 
 	/**
 	 * Table name
 	 *
 	 * @var
 	 */
-	public static $table = 'chess_matches';
+	public static $table = 'wk_invoices';
 
 	/**
 	 * Set schema fields
@@ -22,17 +22,28 @@ class ChessMatch extends Model{
 
 		$schema -> id();
 
-		$schema -> string('player');
+		$schema -> string('number');
 
-		$schema -> string('opponent');
-		
-		$schema -> string('score');
-		
-		$schema -> text('description');
+		$schema -> string('year');
+
+		$schema -> toOne(\Auth\Model\User::class,'user');
+
+		$schema -> toOne(Profile::class,'profile');
+
+		$schema -> toOne(Customer::class,'customer');
+
+		$schema -> text('items');
+
+		$schema -> float('price_gross');
+
+		$schema -> float('price_tax');
+
+		$schema -> float('price_net');
+
+		$schema -> string('template');
 
 		$schema -> datetime('date');
 
-		$schema -> string('url');
 
 	}
 }

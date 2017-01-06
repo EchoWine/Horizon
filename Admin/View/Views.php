@@ -49,6 +49,12 @@ class Views{
 		$view = new View($this -> getSchema());
 		$arguments[0]($view);
 
+		if($method == 'form'){
+			$this -> views['add'] = $view;
+			$this -> views['edit'] = $view;
+			return;
+		}
+
 		$this -> views[$method] = $view;
 
 	}

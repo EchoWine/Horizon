@@ -17,16 +17,23 @@
 		</select>
 	@endcase
 
+	@case('select')
+		<select class='select-data {{$extra_class}} ' name='{{$field -> getName()}}'>
+			@foreach($field -> getForm() -> getOptions() as $value => $label)
+				<option value='{{$value}}'>{{$label}}</option>
+			@endforeach
+		</select>
+	@endcase
+
 	@case('toOne')
 
 		<input type='text' class='input-data {{$extra_class}} autocomplete-input'
 			autocomplete='off'
-			data-autocomplete-name='{{$table}}.{{$field -> getName()}}'
-			data-autocomplete-column='{{$field -> getColumn()}}'
-			data-autocomplete-label='{{$field -> getSelect() -> getLabel()}}'
-			data-autocomplete-value='{{$field -> getSelect() -> getValue()}}'
-			data-autocomplete-search="{{($field -> getSelect() -> getSearch())}}"
-			data-autocomplete-url='{{$field -> getSelect() -> getUrl()}}' 
+			data-autocomplete-name='{{$field -> getForm() -> getName()}}'
+			data-autocomplete-column='{{$field -> getForm() -> getColumn()}}'
+			data-autocomplete-label='{{$field -> getForm() -> getLabel()}}'
+			data-autocomplete-value='{{$field -> getForm() -> getValue()}}'
+			data-autocomplete-url='{{$field -> getForm() -> getUrl()}}'
 		>
 		
 	@endcase

@@ -6,108 +6,50 @@ class ToOne extends Base{
 
 
 	/**
-	 * Relations
-	 *
-	 * @var array
-	 */
-	public $relations = [];
-
-	/**
 	 * urls
 	 *
 	 * @var array
 	 */
-	public $urls = [];
+	public $url = [];
 
 
 	/**
-	 * Construct
-	 */
-	/*public function __construct($schema,$arguments){
-		
-
-		$this -> relations[] = $schema;
-		$this -> label($this -> getName());	
-
-		if($this -> getSchema() -> getType() == "to_one" || $this -> getSchema() -> getType() == "to_many"){
-			if(isset($arguments[0]))
-				$this -> urls[] = $arguments[0];
-		}
-	}*/
-
-	/**
-	 * Call
+	 * Set single url
 	 *
-	 * @param string $method
-	 * @param array $arguments
+	 * @param string $url
+	 *
+	 * @return this
 	 */
-	public function __call($method,$arguments){
-		$last_relation = $this -> getLastRelation();
+	public function url($url){
 
-		if($last_relation -> getType() == "to_one" || $last_relation -> getType() == "to_many"){
-				
-			if($last_relation -> getRelation()::schema() -> isField($method)){
+		$this -> url = $url;
 
-				$field = $last_relation -> getRelation()::schema() -> getField($method);
-				//$this -> schema = $field;
-				$this -> relations[] = $field;
-
-				$this -> label($this -> getName());	
-
-				if($field -> getType() == "to_one" || $field -> getType() == "to_many"){
-					if(isset($arguments[0]))
-						$this -> urls[] = $arguments[0];
-				}
-
-				return $this;
-			}
-		}
-
-		$this -> label($this -> getName());	
-		
-		throw new Exceptions\UndefinedMethodException(static::class,$method);
+		return $this;
 	}
 
 	/**
-	 * Get relations
+	 * Get url
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getRelations(){
-		return $this -> relations;
+	public function getUrl(){
+
+		return $this -> url;
 	}
 
-	public function getUrl($n){
-		return isset($this -> urls[$n]) ? $this -> urls[$n] : null;
-	}
-
-	/**
-	 * Get relations
+	/** 
+	 * Resolver
 	 *
-	 * @return array
-	 */
-	public function getLastRelation(){
-		return $this -> relations[count($this -> relations) - 1];
-	}
-
-	/**
-	 * Get relations
+	 * @param string $field
+	 * @param string $match
 	 *
-	 * @return array
+	 * @return $this
+	 * 
 	 */
-	public function getLastColumnRelation(){
-		return $this -> relations[count($this -> relations) - 2];
+	public function column($column){
+		$this -> column = $column;
+
+		return $this;
 	}
 
-	public function countRelations(){
-		return count($this -> relations);
-	}
-
-	public function getName(){
-		return implode(".",array_map(function($item){ return $item -> getName(); },$this -> getRelations()));
-	}
-
-	public function getColumn(){
-		return $this -> getSchema() -> getColumn();
-	}
 }

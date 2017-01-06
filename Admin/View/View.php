@@ -119,35 +119,15 @@ class View{
 	 */
 	public function getMinimalRelation(){
 		$return = [];
+
 		foreach($this -> getFields() as $field){
-			$partials = [];
 
-			if($field -> getForm() -> is('to_one') || $field -> getForm() -> is('to_many')){
-				foreach($field -> getRelations() as $n => $relation){
-					if($field -> getUrl($n)){
-						$partial = [];
-						$partial['name'] = $relation -> getName();
-						$partial['url'] = $field -> getUrl($n);
-
-						switch($relation -> getType()){
-							case "to_one":
-								$partial['type'] = 'toOne';
-								$partial['column'] = $relation -> getColumn();
-							break;
-							case "to_many":
-								$partial['type'] = 'toMany';
-								$partial['column'] = $relation -> getReference();
-							break;
-						}
-
-						$partials[] = $partial;
-					}
-				}
-			}
+			$partials = $field -> getForm() -> getRelations();
 			
 			if(!empty($partials))
 				$return[$field -> getName()] = $partials;
 		}
+
 		return $return;
 	}
 }

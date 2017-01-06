@@ -196,4 +196,13 @@ class Base{
 	public function isHidden(){
 		return !$this -> getShow();
 	}
+
+	/**
+	 * Get relations
+	 *
+	 * @return array
+	 */
+	public function getRelations(){
+		return [];
+	}
 }
