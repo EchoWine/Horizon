@@ -42,7 +42,7 @@ class Invoice extends Model{
 
 		$schema -> string('template');
 
-		$schema -> datetime('date');
+		$schema -> date('date');
 
 
 	}

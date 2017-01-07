@@ -31,6 +31,7 @@
 		<link rel='stylesheet' href='{{assets('src/Admin/assets/css/section.css')}}'>
 		<link rel='stylesheet' href='{{assets('src/Admin/assets/css/item.css')}}'>
 		<link rel='stylesheet' href='{{assets('src/Admin/assets/css/autocomplete.css')}}'>
+		<link rel='stylesheet' href="{{assets('src/Assets/flatpickr/flatpickr.css')}}">
 	@endblock
 
 </head>
@@ -170,6 +171,12 @@
 
 			var App = {};
 			App.logo = "{{web('src/Admin/assets/img/logo_80x80.png')}}";
+		</script>
+
+		
+		<script src='{{assets('src/Assets/flatpickr/flatpickr.js')}}'></script>
+		<script>
+			$(".item-datepicker").flatpickr({static:true});
 		</script>
 	@endblock
 </body>

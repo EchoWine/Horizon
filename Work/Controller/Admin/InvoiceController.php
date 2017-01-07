@@ -46,9 +46,12 @@ class InvoiceController extends AdminController{
 
 		$views -> form(function($vi){
 
+
 			$vi -> text('number');
 			
 			$vi -> text('year');
+			
+			$vi -> date('date');
 
 			$vi -> toOne('profile_id') 
 				-> url('/api/v1/crud/wk_invoice_profiles');
@@ -64,7 +67,7 @@ class InvoiceController extends AdminController{
 				'INV01' => 'ITA.Regime forfettario'
 			]);
 
-			$vi -> dateTime('date');
+
 
 		});
 

@@ -25,6 +25,14 @@
 		</select>
 	@endcase
 
+	@case('date')
+		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{$field -> getName()}}'>
+	@endcase
+
+	@case('dateTime')
+		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{$field -> getName()}}'>
+	@endcase
+
 	@case('toOne')
 
 		<input type='text' class='input-data {{$extra_class}} autocomplete-input'

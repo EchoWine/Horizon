@@ -1,4 +1,9 @@
 item.request.handle = {};
+	
+item.request.handle.reload = function(){
+
+		$(".item-datepicker").flatpickr({static:true}); // jQuery
+};
 
 /**
  * Handle get response
@@ -17,7 +22,7 @@ item.request.handle.get = function(table,response){
 
 
 		table.get.get(container,table,data.resource);
-
+		item.request.handle.reload();
 	});
 
 
@@ -26,6 +31,8 @@ item.request.handle.get = function(table,response){
 item.request.handle.getForEdit = function(table,response){
 	var container = item.getContainerByTable(table);
 	table.edit.get(container,response.data.resource);
+	item.request.handle.reload();
+
 }
 
 /**
@@ -58,6 +65,8 @@ item.request.handle.list = function(table,response){
 			table.list.get(container,table,data.results,columns);
 
 			item.updateListHTML(table);
+
+			item.request.handle.reload();
 		});
 
 
@@ -233,4 +242,6 @@ item.request.handle.basic = function(table,response,container_modal){
 	if(response.status == 'error'){
 		item.addAlert('alert-danger','.'+container_modal,response);
 	}
+
+	item.request.handle.reload();
 };
