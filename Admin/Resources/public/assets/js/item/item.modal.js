@@ -7,6 +7,7 @@ modal.on('modal-item-edit',function(container,data){
 	el.attr('data-item-id',id);
 
 	item.request.getForEdit(table,id);
+	item.reload();
 });
 
 
@@ -18,6 +19,7 @@ modal.on('modal-item-get',function(container,data){
 	el.attr('data-item-id',id);
 
 	item.request.get(table,id);
+	item.reload();
 });
 
 
@@ -28,6 +30,7 @@ modal.on('modal-item-delete',function(el,data){
 	var del = el.find('[data-item-remove]');
 	del.attr('data-item-table',data['data-modal-item-table']);
 	del.attr('data-item-id',data['data-modal-item-id']);
+	item.reload();
 });
 
 /**
@@ -39,6 +42,7 @@ modal.on('modal-item-delete-multiple',function(el,data){
 	var ids = item.getSelectedIds(table);
 	el.find('.data-modal-item-ids').html(ids.join(","));
 	del.attr('data-item-table',data['data-modal-item-table']);
+	item.reload();
 });
 
 /**
@@ -47,4 +51,11 @@ modal.on('modal-item-delete-multiple',function(el,data){
 modal.on('modal-item-add',function(el,data){
 	var el = el.find('[item-data-form-add]');
 	el.attr('data-item-table',data['data-modal-item-table']);
+	item.reload();
 });
+
+	
+item.reload = function(){
+
+	$(".item-datepicker").flatpickr({static:true}); // jQuery
+};

@@ -26,11 +26,11 @@
 	@endcase
 
 	@case('date')
-		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{$field -> getName()}}'>
+		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{ $field -> getName() }}' value="{{ $field -> getForm() -> getValue() -> format('Y-m-d') }}">
 	@endcase
 
 	@case('dateTime')
-		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{$field -> getName()}}'>
+		<input type='text' class='input-data {{$extra_class}} item-datepicker' name='{{ $field -> getName() }}' value="{{ $field -> getForm() -> getValue() -> format('Y-m-d H:i:s')}}">
 	@endcase
 
 	@case('toOne')
