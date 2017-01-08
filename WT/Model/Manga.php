@@ -81,7 +81,7 @@ class Manga extends Model implements Resource{
 		return array_merge($res,[
 			'type' => 'manga',
 			'poster' => $this -> poster() -> thumb(540,780),
-			'new' => ChapterUser::where(['user_id' => \Auth::user() -> id,'manga_id' => $this -> id,'consumed' => 0]) -> count()
+			'new' => \Auth::user() ? ChapterUser::where(['user_id' => \Auth::user() -> id,'manga_id' => $this -> id,'consumed' => 0]) -> count() : null
 		]);
 	}
 
