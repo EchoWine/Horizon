@@ -23,6 +23,9 @@ class ScanObject extends Object{
 
 		$raw = $dom -> getElementsByAttribute('id','viewer') -> item(0);
 
+		if(!$raw)
+			return;
+
 		$c -> next = $raw -> getElementsByTagName('a') -> item(0) -> getAttribute('href');
 
 		if(!$raw -> getElementsByTagName('img') -> item(0))
