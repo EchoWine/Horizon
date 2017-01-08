@@ -1,0 +1,27 @@
+@extends('WT/admin/layout')
+
+
+@block('page-content')
+<div class='ly-row'>
+	<div class='page-section page-section-content'>
+		
+		<div class='section-inner'>
+			<h3 class='section-title'>Stats</h3>
+			<div class='ly-spacing-small'>
+			</div>
+			<form class='ly-row' method='GET'>
+				<input type='text' class='input-data' name='year' value="{{ $year }}">
+
+				<button type='submit' class='button button-action button-primary'>
+					Search
+				</button>
+			</div>
+
+			<div class='section-inner'>
+				<b>Total:</b> {{ number_format($invoices -> getTotalPriceNet(),2) }}<br>
+				<b>Tax:</b> {{ number_format($invoices -> getTotalTaxes(),2) }}<br>
+			</div>
+		</div>
+	</div>
+</div>
+@endblock

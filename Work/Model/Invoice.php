@@ -46,6 +46,36 @@ class Invoice extends Model{
 
 
 	}
-}
+
+	/**
+	 * Get price gross
+	 *
+	 * @return float
+	 */
+	public function getPriceGross(){
+		return $this -> price_gross;
+	}
+
+	/**
+	 * Get price net
+	 *
+	 * @return float
+	 */
+	public function getPriceNet(){
+		return $this -> getPriceGross() + $this -> getTaxesAmount();
+	}
+
+	/**
+	 * Get taxes amount
+	 *
+	 * @return float
+	 */
+	public function getTaxesAmount(){
+		return $this -> getPriceGross() * 0.04;
+	}
+
+
+}	
+
 
 ?>

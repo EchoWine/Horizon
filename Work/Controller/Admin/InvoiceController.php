@@ -41,6 +41,8 @@ class InvoiceController extends AdminController{
 			$vi -> text('number');
 
 			$vi -> text('year');
+			
+			$vi -> number('price_gross');
 
 		});
 
@@ -104,6 +106,7 @@ class InvoiceController extends AdminController{
 			$vi -> text('number');
 
 			$vi -> text('year');
+			$vi -> number('price_gross');
 
 		});
 	}
