@@ -157,7 +157,7 @@ class Manga extends Model implements Resource{
 				$eu = ChapterUser::firstOrCreate([
 					'container_id' => $this -> container_id,
 					'manga_id' => $this -> id,
-					'chapter_id' => $episode -> id,
+					'chapter_id' => $chapter -> id,
 					'user_id' => $user -> id
 				]);
 			}
