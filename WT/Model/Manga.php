@@ -57,6 +57,8 @@ class Manga extends Model implements Resource{
 
 		$res = parent::toArray();
 
+		$chapters = [];
+		
 		foreach(Chapter::where('manga_id',$this -> id) -> get() as $chapter){
 			$chapters[] = $chapter -> toArray();
 		}

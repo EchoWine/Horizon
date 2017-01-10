@@ -79,7 +79,14 @@ class Serie extends Model implements Resource{
 		return array_merge($res,[
 			'type' => 'series',
 			'poster' => $this -> poster() -> thumb(540,780),
-			'new' => \Auth::user() ? EpisodeUser::where(['user_id' => \Auth::user() -> id,'serie_id' => $this -> id,'consumed' => 0]) -> count() : null
+			'new' => \Auth::user() 
+				? EpisodeUser::where(['episodes_users.user_id' => \Auth::user() -> id,'episodes_users.serie_id' => $this -> id,'episodes_users.consumed' => 0])
+					-> leftJoin('episodes','episodes.id','=','episodes_users.episode_id')
+					-> whereNotNull('episodes.aired_at')
+					-> where('episodes.aired_at','<=',(new \DateTime()) -> format('Y-m-d'))
+					-> select('COUNT(episodes_users.id)')
+					-> count() 
+				: null
 		]);
 	}
 
