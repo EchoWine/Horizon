@@ -176,14 +176,14 @@ class WT{
 					'updated_at' => (new \DateTime()) -> format('Y-m-d H:i:s')
 				]);
 
-				$resource = new $model();
-				$resource -> fillFromDatabaseApi($response,$container);
 
-				# TEMP-FIX
 				$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
 
 				$container -> users -> add($user);
 				$container -> users -> save();
+
+				$resource = new $model();
+				$resource -> fillFromDatabaseApi($response,$container);
 
 			return ['status' => 'success','message' => 'Added new resource','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
 			}

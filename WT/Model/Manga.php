@@ -136,7 +136,7 @@ class Manga extends Model implements Resource{
 			$chapter -> save();
 
 			# Download only if new
-			if($new){
+			if(!empty($chapter -> raw)){
 				QueueChapter::create([
 					'chapter_id' => $chapter -> id,
 				]);
@@ -162,6 +162,7 @@ class Manga extends Model implements Resource{
 					'chapter_id' => $chapter -> id,
 					'user_id' => $user -> id
 				]);
+				
 			}
 
 		}
@@ -169,8 +170,6 @@ class Manga extends Model implements Resource{
 		Volume::where('manga_id',$this -> id) -> whereNotIn('id',$volumes_ids) -> delete();
 		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> delete();
 
-		# Remove all queue chapters that have been deleted
-		QueueChapter::leftJoin('chapters','chapters.id','queue_chapters.chapter_id') -> whereNull('chapters.id') -> delete('queue_chapters.*');
 	
 	}
 

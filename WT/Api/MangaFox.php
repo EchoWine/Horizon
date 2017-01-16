@@ -168,6 +168,11 @@ class MangaFox extends Basic{
 
 		$chapter = $queue_chapter -> chapter;
 
+		if(!$chapter){
+			$queue_chapter -> delete();
+			return;
+		}
+
 
 		# Download all scans
 
