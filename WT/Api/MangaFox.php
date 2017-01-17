@@ -12,6 +12,7 @@ use WT\Api\MangaFox\MangaObject;
 use WT\Api\MangaFox\ScanObject;
 use WT\Api\MangaFox\CollectionObject;
 use Cfg;
+use CoreWine\DataBase\DB;
 
 use WT\Model\Queue\Chapter as QueueChapter;
 
@@ -139,6 +140,11 @@ class MangaFox extends Basic{
 	}
 
 	public function queueDownloadByLimit($limit){
+
+		# Convert Chapters into queue
+		DB::table('queue_chapters') -> set(['chapter_id']) -> insert(function(){
+			return DB::table('chapters') -> whereNull('raw') -> select('id as chapter_id');
+		});
 
 		# Download chapters
 		$queue = QueueChapter::take($limit) -> orderByDesc('id') -> get();
