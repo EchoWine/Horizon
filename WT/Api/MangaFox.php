@@ -143,7 +143,7 @@ class MangaFox extends Basic{
 
 		# Convert Chapters into queue
 		DB::table('queue_chapters') -> set(['chapter_id']) -> insert(function(){
-			return DB::table('chapters') -> whereNull('raw') -> select('id as chapter_id');
+			return DB::table('chapters') -> whereNull('raw') -> leftJoin('queue_chapters','queue_chapters.chapter_id','chapters.id') -> whereNull('queue_chapters.chapter_id') -> select('chapters.id as chapter_id');
 		});
 
 		# Download chapters
