@@ -46,6 +46,9 @@ class ResourceController extends Controller{
 		$resource_class = WT::getClassByType($resource_type);
 		$resource = $resource_class::where('id',$resource_id) -> first();
 
+		if(!$resource)
+			abort(404);
+
 		return $this -> view('WT/admin/resource_complete',['resource' => $resource]);
 	}
 	

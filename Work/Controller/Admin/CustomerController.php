@@ -18,7 +18,14 @@ class CustomerController extends AdminController{
 	 *
 	 * @var
 	 */
-	public $url = 'wk_customers';
+	public $url = 'admin/work/customers';
+
+	/**
+	 * Url
+	 *
+	 * @var
+	 */
+	public $url_alias = 'work:admin.customers';
 
 	/**
 	 * User data
@@ -26,6 +33,7 @@ class CustomerController extends AdminController{
 	 * @var bool
 	 */
 	public $user_data = true;
+
 
 	/**
 	 * Set views

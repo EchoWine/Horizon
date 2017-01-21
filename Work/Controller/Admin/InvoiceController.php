@@ -13,12 +13,20 @@ class InvoiceController extends AdminController{
 	 */
 	public $model = 'Work\Model\Invoice';
 
+
 	/**
 	 * Url
 	 *
 	 * @var
 	 */
-	public $url = 'wk_invoices';
+	public $url = 'admin/work/invoices';
+
+	/**
+	 * Url
+	 *
+	 * @var
+	 */
+	public $url_alias = 'work:admin.invoices';
 
 	/**
 	 * User data

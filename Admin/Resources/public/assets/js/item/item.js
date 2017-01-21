@@ -270,7 +270,7 @@ item.getIdByElement = function(el){
  * @return {DOM}
  */
 item.getContainerByTable = function(table){
-	return $('[data-item-table-container='+table.name+']');
+	return $("[data-item-table-container='"+table.name+"']");
 };
 
 /**

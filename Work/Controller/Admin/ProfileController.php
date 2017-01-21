@@ -13,12 +13,20 @@ class ProfileController extends AdminController{
 	 */
 	public $model = 'Work\Model\Profile';
 
+
 	/**
 	 * Url
 	 *
 	 * @var
 	 */
-	public $url = 'wk_profiles';
+	public $url = 'admin/work/profiles';
+
+	/**
+	 * Url
+	 *
+	 * @var
+	 */
+	public $url_alias = 'work:admin.profiles';
 
 	/**
 	 * User data

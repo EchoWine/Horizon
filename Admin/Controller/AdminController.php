@@ -19,6 +19,13 @@ abstract class AdminController extends Controller{
 	const PREFIX_ROUTE = 'admin/';
 
 	/**
+	 * Prefix route
+	 *
+	 * @var string
+	 */
+	public $url_alias;
+
+	/**
 	 * View of item
 	 *
 	 * @var string
@@ -41,7 +48,7 @@ abstract class AdminController extends Controller{
 
 		parent::__routes($router);
 
-		$router -> any(AdminController::PREFIX_ROUTE.$this -> url,'index');
+		$router -> any(static::PREFIX_ROUTE.$this -> url,'index') -> as($this -> url_alias);
 	}
 
 	/**
