@@ -25,7 +25,7 @@ WT.waiting = [
     "OH YEAH! I WON 1,000,000$ !!! NOW I CAN WASTE ALL MY MONEY ON STEAM !!! Oh... I see.. it's just a scam...",
     "Oh, a free Ipad, guess I just need to download this exe file. OH GOD WHAT IS HAPPENING? A VIRUS? WHERE IS MY MLG ANTIVIRUS?",
     "FORNO, ACCENDERE",
-    "Search and destroy, Search and destroy!"
+    "Search and destroy, Search and destroy!",
     "AAAAAAAAMEN"
 ];
 
