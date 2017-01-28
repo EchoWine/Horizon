@@ -66,7 +66,7 @@
 
 										@if($record -> season)
 											<i class='fa fa-tv'></i>&nbsp;
-											@if($record -> aired_at <= $today && (!isset($record -> consumed) || !$record -> consumed))
+											@if($record -> aired_at <= $today -> nextDay() && (!isset($record -> consumed) || !$record -> consumed))
 												<span class='tag tag-small tag-primary'>new</span>
 											@endif
 											<a href="{{route('admin.resource',['resource_type' => 'series','resource_id' => $record -> season -> serie -> id])}}">
@@ -81,7 +81,7 @@
 										@if($record -> volume)
 											<i class='fa fa-book'></i>&nbsp;
 
-											@if($record -> released_at <= $today && (!isset($record -> consumed) || !$record -> consumed))
+											@if($record -> released_at <= $today -> nextDay() && (!isset($record -> consumed) || !$record -> consumed))
 												<span class='tag tag-small tag-primary'>new</span>
 											@endif
 											<a href="{{route('admin.resource',['resource_type' => 'manga','resource_id' => $record -> volume -> manga -> id])}}">
