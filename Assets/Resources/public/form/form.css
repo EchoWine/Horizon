@@ -23,6 +23,11 @@
 	font-weight:normal;
 }
 
+.tag-small{
+	padding:1px 3px;
+	font-size:10.5px;
+	border-radius:3px;
+}
 
 .button-action:not(.disable):hover{
   	background-color: #E6E6E6;

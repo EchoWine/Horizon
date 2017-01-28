@@ -7,6 +7,8 @@ use CoreWine\Http\Request;
 use Auth\Service\Auth;
 use WT\Model\Episode;
 use WT\Model\Chapter;
+use WT\Model\EpisodeUser;
+use WT\Model\ChapterUser;
 use CoreWine\Component\Collection;
 
 use CoreWine\Http\Controller as Controller;
@@ -58,18 +60,28 @@ class CalendarController extends Controller{
 		$collection = $datetime -> createCollectionMonth(true);
 
 		# Retrieve episodes
-		$episodes = Episode::where("DATE_FORMAT(aired_at,'%m-%Y')","$month-$year")
+		$resources = Episode::where("DATE_FORMAT(aired_at,'%m-%Y')","$month-$year")
 		-> leftJoin('series','episodes.serie_id','series.id')
 		-> leftJoin('resource_containers','series.container_id','resource_containers.id')
 		-> leftJoin('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
 		-> where('resource_containers_users.user_id',Auth::user() -> id)
 		-> select('episodes.*')
+		-> setIndexResult('id')
 		-> get();
 
+		# Merge with consumed
+		$ids = $resources -> map(function($value){ return $value -> id; });
+		$resources_consumed = EpisodeUser::where('user_id',Auth::user() -> id) -> whereIn('episode_id',$ids -> toArray()) -> get();
+
+		foreach($resources_consumed as $resource_consumed){
+			$resources[$resource_consumed -> episode_id] -> consumed = $resource_consumed -> consumed;
+		}
+
+
 		# Merge episodes with collection of days
-		foreach($episodes as $episode){
-			$aired_at = $episode -> aired_at;
-			$collection[$aired_at -> getWeek()][$aired_at -> format('Y-m-d')]['data'][] = $episode;
+		foreach($resources as $resource){
+			$aired_at = $resource -> aired_at;
+			$collection[$aired_at -> getWeek()][$aired_at -> format('Y-m-d')]['data'][] = $resource;
 		}
 		
 		# Retrieve chapters
@@ -79,7 +91,16 @@ class CalendarController extends Controller{
 		-> leftJoin('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
 		-> where('resource_containers_users.user_id',Auth::user() -> id)
 		-> select('chapters.*')
+		-> setIndexResult('id')
 		-> get();
+
+		# Merge with consumed
+		$ids = $resources -> map(function($value){ return $value -> id; });
+		$resources_consumed = ChapterUser::where('user_id',Auth::user() -> id) -> whereIn('chapter_id',$ids -> toArray()) -> get();
+
+		foreach($resources_consumed as $resource_consumed){
+			$resources[$resource_consumed -> chapter_id] -> consumed = $resource_consumed -> consumed;
+		}
 
 		# Merge episodes with collection of days
 		foreach($resources as $resource){
