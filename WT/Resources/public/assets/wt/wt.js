@@ -136,7 +136,7 @@ WT.app = {}
  *
  * @param {string} value
  */
-WT.app.discovery = function(value){
+WT.app.discovery = function(database,value){
 	
 	if(!value)
 		return;
@@ -149,7 +149,7 @@ WT.app.discovery = function(value){
 
 	// Send the request to "discovery"
 
-	WT.discovery('all',val,function(response){
+	WT.discovery(database,val,function(response){
 
 		var data = {'library':{'html':'','count':0},'thetvdb':{'html':'','count':0},'manga-fox':{'html':'','count':0}};
 
@@ -484,7 +484,7 @@ $('.wt-search-form').on('submit',function(e){
 	// Retrieve key searched
 	val = $(this).find('.wt-search-key').val();
 
-	WT.app.discovery(val);
+	WT.app.discovery($(this).find("[name='resource_type']").val(),val);
 });
 
 /**

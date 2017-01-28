@@ -82,7 +82,8 @@ class WT{
 
 				$manager = new $manager();
 
-				if($database_name == 'all' || $manager -> getName() == $database_name){
+
+				if($database_name == 'all' || $manager -> isResource($database_name)){
 					$response[$manager -> getName()] = $manager -> discovery($key);
 
 					foreach($response[$manager -> getName()] as $n => $k){
