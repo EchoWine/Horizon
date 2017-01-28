@@ -71,12 +71,14 @@ class CalendarController extends Controller{
 
 		# Merge with consumed
 		$ids = $resources -> map(function($value){ return $value -> id; });
-		$resources_consumed = EpisodeUser::where('user_id',Auth::user() -> id) -> whereIn('episode_id',$ids -> toArray()) -> get();
+		
+		if($ids -> count() != 0){
+			$resources_consumed = EpisodeUser::where('user_id',Auth::user() -> id) -> whereIn('episode_id',$ids -> toArray()) -> get();
 
-		foreach($resources_consumed as $resource_consumed){
-			$resources[$resource_consumed -> episode_id] -> consumed = $resource_consumed -> consumed;
+			foreach($resources_consumed as $resource_consumed){
+				$resources[$resource_consumed -> episode_id] -> consumed = $resource_consumed -> consumed;
+			}
 		}
-
 
 		# Merge episodes with collection of days
 		foreach($resources as $resource){
@@ -96,10 +98,14 @@ class CalendarController extends Controller{
 
 		# Merge with consumed
 		$ids = $resources -> map(function($value){ return $value -> id; });
-		$resources_consumed = ChapterUser::where('user_id',Auth::user() -> id) -> whereIn('chapter_id',$ids -> toArray()) -> get();
 
-		foreach($resources_consumed as $resource_consumed){
-			$resources[$resource_consumed -> chapter_id] -> consumed = $resource_consumed -> consumed;
+
+		if($ids -> count() != 0){
+			$resources_consumed = ChapterUser::where('user_id',Auth::user() -> id) -> whereIn('chapter_id',$ids -> toArray()) -> get();
+
+			foreach($resources_consumed as $resource_consumed){
+				$resources[$resource_consumed -> chapter_id] -> consumed = $resource_consumed -> consumed;
+			}
 		}
 
 		# Merge episodes with collection of days
