@@ -48,21 +48,15 @@ class ProfileController extends AdminController{
 			$view -> text('address');
 			$view -> text('vat');
 			$view -> text('tax_code');
+			$view -> text('iban');
 		});
 
-		$views -> add(function($view){
+		$views -> form(function($view){
 			$view -> text('fullname');
 			$view -> text('address');
 			$view -> text('vat');
 			$view -> text('tax_code');
-			$view -> textarea('notes');
-		});
-
-		$views -> edit(function($view){
-			$view -> text('fullname');
-			$view -> text('address');
-			$view -> text('vat');
-			$view -> text('tax_code');
+			$view -> text('iban');
 			$view -> textarea('notes');
 		});
 
@@ -72,6 +66,7 @@ class ProfileController extends AdminController{
 			$view -> text('address');
 			$view -> text('vat');
 			$view -> text('tax_code');
+			$view -> text('iban');
 			$view -> textarea('notes');
 		});
 		
@@ -80,6 +75,7 @@ class ProfileController extends AdminController{
 			$view -> text('fullname');
 			$view -> text('address');
 			$view -> text('vat');
+			$view -> text('iban');
 			$view -> text('tax_code');
 		});
 	}

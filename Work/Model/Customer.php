@@ -31,6 +31,9 @@ class Customer extends Model{
 		$schema -> string('tax_code');
 
 		$schema -> string('notes');
+
+		$schema -> string('iban');
+		
 		
 		$schema -> toOne(\Auth\Model\User::class,'user');
 

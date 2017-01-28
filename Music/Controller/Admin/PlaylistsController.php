@@ -29,7 +29,7 @@ class PlaylistsController extends AdminController{
 	 * @param  $views
 	 */
 	public function views($views){
-		
+			
 		$views -> all(function($view){
 			$view -> id('id');
 			$view -> text('name');

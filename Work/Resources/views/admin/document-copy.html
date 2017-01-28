@@ -1,0 +1,12 @@
+@embed('Work/admin/document',['filename' => $filename,'invoice' => $invoice])
+
+	@block('pre-footer')
+	<br>
+	<br>
+	<br>
+	<br>
+	Imposta di bollo assolta sull'originale <br>
+	ID: {{ $invoice -> stamp_id }}
+	@endblock
+
+@endembed

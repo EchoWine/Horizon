@@ -22,9 +22,9 @@ class Invoice extends Model{
 
 		$schema -> id();
 
-		$schema -> string('number');
+		$schema -> integer('number');
 
-		$schema -> string('year');
+		$schema -> integer('year');
 
 		$schema -> toOne(\Auth\Model\User::class,'user');
 
@@ -39,6 +39,10 @@ class Invoice extends Model{
 		$schema -> float('price_tax');
 
 		$schema -> float('price_net');
+
+		$schema -> string('tax_id');
+
+		$schema -> string('stamp_id');
 
 		$schema -> string('template');
 
@@ -74,6 +78,14 @@ class Invoice extends Model{
 		return $this -> getPriceGross() * 0.04;
 	}
 
+	/**
+	 * Get identification
+	 *
+	 * @return string
+	 */
+	public function getIdentification(){
+		return sprintf("%03d",$this -> number)."-".$this -> year;
+	}
 
 }	
 

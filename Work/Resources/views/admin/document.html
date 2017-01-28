@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>{{ $filename }}</title>
+<style>
+	*{
+		box-sizing:border-box;
+		-moz-box-sizing:border-box;
+	}
+
+
+	.container{
+		position:relative;
+		font-family: 'OpenSans';
+	}
+
+	body{
+		font-size:16px;
+		line-height:18px;
+		padding:30px 50px;
+	}
+	.left{
+		text-align:left;
+	}
+
+	.right{
+		text-align:right;
+	}
+
+	.items{
+		width:100%;
+		font-size:16px;
+	}
+
+	.items td{
+		border:1px solid #efefef;
+		border-width:1px 1px 0 0;
+		padding:5px 10px;
+	}
+
+	.items tr td:first-child{
+		border-left-width:1px;
+	}
+	.items tr:last-child td{
+		border-bottom-width:1px;
+	}
+
+	.items-price{
+		width:150px;
+		text-align:right;
+	}
+
+	.small{
+		font-size:13px;
+		line-height:14px;
+	}
+
+	.footer{
+		position:absolute;
+		bottom:0;
+		left:0;
+	}
+</style>
+</head>
+<body>
+<div class='container'>
+	<p class='left'>
+		{{ $invoice -> profile -> fullname }}<br>
+		{{ $invoice -> profile -> address }}<br>
+		P.iva {{ $invoice -> profile -> vat }}<br>
+		C.F. {{ $invoice -> profile -> tax_code }}
+	</p>
+
+	<p class='right'>
+		{{ $invoice -> customer -> fullname }}<br>
+		{{ $invoice -> customer -> address }}<br>
+		P.iva {{ $invoice -> customer -> vat }}<br>
+		C.F. {{ $invoice -> customer -> tax_code }}
+	</p>
+
+	<p class='left'>
+	Fattura n. {{ sprintf("%03d",$invoice -> number) }}-{{ $invoice -> year }}<br>
+	del {{ $invoice -> date -> format('d/m/Y') }}
+	</p>
+
+	<table class='items' cellspacing='0' cellpadding='0'>
+		<tr>
+			<td class='items-main'>
+				{{ $invoice -> items }}
+			</td>
+			<td class='items-price'>
+				€ {{ number_format($invoice -> price_gross,2) }}
+			</td>
+		</tr>
+		<tr>
+			<td class='items-main'>
+				TOTALE IMPONIBILE
+			</td>
+			<td class='items-price'>
+				€ {{ number_format($invoice -> price_gross,2) }}
+			</td>
+		</tr>
+		<tr>
+			<td class='items-main'>
+				Contributo INPS 4% ex. Art. 2 c. 26 L. 335/95
+			</td>
+			<td class='items-price'>
+				€ {{ number_format($invoice -> getTaxesAmount(),2) }}
+			</td>
+		</tr>
+		<tr>
+			<td class='items-main'>
+				<b>TOTALE</b>
+			</td>
+			<td class='items-price'>
+				€ {{ number_format($invoice -> getPriceNet(),2) }}
+			</td>
+		</tr>
+	</table>
+	<br>
+	<p class='small'>
+		Operazione in franchigia da IVA ai sensi delle Legge 190 del 23 Dicembre 2014 art. 1 commi da 54 a 89.<br>
+		Operazione effettuata ai sensi dell’art. 1, commi da 54 a 89 della Legge n. 190/2014 – Regime forfetario.<br>
+		Il compenso non è soggetto a ritenute d’acconto ai sensi della legge 190 del 23 Dicembre 2014 art. 1 comma 67.<br>
+	</p>
+
+	La invito a trasferire il corrispettivo accordato al conto corrente sotto riportato<br>
+	IBAN: {{ $invoice -> profile -> iban }}
+
+	@block('pre-footer')
+
+	@endblock
+
+	<div class='footer small'>
+		{{ $invoice -> profile -> fullname }} -
+		P.iva {{ $invoice -> profile -> vat }} - 
+		C.F. {{ $invoice -> profile -> tax_code }}<br>
+		{{ $invoice -> profile -> address }}
+	</div>
+</div>
+</body>
+</html>

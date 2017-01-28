@@ -29,6 +29,13 @@ class InvoiceController extends AdminController{
 	public $url_alias = 'work:admin.invoices';
 
 	/**
+	 * View
+	 *
+	 * @var
+	 */
+	public $view = 'Work/admin/item-invoices';
+	
+	/**
 	 * User data
 	 *
 	 * @var bool
@@ -73,6 +80,8 @@ class InvoiceController extends AdminController{
 			
 			$vi -> number('price_gross');
 			
+			$vi -> text('stamp_id');
+			
 			$vi -> select('template') -> options([
 				'INV01' => 'ITA.Regime forfettario'
 			]);
@@ -98,6 +107,8 @@ class InvoiceController extends AdminController{
 			$vi -> text('items');
 			
 			$vi -> number('price_gross');
+			
+			$vi -> text('stamp_id');
 			
 			$vi -> select('template') -> options([
 				'INV01' => 'ITA.Regime forfettario'

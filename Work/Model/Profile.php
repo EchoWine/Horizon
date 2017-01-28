@@ -32,6 +32,8 @@ class Profile extends Model{
 
 		$schema -> string('notes');
 
+		$schema -> string('iban');
+
 		$schema -> toOne(\Auth\Model\User::class,'user');
 
 	}

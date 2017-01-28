@@ -1,0 +1,36 @@
+@extends('WT/admin/layout')
+
+@block('page-content')
+	
+	<div class='page-section page-section-content'>
+		@embed('Admin/admin/item-table',['item' => $item])
+			@block('item-table.item-row-actions')
+
+				<a 
+					class='button-action button-primary' 
+					href="{{\Cfg::get('app.web')}}admin/work/invoices/document/original/{id}"
+					target='_blank'>
+					<i class="fa fa-download"></i>
+					<span> original </span>
+				</a>
+
+				<a 
+					class='button-action button-primary' 
+					href="{{\Cfg::get('app.web')}}admin/work/invoices/document/copy/{id}"
+					target='_blank'>
+					<i class="fa fa-download"></i>
+					<span> copy </span>
+				</a>
+				@parent
+
+			@endblock
+
+			@block('item-table.item.content.title')
+				Invoices
+			@endblock
+
+		@endembed
+
+	</div>
+
+@endblock
