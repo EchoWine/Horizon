@@ -466,6 +466,38 @@ class WT{
 	 * 
 	 * @return response
 	 */
+	public static function resetAndConsume($user,$container_id,$consume){
+
+		try{
+			$container = ResourceContainer::where('id',$container_id) -> first();
+
+			if(!$container)
+				throw new \Exception("Resource #{$container_id} not found");
+
+
+
+			$resource = $container -> getResource();
+
+
+			$resource -> resetAndConsume($user,$consume);
+
+			return ['status' => 'success','message' => 'Updated'];
+		}catch(\Exception $e){
+			throw $e;
+
+			return ['status' => 'error','message' => $e -> getMessage()];
+		}
+	}
+
+
+	/**
+	 * Consume episodes/chapters
+	 *
+	 * @param integer $container_id
+	 * @param array $consume
+	 * 
+	 * @return response
+	 */
 	public static function consume($user,$container_id,$consume){
 
 		try{
@@ -479,7 +511,7 @@ class WT{
 			$resource = $container -> getResource();
 
 
-			$resource -> updateConsumed($user,$consume);
+			$resource -> consume($user,$consume);
 
 			return ['status' => 'success','message' => 'Updated'];
 		}catch(\Exception $e){

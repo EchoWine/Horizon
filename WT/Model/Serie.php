@@ -160,7 +160,7 @@ class Serie extends Model implements Resource{
 	 *
 	 * @return void
 	 */
-	public function updateConsumed($user,$ids){
+	public function resetAndConsume($user,$ids){
 
 		foreach($this -> episodes as $episode){
 
@@ -177,6 +177,32 @@ class Serie extends Model implements Resource{
 		}
 	}
 
+	/**
+	 * Update consumed episodes
+	 *
+	 * @param user $user
+	 * @param array $ids
+	 *
+	 * @return void
+	 */
+	public function consume($user,$ids){
+
+		# Check if chapters exists;
+
+		foreach(Episode::whereIn('id',array_keys($ids)) -> where('serie_id',$this -> id) -> get() as $episode){
+
+			$eu = EpisodeUser::firstOrCreate([
+				'container_id' => $this -> container_id,
+				'serie_id' => $this -> id,
+				'episode_id' => $episode -> id,
+				'user_id' => $user -> id
+			]);
+
+			$eu -> consumed = $ids[$episode -> id];
+			$eu -> save();
+
+		}
+	}
 }
 
 ?>

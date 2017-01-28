@@ -41,6 +41,17 @@ $('#wt-resource-btn-apply-changes').on('click',function(){
 	});
 });
 
+/**
+ * Call API
+ *
+ * @param {integer} id
+ * @param {array} object
+ * @param {closure} callback
+ */
+WT.Resource.consume = function(id,consume,callback){
+	
+	http.post(WT.url+"resource/consume/"+encodeURIComponent(id),{consume:consume,token:WT.token},callback);
+};
 
 /**
  * Call API
@@ -50,8 +61,8 @@ $('#wt-resource-btn-apply-changes').on('click',function(){
  * @param {closure} callback
  */
 WT.Resource.seen = function(id,consume,callback){
-
-	http.post(WT.url+"resource/consume/"+encodeURIComponent(id),{consume:consume,token:WT.token},callback);
+	
+	http.post(WT.url+"resource/reset_consume/"+encodeURIComponent(id),{consume:consume,token:WT.token},callback);
 };
 
 $(document).ready(function(){

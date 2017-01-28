@@ -33,6 +33,7 @@ class ResourceController extends Controller{
 		$router -> get('/api/v1/wt/{resource}/{id}','get','wt.resource.get');
 		$router -> post('/api/v1/wt/{resource}/update/{id}','sync','wt.resource.update');
 		$router -> delete('/api/v1/wt/{resource}/{id}','remove','wt.resource.delete');
+		$router -> post('/api/v1/wt/resource/reset_consume/{id}','resetAndConsume','wt.resource.delete');
 		$router -> post('/api/v1/wt/resource/consume/{id}','consume','wt.resource.delete');
 
 
@@ -158,6 +159,24 @@ class ResourceController extends Controller{
 	 *
 	 * @return Response
 	 */
+	public function resetAndConsume(Request $request,$container_id){
+		
+		return $this -> json(WT::resetAndConsume(
+			Auth::user(),
+			$container_id,
+			$request -> request -> get('consume',[])
+		));
+
+	}
+
+	/**
+	 * @POST
+	 *
+	 * @param Request $request
+	 * @param integer $container_id
+	 *
+	 * @return Response
+	 */
 	public function consume(Request $request,$container_id){
 		
 		return $this -> json(WT::consume(
@@ -167,5 +186,4 @@ class ResourceController extends Controller{
 		));
 
 	}
-
 }

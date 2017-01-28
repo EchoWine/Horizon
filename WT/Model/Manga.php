@@ -181,7 +181,7 @@ class Manga extends Model implements Resource{
 	 *
 	 * @return void
 	 */
-	public function updateConsumed($user,$ids){
+	public function resetAndConsume($user,$ids){
 
 		foreach($this -> chapters as $chapter){
 
@@ -193,6 +193,33 @@ class Manga extends Model implements Resource{
 			]);
 
 			$eu -> consumed = in_array($chapter -> id,$ids) ? 1 : 0;
+			$eu -> save();
+
+		}
+	}
+
+	/**
+	 * Update consumed chapters
+	 *
+	 * @param user $user
+	 * @param array $ids
+	 *
+	 * @return void
+	 */
+	public function consume($user,$ids){
+
+		# Check if chapters exists;
+
+		foreach(Chapter::whereIn('id',array_keys($ids)) -> where('manga_id',$this -> id) -> get() as $chapter){
+
+			$eu = ChapterUser::firstOrCreate([
+				'container_id' => $this -> container_id,
+				'manga_id' => $this -> id,
+				'chapter_id' => $chapter -> id,
+				'user_id' => $user -> id
+			]);
+
+			$eu -> consumed = $ids[$chapter -> id];
 			$eu -> save();
 
 		}

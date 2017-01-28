@@ -281,6 +281,9 @@ WT.app.add = function(database,id){
 
 };
 
+/**
+ * Sync
+ */
 WT.app.sync = function(resource_type,resource_id,callback){
 
 	WT.sync(resource_type,resource_id,function(response){
@@ -576,6 +579,27 @@ $('body').on('click','[wt-sync-all]',function(e){
 	
 	WT.app.syncAll();
 
+});
+
+/**
+ * @Event
+ *
+ * 
+ */
+$('body').on('click','[data-wt-consume]',function(e){
+	var ids = $(this).attr("data-wt-consume");
+	ids = ids.split(";");
+
+	var consumed = {};
+	for(id in ids){
+		consumed[ids[id]] = 1;
+	}
+
+	WT.Resource.consume($(this).attr('data-wt-resource'),consumed,function(){
+		console.log('Updated');
+	});
+
+	$(this).remove();
 });
 
 

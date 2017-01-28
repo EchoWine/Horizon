@@ -160,9 +160,10 @@
 @block('scripts')
 	@parent
 
-
 	<script src='{{assets('src/WT/assets/wt/wt.js')}}'></script>
 	<script src='{{assets('src/Music/assets/music/music.js')}}'></script>
+	<script src="{{assets('src/WT/assets/wt/resource.js')}}"></script>
+	
 	<script>
 
 		WT.url = "{{WT\Service\WT::url()}}";
