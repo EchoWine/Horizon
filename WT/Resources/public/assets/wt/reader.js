@@ -9,7 +9,7 @@ WT.reader.reset = function(){
 };
 
 WT.reader.mode = function(mode){
-	$.cookie("wt.reader.mode",mode);
+	Cookies.set("wt.reader.mode",mode);
 	$('.wt-manga-reader-mode').attr('wt-manga-reader-container-mode',mode);
 	WT.reader.reset();
 };
@@ -82,9 +82,7 @@ $('body').keydown(function(e){
 });
 
 $(document).ready(function(){
-	var mode = $.cookie('wt.reader.mode');
-
-	mode = mode ? mode : 'all';
+	var mode = Cookies.get('wt.reader.mode','all');
 
 	$("[name='wt-reader-mode']").val(mode);
 	WT.reader.mode(mode);

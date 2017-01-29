@@ -10,11 +10,10 @@ $('body').on('click','[music-play]',function(){
 
 
 music.getVolume = function(){
-	return $.cookie('horizon_music_player_volume') ? $.cookie('horizon_music_player_volume') : 0.50;
+	return Cookies.get('horizon_music_player_volume',0.50);
 }
 
 $('body').on('click','#music-player',function(){
-	console.log('click');
 	music.isPaused() ? music.resume() : music.pause();
 });
 
@@ -99,7 +98,7 @@ $('#music-player').on('ended',function(){
 });
 
 $('#music-player').on('volumechange', function(){
-    $.cookie('horizon_music_player_volume',$(this).get(0).volume);
+    Cookies.set('horizon_music_player_volume',$(this).get(0).volume);
 });
 
 
