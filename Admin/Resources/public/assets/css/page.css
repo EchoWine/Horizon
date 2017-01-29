@@ -28,10 +28,12 @@
 	padding:0 30px;
 	cursor:pointer;
 	font-size:13px;
+	color:black;
 }
 
 .page-header-button:hover{
 	background-color: rgba(158,158,158,0.2);
+	color:black;
 }
 
 .page-header-button:active{
