@@ -27,7 +27,6 @@ class AuthController extends Controller{
 
 		$router -> get('admin/login','formLogin') -> as('auth.form.login');
 		$router -> post('admin/login','login') -> as('auth.login');
-		$router -> get('admin/logout','logout') -> as('auth.logout');
 	}
 	
 	/**
@@ -59,19 +58,6 @@ class AuthController extends Controller{
 
 	}
 
-	/**
-	 * @GET
-	 *
-	 * @return Response
-	 */
-	public function logout(Request $request){
-
-		if(Auth::logged()){
-			Auth::logout($request);
-		}
-
-		Request::redirect(Router::url('auth.form.login'));
-	}
 
 	/**
 	 * Check login

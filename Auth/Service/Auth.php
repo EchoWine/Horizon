@@ -86,10 +86,9 @@ class Auth implements Service{
 	/**
 	 * Logout current user
 	 */
-	public static function logout(){
+	public static function logout($user){
 
-		# Delete from table
-		Auth::deleteSessionBySID(Auth::session() -> SID);
+		return Session::where('user_id',$user -> id) -> delete();
 
 	}
 
