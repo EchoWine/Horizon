@@ -8,6 +8,7 @@ use CoreWine\View\Engine;
 use Dompdf\Dompdf;
 use Work\Model\Invoice;
 use CoreWine\Http\Router;
+use CoreWine\Http\Response\Response;
 use Auth;
 
 class InvoicePdfController extends Controller{
@@ -68,29 +69,18 @@ class InvoicePdfController extends Controller{
 		$filename = 'Fattura '.$invoice -> getIdentification().".pdf";
 
 
-		Router::view(['invoice' => $invoice,'filename' => $filename]);
-
-		# This is dirty
-		ob_start();
-		Engine::startRoot();
-		include Engine::html($file);
-		Engine::endRoot();
-		$html = ob_get_contents();
-		ob_clean();
-
+		$html = view($file,['invoice' => $invoice,'filename' => $filename]);
 
 		$dompdf = new Dompdf();
-		$dompdf->loadHtml($html);
+		$dompdf -> loadHtml($html);
+		$dompdf -> render();
 
-		//$dompdf->setPaper('A4', 'landscape');
+		$response = new Response();
+		$response -> header('Content-Type','application/pdf');
+		$response -> header('Content-Disposition',"inline; filename='{$filename}'");
+		$response -> setBody($dompdf -> output());
 
-		$dompdf->render();
-
-		header("Content-Type: application/pdf");
-		header("Content-Disposition: inline; filename='{$filename}'");
-		echo $dompdf->output();
-
-		die();
+		return $response;
 	}
 }
 
