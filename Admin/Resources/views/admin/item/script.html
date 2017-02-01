@@ -144,7 +144,6 @@
 					@foreach($item -> getViews() -> fields('edit') as $field)
 						var field = $('#modal-item-edit').find('[name={{$field -> getForm() -> getColumn()}}]');
 
-						
 						field.val(data['{{$field -> getForm() -> getColumn()}}']);
 
 

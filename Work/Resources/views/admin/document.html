@@ -74,7 +74,9 @@
 		{{ $invoice -> customer -> fullname }}<br>
 		{{ $invoice -> customer -> address }}<br>
 		P.iva {{ $invoice -> customer -> vat }}<br>
-		C.F. {{ $invoice -> customer -> tax_code }}
+		@if($invoice -> customer -> tax_code)
+			C.F. {{ $invoice -> customer -> tax_code }}
+		@endif
 	</p>
 
 	<p class='left'>
@@ -88,7 +90,7 @@
 				{{ $invoice -> items }}
 			</td>
 			<td class='items-price'>
-				€ {{ number_format($invoice -> price_gross,2) }}
+				€ {{ number_format($invoice -> price_gross,2,",",".") }}
 			</td>
 		</tr>
 		<tr>
@@ -96,7 +98,7 @@
 				TOTALE IMPONIBILE
 			</td>
 			<td class='items-price'>
-				€ {{ number_format($invoice -> price_gross,2) }}
+				€ {{ number_format($invoice -> price_gross,2,",",".") }}
 			</td>
 		</tr>
 		<tr>
@@ -104,7 +106,7 @@
 				Contributo INPS 4% ex. Art. 2 c. 26 L. 335/95
 			</td>
 			<td class='items-price'>
-				€ {{ number_format($invoice -> getTaxesAmount(),2) }}
+				€ {{ number_format($invoice -> getTaxesAmount(),2,",",".") }}
 			</td>
 		</tr>
 		<tr>
@@ -112,7 +114,7 @@
 				<b>TOTALE</b>
 			</td>
 			<td class='items-price'>
-				€ {{ number_format($invoice -> getPriceNet(),2) }}
+				€ {{ number_format($invoice -> getPriceNet(),2,",",".") }}
 			</td>
 		</tr>
 	</table>

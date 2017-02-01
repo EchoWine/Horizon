@@ -36,9 +36,13 @@ class InvoiceCustomerController extends Controller{
 
 		$repository = $model::repository();
 
+		if($request -> query -> get('id'))
+			$repository = $repository -> where('id',$request -> query -> get('id'));
+		else
+			$repository = $repository -> whereLike("CONCAT('#',id,' - ',fullname)",'%'.$request -> query -> get('filter','').'%');
+
 		$results = $repository 
 			-> where('user_id',\Auth::user() -> id)
-			-> whereLike("CONCAT('#',id,' - ',fullname)",'%'.$request -> query -> get('filter','').'%')
 			-> get();
 
 		$results = $results -> map(function($value,$key){
