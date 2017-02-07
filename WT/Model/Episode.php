@@ -42,6 +42,8 @@ class Episode extends Model{
 		$schema -> updated_at();
 
         $schema -> throughMany('users',User::class) -> resolver(EpisodeUser::class,'episode','user');
+		
+		$schema -> integer('deleted') -> default(0);
 	}
 
 	/**

@@ -29,6 +29,8 @@ class Volume extends Model{
 
 		$schema -> toMany('chapters',Chapter::class,'volume');
 
+		$schema -> integer('deleted') -> default(0);
+
 	}
 }
 

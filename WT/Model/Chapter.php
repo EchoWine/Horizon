@@ -46,6 +46,8 @@ class Chapter extends Model{
 		$schema -> updated_at();
 
         $schema -> throughMany('users',User::class) -> resolver(ChapterUser::class,'chapter','user');
+
+		$schema -> integer('deleted') -> default(0);
 	}
 
 	/**

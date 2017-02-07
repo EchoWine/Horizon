@@ -124,12 +124,15 @@ class Manga extends Model implements Resource{
 				'manga_id' => $this -> id,
 				'number' => $r_chapter -> volume,
 			]);
-
+			$volume->deleted = 0;
+			$volume->save();
 
 			$chapter = Chapter::firstOrNew([
 				'number' => $r_chapter -> number,
 				'manga_id' => $this -> id,
-			]);	
+			]);
+
+			$chapter->deleted = 0;
 
 			$new = !$chapter -> id;
 
@@ -167,10 +170,9 @@ class Manga extends Model implements Resource{
 
 		}
 
-		Volume::where('manga_id',$this -> id) -> whereNotIn('id',$volumes_ids) -> delete();
-		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> delete();
+		Volume::where('manga_id',$this -> id) -> whereNotIn('id',$volumes_ids) -> update('deleted',1);
+		Chapter::where('manga_id',$this -> id) -> whereNotIn('id',$chapters_ids) -> update('deleted',1);
 
-	
 	}
 
 	/**

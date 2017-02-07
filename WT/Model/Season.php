@@ -29,6 +29,8 @@ class Season extends Model{
 
 		$schema -> toMany('episodes',Episode::class,'season');
 
+		$schema -> integer('deleted') -> default(0);
+
 	}
 }
 
