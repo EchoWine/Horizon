@@ -137,13 +137,6 @@ class Manga extends Model implements Resource{
 			$new = !$chapter -> id;
 
 			$chapter -> save();
-
-			# Download only if new
-			if(count($chapter -> raw) == 0){
-				QueueChapter::create([
-					'chapter_id' => $chapter -> id,
-				]);
-			}
 			
 			$volumes_ids[] = $volume -> id;
 			$chapters_ids[] = $chapter -> id;
