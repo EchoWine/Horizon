@@ -69,7 +69,14 @@ class CallbackDownloadCommand extends Command{
 				$video -> uid = $uid;
 				$video -> name = basename($files['video'],".".$files['video_ext']);
 				$video -> thumb() -> link($files['thumb']);
+
+
 				$video -> file() -> link($files['video']);
+
+				# Rename video to "original.ext"
+				rename($video -> file() -> file(),dirname($video -> file() -> file()."original.".$files['video_ext']));
+				$video -> file() -> link("original.".$files['video_ext']);
+
 				$video -> source = "Youtube";
 				$video -> save();
 			}

@@ -36,6 +36,10 @@ class Video extends Model{
 			return "videos/{$model -> uid}/{$model -> file() -> getValue()}";
 		});
 
+		$schema -> file('file_H264') -> filesystem(function($model){
+			return "videos/{$model -> uid}/original_h264.mp4";
+		});
+
 		$schema -> file('thumb') -> filesystem(function($model){
 			return "videos/{$model -> uid}/{$model -> thumb() -> getValue()}";
 		});

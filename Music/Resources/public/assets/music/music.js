@@ -48,7 +48,7 @@ music.play = function(n){
 	clearInterval(music.interval);
 
 	music.player.load();
-	$('#music-player').html($('<source src="'+video.file.original+'" type="video/mp4">'));
+	$('#music-player').html($('<source src="'+video.file_H264.original+'" type="video/mp4">'));
 	music.player.volume = music.getVolume();
 	music.player.play();
 

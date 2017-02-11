@@ -29,6 +29,7 @@ youtube-dl "$2" --write-thumbnail --ignore-errors -o "$FOLDER""%(id)s/%(title)s.
 # Remove lock
 rm "$PROGRESS"
 
+
 # Call php command in order to update database with new videos
 php "$3" "$4"
 
