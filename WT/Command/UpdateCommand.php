@@ -17,8 +17,9 @@ class UpdateCommand extends Command{
 		foreach($update as $u){
 			echo "Updating... ".$u['type']."|".$u['name']."\n";
 
-			WT::sync(null,$u['type'],$u['id']);
+			$response = WT::sync(null,$u['type'],$u['id']);
 			
+			print_r($response);
 		}
 
 		echo "\nCompleted.\n\n";

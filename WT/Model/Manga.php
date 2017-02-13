@@ -116,9 +116,9 @@ class Manga extends Model implements Resource{
 
 		$users = $this -> container -> users;
 
+
 		foreach($response -> chapters as $r_chapter){
 
-			
 			$volume = Volume::firstOrCreate([
 				'number' => $r_chapter -> season,
 				'manga_id' => $this -> id,
@@ -127,28 +127,31 @@ class Manga extends Model implements Resource{
 			$volume->deleted = 0;
 			$volume->save();
 
-			$chapter = Chapter::firstOrNew([
-				'number' => $r_chapter -> number,
-				'manga_id' => $this -> id,
-			]);
 
-			$chapter->deleted = 0;
+			$chapter = Chapter::where('manga_id',$this -> id)
+				-> where('cast(FORMAT(number,3) as CHAR(22))',number_format($r_chapter -> number,3,".",''))
+				-> first();
 
-			$new = !$chapter -> id;
+			if(!$chapter)
+				$chapter = new Chapter();
+
+			$new = !$chapter;
+
+			$chapter -> number = $r_chapter -> number;
+			$chapter -> manga = $this;
 
 			$chapter -> save();
-			
-			$volumes_ids[] = $volume -> id;
-			$chapters_ids[] = $chapter -> id;
 
 			$chapter -> volume_n = $r_chapter -> volume;
 			$chapter -> volume = $volume;
 			$chapter -> name = $r_chapter -> name;
 			$chapter -> scan = $r_chapter -> scan;
 			$chapter -> released_at = new \DateTime($r_chapter -> released_at);
-
+			$chapter -> deleted = 0;
 			$chapter -> save();
-
+			
+			$volumes_ids[] = $volume -> id;
+			$chapters_ids[] = $chapter -> id;
 
 			# Create if doesn't exists for every user that have access to this resource
 			foreach($users as $user){
