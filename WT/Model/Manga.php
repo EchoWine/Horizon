@@ -129,11 +129,12 @@ class Manga extends Model implements Resource{
 
 
 			$chapter = Chapter::where('manga_id',$this -> id)
-				-> where('cast(FORMAT(number,3) as CHAR(22))',number_format($r_chapter -> number,3,".",''))
+				-> where('cast(FORMAT(number,3) as CHAR(22))',number_format($r_chapter -> number,3,".",','))
 				-> first();
 
-			if(!$chapter)
+			if(!$chapter){
 				$chapter = new Chapter();
+			}
 
 			$new = !$chapter;
 
