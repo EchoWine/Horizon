@@ -83,34 +83,34 @@ class WT{
 				$manager = new $manager();
 
 
-				if($database_name == 'all' || $manager -> isResource($database_name)){
-					$response[$manager -> getName()] = $manager -> discovery($key);
+				if($database_name == 'all' || $manager->isResource($database_name)){
+					$response[$manager->getName()] = $manager->discovery($key);
 
-					foreach($response[$manager -> getName()] as $n => $k){
+					foreach($response[$manager->getName()] as $n => $k){
 
-						$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']]) -> first();
+						$container = ResourceContainer::where(['database_name' => $k['database'],'database_id' => $k['id']])->first();
 
 						if($container){
 
 
-							$u = $container -> users -> has($user) ? 1 : 0;
+							$u = $container->users->has($user) ? 1 : 0;
 							$r = 1;
 
-							$resource_class = self::getClassByType($container -> type);
-							$resource = $resource_class::where('container_id',$container -> id) -> first();
+							$resource_class = self::getClassByType($container->type);
+							$resource = $resource_class::where('container_id',$container->id)->first();
 
-							$response[$manager -> getName()][$n]['container'] = $container -> toArray();
-							$response[$manager -> getName()][$n]['resource'] = $resource -> toArray();
+							$response[$manager->getName()][$n]['container'] = $container->toArray();
+							$response[$manager->getName()][$n]['resource'] = $resource->toArray();
 						}else{
 							$r = 0;
 							$u = 0;
 
-							$response[$manager -> getName()][$n]['container'] = [];
-							$response[$manager -> getName()][$n]['resource'] = [];
+							$response[$manager->getName()][$n]['container'] = [];
+							$response[$manager->getName()][$n]['resource'] = [];
 						}
 						
-						$response[$manager -> getName()][$n]['library'] = $r;
-						$response[$manager -> getName()][$n]['user'] = $u;
+						$response[$manager->getName()][$n]['library'] = $r;
+						$response[$manager->getName()][$n]['user'] = $u;
 
 					}
 
@@ -137,61 +137,61 @@ class WT{
 		try{
 			$response = [];
 
-			$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
+			$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id])->first();
 
 			if($container){
 
-				$resource_class = self::getClassByType($container -> type);
+				$resource_class = self::getClassByType($container->type);
 
-				$resource = $resource_class::where('container_id',$container -> id) -> first();
+				$resource = $resource_class::where('container_id',$container->id)->first();
 
-				if($container -> users -> has($user)){
+				if($container->users->has($user)){
 
-					return ['message' => 'Already added','status' => 'info','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
+					return ['message' => 'Already added','status' => 'info','data' => ['container' => $container->toArray(),'resource' => $resource->toArray()]];
 
 				}else{
 
-					$container -> users -> add($user);
-					$container -> users -> save();
+					$container->users->add($user);
+					$container->users->save();
 
-					return ['message' => 'Added resource to library','status' => 'success','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
+					return ['message' => 'Added resource to library','status' => 'success','data' => ['container' => $container->toArray(),'resource' => $resource->toArray()]];
 				}
 
 			}else{
 
 				$manager = self::getManagerByDatabase($database_name);
 
-				$response = $manager -> get($database_id);
+				$response = $manager->get($database_id);
 
 
 				# Detect type
-				$resource_type = $response -> type;
+				$resource_type = $response->type;
 
 				$model = self::getClassByType($resource_type);
 
 				$container = ResourceContainer::create([
-					'name' => $response -> name,
+					'name' => $response->name,
 					'type' => $resource_type,
 					'database_name' => $database_name,
 					'database_id' => $database_id,
-					'updated_at' => (new \DateTime()) -> format('Y-m-d H:i:s')
+					'updated_at' => (new \DateTime())->format('Y-m-d H:i:s')
 				]);
 
 
-				$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id]) -> first();
+				$container = ResourceContainer::where(['database_name' => $database_name,'database_id' => $database_id])->first();
 
-				$container -> users -> add($user);
-				$container -> users -> save();
+				$container->users->add($user);
+				$container->users->save();
 
 				$resource = new $model();
-				$resource -> fillFromDatabaseApi($response,$container);
+				$resource->fillFromDatabaseApi($response,$container);
 
-			return ['status' => 'success','message' => 'Added new resource','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
+			return ['status' => 'success','message' => 'Added new resource','data' => ['container' => $container->toArray(),'resource' => $resource->toArray()]];
 			}
 
 		}catch(\Exception $e){
 
-			return ['message' => $e -> getMessage(),'status' => 'error'];
+			return ['message' => $e->getMessage(),'status' => 'error'];
 		}
 			
 		
@@ -211,10 +211,10 @@ class WT{
 		try{
 			$resource_class = self::getClassByType($resource_type);
 
-			$resource = $resource_class::where('id',$resource_id) -> first();
-			return ['status' => 'success','data' => $resource -> toArrayComplete()];
+			$resource = $resource_class::where('id',$resource_id)->first();
+			return ['status' => 'success','data' => $resource->toArrayComplete()];
 		}catch(\Exception $e){
-			return ['status' => 'error','message' => $e -> getMessage()];
+			return ['status' => 'error','message' => $e->getMessage()];
 		}
 	}
 
@@ -239,31 +239,31 @@ class WT{
 			if(!$resource_class)
 				throw new \Exception("Resource type name invalid");
 
-			$resource = $resource_class::where(['id' => $resource_id]) -> first();
+			$resource = $resource_class::where(['id' => $resource_id])->first();
 
 			if(!$resource){
 				throw new \Exception("Resource not found");
 
 			}else{
 
-				$manager = self::getManagerByDatabase($resource -> container -> database_name);
+				$manager = self::getManagerByDatabase($resource->container->database_name);
 
-				$response = $manager -> get($resource -> container -> database_id);
+				$response = $manager->get($resource->container->database_id);
 				
 
-				$container = $resource -> container;
+				$container = $resource->container;
 
-				$container -> updated_at = (new \DateTime()) -> format('Y-m-d H:i:s'); 
+				$container->updated_at = (new \DateTime())->format('Y-m-d H:i:s'); 
 
-				$resource -> fillFromDatabaseApi($response,$container);	
+				$resource->fillFromDatabaseApi($response,$container);	
 				
-				$container -> save();	
+				$container->save();	
 
 			}
 
 		}catch(\Exception $e){
 
-			return ['message' => $e -> getMessage(),'status' => 'error'];
+			return ['message' => $e->getMessage(),'status' => 'error'];
 		}
 			
 		return ['message' => 'Resource updated','status' => 'success'];
@@ -291,30 +291,30 @@ class WT{
 			if(!$model)
 				throw new \Exception("Resource type {$resource_type} name invalid");
 			
-			$resource = $model::where('id',$resource_id) -> first();
+			$resource = $model::where('id',$resource_id)->first();
 
 			if(!$resource)
 				throw new \Exception("The resource #{$resource_id} doesn't exists");
 
-			$container = $resource -> container;
+			$container = $resource->container;
 
-			if(!$container -> users -> has($user))
+			if(!$container->users->has($user))
 				throw new \Exception("The resource #{$resource_id} isn't in library");
 
 
-			$container -> users -> remove($user);
-			$container -> users -> save();
+			$container->users->remove($user);
+			$container->users->save();
 
 			# Delete resource if not user have it? 
 
 
 		}catch(\Exception $e){
 
-			return ['status' => 'error','message' => $e -> getMessage()];
+			return ['status' => 'error','message' => $e->getMessage()];
 		}
 			
 		
-		return ['status' => 'success','message' => 'Deleted','data' => ['container' => $container -> toArray(),'resource' => $resource -> toArray()]];
+		return ['status' => 'success','message' => 'Deleted','data' => ['container' => $container->toArray(),'resource' => $resource->toArray()]];
 	}
 
 	/**
@@ -328,7 +328,7 @@ class WT{
 
 		$series = Serie::leftJoin('resource_containers','resource_containers.id','series.container_id')
 			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
-			-> where('resource_containers_users.user_id',$user -> id)
+			-> where('resource_containers_users.user_id',$user->id)
 			-> whereLike('series.name','%'.$params['filter'].'%')
 			-> select('series.*')
 			-> get() 
@@ -336,18 +336,18 @@ class WT{
 
 		$manga = Manga::leftJoin('resource_containers','resource_containers.id','manga.container_id')
 			-> join('resource_containers_users','resource_containers_users.container_id','resource_containers.id')
-			-> where('resource_containers_users.user_id',$user -> id)
+			-> where('resource_containers_users.user_id',$user->id)
 			-> whereLike('manga.name','%'.$params['filter'].'%')
 			-> select('manga.*')
 			-> get() 
 			-> toArray(false);
 
 
-		$collection = $collection -> merge($series) -> merge($manga);
+		$collection = $collection->merge($series)->merge($manga);
 
 		$type = in_array($params['sort_field'],['new']) ? 'number' : 'string';
 
-		$collection = $collection -> sortBy([$params['sort_field'] => ['direction' => $params['sort_direction'],'type' => $type]]);
+		$collection = $collection->sortBy([$params['sort_field'] => ['direction' => $params['sort_direction'],'type' => $type]]);
 
 		return $collection;
 	}
@@ -362,8 +362,8 @@ class WT{
 
 			$manager = new $manager();
 
-			if($manager -> isResource('series')){
-				$res = $manager -> update();
+			if($manager->isResource('series')){
+				$res = $manager->update();
 
 
 				$r = Serie::leftJoin('resource_containers','resource_containers.id','series.container_id') 
@@ -371,53 +371,55 @@ class WT{
 
 				# Select only the resource that are in the db and aren't updated
 				foreach($res as $k){
-					$r = $r -> orWhere(function($q) use ($k){
-						return $q -> where('resource_containers.database_id',$k['id']) -> where('resource_containers.updated_at','<',$k['updated_at']); 
+					$r = $r->orWhere(function($q) use ($k){
+						return $q->where('resource_containers.database_id',$k['id'])->where('resource_containers.updated_at','<',$k['updated_at']); 
 					});
 				}
 
 
-				$r = $r -> get();
+				$r = $r->get();
 
-				$r = new Collection($r -> toArray());
-				$r -> addParam('type','series');
-				$collection = $collection -> merge($r);
+				$r = new Collection($r->toArray());
+				$r->addParam('type','series');
+				$collection = $collection->merge($r);
 			}
 
-			if($manager -> isResource('manga')){
-				$res = $manager -> update();
+			if($manager->isResource('manga')){
+				$res = $manager->update();
 
 
 				$r = Manga::leftJoin('resource_containers','resource_containers.id','manga.container_id') 
 				-> select('manga.*');
 
 
-				if($res -> count() > 0){
+				if($res->count() > 0) {
+					foreach($res as $k) {
 
-					# Select only the resource that are in the db and aren't updated
-					foreach($res as $k){
-						$r = $r -> orWhere(function($q) use ($k){
+
+						$r = $r->orWhere(function($q) use ($k) {
+
+							$ids = $k['chapters']->map(function($r) {
+								return number_format($r->number,3,".",',');
+							});
 
 							return $q 
 								-> where('resource_containers.database_id',$k['id']) 
-								-> where($k['chapters'] -> count(),"!=",function($q) use($k){
+								-> where($ids->count(),"!=",function($q) use($k, $ids) {
 
 								return DB::table('chapters') 
-									-> where('chapters.manga_id','=','manga.id',false) 
-									-> whereIn('chapters.number',$k['chapters'] -> map(function($chapter){
-										return $chapter -> number;	
-									}) -> toArray()) 
+									-> where('chapters.manga_id','=','manga.id',false)
+									-> where('chapters.deleted',0)
+									-> whereIn('cast(FORMAT(chapters.number,3) as CHAR(22))', $ids->toArray())
 									-> select('count(*)');
 							});
 						});
 					}
 
+					$r = $r->get();
 
-					$r = $r -> get();
-
-					$r = new Collection($r -> toArray());
-					$r -> addParam('type','manga');
-					$collection = $collection -> merge($r);
+					$r = new Collection($r->toArray());
+					$r->addParam('type','manga');
+					$collection = $collection->merge($r);
 				}
 
 			}
@@ -434,7 +436,7 @@ class WT{
 
 			$manager = new $manager();
 
-			if($manager -> getName() == $database)
+			if($manager->getName() == $database)
 				return $manager;
 			
 
@@ -447,7 +449,7 @@ class WT{
 
 		$manager = self::getManagerByDatabase($database);
 
-		$manager -> queueDownloadByLimit($limit);
+		$manager->queueDownloadByLimit($limit);
 	}
 
 
@@ -455,7 +457,7 @@ class WT{
 
 		$manager = self::getManagerByDatabase($database);
 
-		$manager -> queueDownloadById($id);
+		$manager->queueDownloadById($id);
 	}
 
 	/**
@@ -469,23 +471,23 @@ class WT{
 	public static function resetAndConsume($user,$container_id,$consume){
 
 		try{
-			$container = ResourceContainer::where('id',$container_id) -> first();
+			$container = ResourceContainer::where('id',$container_id)->first();
 
 			if(!$container)
 				throw new \Exception("Resource #{$container_id} not found");
 
 
 
-			$resource = $container -> getResource();
+			$resource = $container->getResource();
 
 
-			$resource -> resetAndConsume($user,$consume);
+			$resource->resetAndConsume($user,$consume);
 
 			return ['status' => 'success','message' => 'Updated'];
 		}catch(\Exception $e){
 			throw $e;
 
-			return ['status' => 'error','message' => $e -> getMessage()];
+			return ['status' => 'error','message' => $e->getMessage()];
 		}
 	}
 
@@ -501,23 +503,23 @@ class WT{
 	public static function consume($user,$container_id,$consume){
 
 		try{
-			$container = ResourceContainer::where('id',$container_id) -> first();
+			$container = ResourceContainer::where('id',$container_id)->first();
 
 			if(!$container)
 				throw new \Exception("Resource #{$container_id} not found");
 
 
 
-			$resource = $container -> getResource();
+			$resource = $container->getResource();
 
 
-			$resource -> consume($user,$consume);
+			$resource->consume($user,$consume);
 
 			return ['status' => 'success','message' => 'Updated'];
 		}catch(\Exception $e){
 			throw $e;
 
-			return ['status' => 'error','message' => $e -> getMessage()];
+			return ['status' => 'error','message' => $e->getMessage()];
 		}
 	}
 }
