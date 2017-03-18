@@ -62,7 +62,8 @@ class User extends Model{
 			User::create([
 				'username' => 'admin',
 				'email' => 'admin@admin.com',
-				'password' => 'admin'
+				'password' => 'admin',
+				'permission' => ["wt-basic","wt-advanced","users"]
 			]);
 		}
 
