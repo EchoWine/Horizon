@@ -32,15 +32,14 @@ $ mkdir app/cache/views
 The index file is "/public/index.php"
 
 # Commands - What's today
+You should run this commands every 15 minutes
 
 Update the info about series/anime/manga
 ```
 php app/console wt:update
-
 ```
 
 Download the chapters in queue 
 ```
 php app/console wt:download:queue
-
 ```
