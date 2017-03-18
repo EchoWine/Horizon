@@ -7,12 +7,14 @@
 Store all series and mangas in a library in order not to miss even an episode/chapter
 
 # Installation
+This repository must be installed in the "src" folder of Gate Framework in order to work
+
 1) Clone repositories
 ```
 $ git clone https://github.com/EchoWine/Gate [directory]
 $ cd [directory]
 $ git clone https://github.com/EchoWine/Horizon src
-```
+```ty
 2) Install with composer
 ```
 $ composer install
