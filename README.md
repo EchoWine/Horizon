@@ -5,3 +5,26 @@
 <img src='https://i.imgur.com/6eEfqrq.png'>
 
 Store all series and mangas in a library in order not to miss even an episode/chapter
+
+# Installation
+1) Clone repositories
+```
+$ git clone https://github.com/EchoWine/Gate [directory]
+$ cd [directory]
+$ git clone https://github.com/EchoWine/Horizon src
+```
+2) Install with composer
+```
+$ composer install
+```
+3) Setup your environment
+```
+$ cp config/app.php.default config/app.php
+```
+
+4) temp (due to bug)
+```
+$ mkdir app/cache/views
+```
+
+The index file is "/public/index.php"
