@@ -14,7 +14,7 @@ This repository must be installed in the "src" folder of Gate Framework in order
 $ git clone https://github.com/EchoWine/Gate [directory]
 $ cd [directory]
 $ git clone https://github.com/EchoWine/Horizon src
-```ty
+```
 2) Install with composer
 ```
 $ composer install
